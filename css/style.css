@@ -288,3 +288,138 @@ body {
   float: right;
   margin-top: -25px;
 }
+
+/* Item page styles */
+
+.item-page .product-details {
+  display: flex;
+  width: 100%;
+  gap: 40px;
+  float: none;
+}
+
+.product-gallery {
+  width: 400px;
+  height: 100%;
+}
+
+.item-page .product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item-page .product-info {
+  flex: 1;
+}
+
+.item-page .product-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.item-page .product-subtitle {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.item-page .product-description {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.product-details-list {
+  display: flex;
+  gap: 25px;
+  font-size: 14px;
+  padding-left: 15px;
+  border-radius: 5px;
+  background-color: #dadce0;
+}
+
+.detail-item {
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.purchase-box {
+  width: 300px;
+  border: 2px solid #000;
+  padding: 10px;
+}
+
+.price-label {
+  font-size: 20px;
+  margin-top: 0px;
+  margin-bottom: 4px;
+}
+
+.price {
+  font-size: 32px;
+  font-weight: 700;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+.delivery {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.stock-status {
+  font-size: 24px;
+  color: #27ca40;
+  text-decoration: underline;
+  margin-bottom: 10px;
+}
+
+.warehouse-availability {
+  font-size: 12px;
+  background-color: #dadce0;
+  padding: 1px 0px 1px 5px;
+  border-radius: 5px;
+  margin-bottom: 25px;
+}
+
+.available-nbr {
+  color: #27ca40;
+  font-weight: 700;
+}
+
+.quantity-selector {
+  border-radius: 5px;
+  padding: 2px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: #dadce0;
+  cursor: pointer;
+}
+
+.quantity-text {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.additional-info {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #000;
+  display: flex;
+  gap: 63px;
+}
+
+.info-text {
+  font-size: 14px;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.additional-image {
+  width: 400px;
+  height: 239px;
+  object-fit: cover;
+}
