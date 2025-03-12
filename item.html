@@ -16,34 +16,39 @@
     <div class="logo-container">
       <img src="img/fullLogo_colour_white.svg" alt="Borealis"/>
     </div>
-
     <div class="search-bar">
-      <input
+      <form>
+        <input
         type="search"
         placeholder="Search"
         class="search-input"
         aria-label="Search products"
-      />
-      <button class="category-button" aria-label="Select category">
-        Category
-      </button>
-      <button class="search-button" aria-label="Search">
-        <svg
-          class="search-icon"
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M2.85714 8.57143C2.85714 5.41551 5.41551 2.85714 8.57143 2.85714C11.7273 2.85714 14.2857 5.41551 14.2857 8.57143C14.2857 11.7273 11.7273 14.2857 8.57143 14.2857C5.41551 14.2857 2.85714 11.7273 2.85714 8.57143ZM8.57143 0C3.83756 0 0 3.83756 0 8.57143C0 13.3053 3.83756 17.1429 8.57143 17.1429C10.4225 17.1429 12.1366 16.556 13.5377 15.5583L17.5613 19.5819C18.1191 20.1397 19.0237 20.1397 19.5816 19.5819C20.1394 19.024 20.1394 18.1194 19.5816 17.5616L15.5581 13.5381C16.556 12.1369 17.1429 10.4227 17.1429 8.57143C17.1429 3.83756 13.3053 0 8.57143 0Z"
-            fill="#F2F2F2"
-          />
-        </svg>
-      </button>
+        />
+        <div class="category-button">
+          <select aria-label="Select category" name="category">
+            <option value="all">All categories</option>
+            <option value="test1">Test01</option>
+            <option value="test2">Test02</option>
+          </select>
+        </div>
+        <button class="search-button" aria-label="Search">
+          <svg
+            class="search-icon"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M2.85714 8.57143C2.85714 5.41551 5.41551 2.85714 8.57143 2.85714C11.7273 2.85714 14.2857 5.41551 14.2857 8.57143C14.2857 11.7273 11.7273 14.2857 8.57143 14.2857C5.41551 14.2857 2.85714 11.7273 2.85714 8.57143ZM8.57143 0C3.83756 0 0 3.83756 0 8.57143C0 13.3053 3.83756 17.1429 8.57143 17.1429C10.4225 17.1429 12.1366 16.556 13.5377 15.5583L17.5613 19.5819C18.1191 20.1397 19.0237 20.1397 19.5816 19.5819C20.1394 19.024 20.1394 18.1194 19.5816 17.5616L15.5581 13.5381C16.556 12.1369 17.1429 10.4227 17.1429 8.57143C17.1429 3.83756 13.3053 0 8.57143 0Z"
+              fill="#F2F2F2"
+            />
+          </svg>
+        </button>
+      </form>
     </div>
     <nav class="nav-links">
       <a href="#" class="nav-link">SIGN UP / SIGN IN</a>

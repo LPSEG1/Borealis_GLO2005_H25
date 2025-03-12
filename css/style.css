@@ -25,9 +25,13 @@ body {
 
 /* Search bar styles */
 .search-bar {
-  display: flex;
   width: 650px;
   height: 40px;
+}
+
+.search-bar form {
+  display: flex;
+  flex-direction: row;
 }
 
 .search-input {
@@ -44,7 +48,15 @@ body {
 
 .category-button {
   width: 150px;
-  height: 40px;
+  position: relative;
+}
+
+.category-button select {
+  display: none;
+}
+
+.category-selected {
+  height: 28px;
   border: none;
   font-family: "Inter", sans-serif;
   font-size: 12px;
@@ -52,11 +64,65 @@ body {
   background-color: #cacaca;
   cursor: pointer;
   transition: 250ms;
+  padding-top: 12px;
+  padding-left: 10px;
+  transition: 250ms;
 }
 
-.category-button:hover {
+.category-selected:hover {
   color: rgba(34, 34, 34, 0.6);
+  background-color: #d1d1d1;
+}
+
+.category-selected:after {
+  position: absolute;
+  content: "";
+  top: 42%;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: rgba(0, 0, 0, 0.6) transparent transparent transparent;
+  transition: 250ms;
+}
+
+.category-selected.select-arrow-active:after {
+  border-color: transparent transparent rgba(0, 0, 0, 0.6) transparent;
+  top: 7px;
+}
+
+.category-items div, .category-selected {
   background-color: #aeaeae;
+  color: rgba(0, 0, 0, 0.6);
+  border: none;
+  font-family: "Inter", sans-serif;
+  cursor: pointer;
+  user-select: none;
+
+}
+
+.category-items div {
+  height: 20px;
+  padding: 5px 10px;
+  transition: 250ms;
+  transition: 250ms;
+}
+
+.category-items {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+.category-hide {
+  display: none;
+}
+
+.category-items div:hover, .already-selected {
+  color: rgba(34, 34, 34, 0.6);
+  background-color: #d1d1d1;
 }
 
 .search-button {
