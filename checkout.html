@@ -1,0 +1,204 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="img/logo_colour.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.png">
+</head>
+
+<body>
+  <header class="header">
+  <div class="top-bar">
+    <div class="logo-container">
+      <img src="img/fullLogo_colour_white.svg" alt="Borealis"/>
+    </div>
+    <div class="search-bar">
+      <form>
+        <input
+        type="search"
+        placeholder="Search"
+        class="search-input"
+        aria-label="Search products"
+        />
+        <div class="category-button">
+          <select aria-label="Select category" name="category">
+            <option value="all">All categories</option>
+            <option value="test1">Test01</option>
+            <option value="test2">Test02</option>
+          </select>
+        </div>
+        <button class="search-button" aria-label="Search">
+          <svg
+            class="search-icon"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M2.85714 8.57143C2.85714 5.41551 5.41551 2.85714 8.57143 2.85714C11.7273 2.85714 14.2857 5.41551 14.2857 8.57143C14.2857 11.7273 11.7273 14.2857 8.57143 14.2857C5.41551 14.2857 2.85714 11.7273 2.85714 8.57143ZM8.57143 0C3.83756 0 0 3.83756 0 8.57143C0 13.3053 3.83756 17.1429 8.57143 17.1429C10.4225 17.1429 12.1366 16.556 13.5377 15.5583L17.5613 19.5819C18.1191 20.1397 19.0237 20.1397 19.5816 19.5819C20.1394 19.024 20.1394 18.1194 19.5816 17.5616L15.5581 13.5381C16.556 12.1369 17.1429 10.4227 17.1429 8.57143C17.1429 3.83756 13.3053 0 8.57143 0Z"
+              fill="#F2F2F2"
+            />
+          </svg>
+        </button>
+      </form>
+    </div>
+    <nav class="nav-links">
+      <a href="#" class="nav-link">SIGN UP / SIGN IN</a>
+      <div class="cart-container">
+        <svg
+          class="cart-icon"
+          width="31"
+          height="31"
+          viewBox="0 0 31 31"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1.29163 1.29167H6.45829L9.91996 18.5871C10.0381 19.1818 10.3616 19.7159 10.8339 20.0961C11.3062 20.4763 11.8971 20.6783 12.5033 20.6667H25.0583C25.6645 20.6783 26.2554 20.4763 26.7277 20.0961C27.2 19.7159 27.5235 19.1818 27.6416 18.5871L29.7083 7.75H7.74996M12.9166 27.125C12.9166 27.8384 12.3383 28.4167 11.625 28.4167C10.9116 28.4167 10.3333 27.8384 10.3333 27.125C10.3333 26.4116 10.9116 25.8333 11.625 25.8333C12.3383 25.8333 12.9166 26.4116 12.9166 27.125ZM27.125 27.125C27.125 27.8384 26.5467 28.4167 25.8333 28.4167C25.1199 28.4167 24.5416 27.8384 24.5416 27.125C24.5416 26.4116 25.1199 25.8333 25.8333 25.8333C26.5467 25.8333 27.125 26.4116 27.125 27.125Z"
+            stroke="white"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span class="cart-text">CART</span>
+      </div>
+      <button class="language-button">EN</button>
+    </nav>
+  </div>
+  <nav class="shop-nav">
+    <a href="#" class="nav-item right-border">NEW ITEMS</a>
+    <a href="#" class="nav-item right-border">BOREALIS EXCLUSIVE</a>
+    <a href="#" class="nav-item right-border">SHOP BY TYPE</a>
+    <a href="#" class="nav-item right-border">SHOP BY REGION</a>
+    <a href="#" class="nav-item right-border">BEST SELLERS</a>
+    <a href="#" class="nav-item">DEALS</a>
+  </nav>
+</header>
+<main class="checkout-container main-content">
+  <h1 class="checkout-title">CHECKOUT</h1>
+  <form>
+    <section class="checkout-shipping-info">
+     <h1>SHIPPING INFORMATION</h1>
+      <div class="checkout-inputs">
+        <label for="shipping-name">Name: <input id="shipping-name" type="text" name="shipping-name" placeholder="Name" required></label>
+      </div>
+      <div class="checkout-inputs">
+        <label for="shipping-road">Road: <input id="shipping-road" type="text" name="shipping-road" placeholder="Road" required></label>
+      </div>
+      <div class="checkout-inputs">
+        <label for="shipping-post">Postal Code: <input id="shipping-post" type="text" name="shipping-post" placeholder="Postal Code" required></label>
+      </div>
+      <div class="checkout-inputs">
+        <label for="checkout-city">City: <input id="checkout-city" type="text" name="shipping-city" placeholder="City" required></label>
+      </div>
+      <div class="checkout-inputs">
+        <label for="shipping-province">Province: <select id="shipping-province" name="shipping-province" required>
+          <option value="AB">Alberta</option>
+          <option value="BC">British Columbia</option>
+          <option value="MB">Manitoba</option>
+          <option value="NB">New Brunswick</option>
+          <option value="NL">Newfoundland and Labrador</option>
+          <option value="NT">Northwest Territories</option>
+          <option value="NS">Nova Scotia</option>
+          <option value="NU">Nunavut</option>
+          <option value="ON">Ontario</option>
+          <option value="PE">Prince Edward Island</option>
+          <option value="QC">Quebec</option>
+          <option value="SK">Saskatchewan</option>
+          <option value="YT">Yukon</option>
+        </select></label>
+      </div>
+    </section>
+    <section class="checkout-billing-info">
+    <h1>BILLING INFORMATION</h1>
+      <div class="checkout-inputs">
+          <label for="billing-name">Name: <input id="billing-name" type="text" name="billing-name" placeholder="Name" required></label>
+      </div>
+      <div class="checkout-inputs">
+        <label for="billing-road">Road: <input id="billing-road" type="text" name="billing-road" placeholder="Road" required></label>
+      </div>
+      <div class="checkout-inputs">
+        <label for="billing-post">Postal Code: <input id="billing-post" type="text" name="billing-post" placeholder="Postal Code" required></label>
+      </div>
+      <div class="checkout-inputs">
+        <label for="billing-city">City: <input id="billing-city" type="text" name="billing-city" placeholder="City" required></label>
+      </div>
+      <div class="checkout-inputs">
+        <label for="billing-province">Province: <select id="billing-province" name="billing-province" required>
+          <option value="AB">Alberta</option>
+          <option value="BC">British Columbia</option>
+          <option value="MB">Manitoba</option>
+          <option value="NB">New Brunswick</option>
+          <option value="NL">Newfoundland and Labrador</option>
+          <option value="NT">Northwest Territories</option>
+          <option value="NS">Nova Scotia</option>
+          <option value="NU">Nunavut</option>
+          <option value="ON">Ontario</option>
+          <option value="PE">Prince Edward Island</option>
+          <option value="QC">Quebec</option>
+          <option value="SK">Saskatchewan</option>
+          <option value="YT">Yukon</option>
+        </select></label>
+      </div>
+    </section>
+    <section class="checkout-payment-info">
+      <h1>PAYMENT INFORMATION</h1>
+      <div class="checkout-inputs">
+          <label for="payment-name">Cardholder name: <input id="payment-name" type="text" name="payment-name" placeholder="Name" required></label>
+      </div>
+      <div class="checkout-inputs">
+        <label for="payment-card">Card number: <input id="payment-card" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" name="payment-card" placeholder="XXXX XXXX XXXX XXXX" required></label>
+      </div>
+      <div class="checkout-inputs">
+        <label for="payment-dateMM">Card expiration date:
+          <select id="payment-dateMM" name="payment-dateMM" required>
+            <option value="">Month</option>
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+          </select>
+          <select id="payment-dateYY" name="payment-dateMM" required>
+            <option value="">Year</option>
+            <option value="25">2025</option>
+            <option value="26">2026</option>
+            <option value="27">2027</option>
+            <option value="28">2028</option>
+            <option value="29">2029</option>
+            <option value="30">2030</option>
+          </select>
+        </label>
+      </div>
+      <div class="checkout-inputs">
+        <label for="payment-cvv">City: <input id="payment-cvv" type="tel" inputmode="numeric" pattern="[0-9\s]{3}" maxlength="3" name="payment-cvv" placeholder="XXX" required></label>
+      </div>
+    </section>
+    <section class="checkout-submit">
+      <button class="checkout-btn">CHECKOUT</button>
+    </section>
+  </form>
+</main>
+<footer class="site-footer">
+  <p>Borealis - <span id="currentYear"></span></p>
+</footer>
+</body>
+<script type="text/javascript" src="js/app.js"></script>
+</html>

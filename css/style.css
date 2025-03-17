@@ -236,6 +236,7 @@ body {
 /* Main content styles */
 .main-content {
   padding: 14px 63px;
+  margin-bottom: 65px;
 }
 
 /* Welcome section styles */
@@ -921,8 +922,6 @@ body {
   margin-top: -25px;
 }
 
-
-
 .delete-btn {
   height: 25px;
   color: #fff;
@@ -1063,6 +1062,52 @@ body {
   color: rgba(34, 34, 34, 0.6);
   background-color: #d1d1d1;
 }
+
+/* Checkout styles */
+
+.checkout-container section {
+  background-color: #d1d1d1;
+  padding: 2px 15px 2px 15px;
+  margin-bottom: 15px;
+  line-height: 1;
+}
+
+.checkout-shipping-info, .checkout-billing-info, .checkout-payment-info, .checkout-submit {
+  width: 100%;
+}
+
+.checkout-inputs{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.checkout-inputs input {
+  height: 25px;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 15px;
+}
+
+.checkout-inputs select {
+  height: 25px;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 15px;
+}
+
+.checkout-billing-info {
+  width: 100%;
+}
+
+.checkout-submit {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.checkout-submit button {
+  margin: 5px 15px 5px 15px;
+}
+
 /* Responsive styles */
 @media only screen and (max-width: 1200px) {
 
