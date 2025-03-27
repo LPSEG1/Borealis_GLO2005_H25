@@ -208,3 +208,19 @@ function closeAllSelect(elmnt) {
   }
 }
 document.addEventListener("click", closeAllSelect);
+
+/* Script for switching tabs in account page */
+
+function switchAccountTabs(evt, tabName) {
+  var i, tabcontent, tabbutton;
+  tabcontent = document.getElementsByClassName("account-info");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = 'none';
+  }
+  tabbutton = document.getElementsByClassName("account-tab");
+  for (i = 0; i < tabbutton.length; i++) {
+    tabbutton[i].className = tabbutton[i].className.replace(" tab-active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " tab-active";
+}
