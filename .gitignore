@@ -4,3 +4,8 @@
 node_modules
 dist
 .cache
+.idea
+.venv
+mysql_commands.txt
+mysql_connector.py
+__pycache__
