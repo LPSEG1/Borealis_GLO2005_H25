@@ -1,0 +1,57 @@
+Fournisseurs:
+
+INSERT INTO Fournisseurs VALUES (48291, 'HP');
+INSERT INTO Fournisseurs VALUES (17536, 'LG');
+INSERT INTO Fournisseurs VALUES (93842, 'Sony');
+INSERT INTO Fournisseurs VALUES (26057, 'Samsung');
+INSERT INTO Fournisseurs VALUES (71483, 'Apple');
+INSERT INTO Fournisseurs VALUES (52904, 'Dell');
+INSERT INTO Fournisseurs VALUES (31678, 'Lenovo');
+INSERT INTO Fournisseurs VALUES (85021, 'Asus');
+INSERT INTO Fournisseurs VALUES (69357, 'Acer');
+INSERT INTO Fournisseurs VALUES (14720, 'Microsoft');
+INSERT INTO Fournisseurs VALUES (80463, 'Intel');
+INSERT INTO Fournisseurs VALUES (37219, 'AMD');
+INSERT INTO Fournisseurs VALUES (26540, 'Nvidia');
+INSERT INTO Fournisseurs VALUES (91875, 'Panasonic');
+INSERT INTO Fournisseurs VALUES (63028, 'Toshiba');
+INSERT INTO Fournisseurs VALUES (45792, 'Philips');
+INSERT INTO Fournisseurs VALUES (58631, 'Canon');
+INSERT INTO Fournisseurs VALUES (32907, 'Nike');
+INSERT INTO Fournisseurs VALUES (74185, 'Adidas');
+INSERT INTO Fournisseurs VALUES (20369, 'Puma');
+
+
+Entrepots:
+
+INSERT INTO Entrepots VALUES (1, 'Main St', 'Toronto', 'A1A1A1', 'Canada');
+INSERT INTO Entrepots VALUES (2, 'Broadway', 'Vancouver', 'B2B2B2', 'Canada');
+INSERT INTO Entrepots VALUES (3, 'King St', 'Montreal', 'C3C3C3', 'Canada');
+
+
+Utilisateurs:
+
+INSERT INTO Utilisateurs VALUES (1, 'john.doe@gmail.com', 'XyZ1!a9bC', 'john', 'doe', 'Heritage Dr', 'Waterloo', 'E4E4E4', 'Canada', 2041234567, 2);
+INSERT INTO Utilisateurs VALUES (2, 'sarah_92@yahoo.com', 'mN2oP@qR3s', 'sarah', 'doe', 'Stonebridge Ln', 'Thunder Bay', 'G5G5G5', 'Canada', 2049876543, 1);
+INSERT INTO Utilisateurs VALUES (3, 'michael123@hotmail.com', 'A$dfG56hJkl', 'michael', 'doe', 'Horizon Blvd', 'Barrie', 'H6H6H6', 'Canada', 3062345678, 2);
+INSERT INTO Utilisateurs VALUES (4, 'emma.watson@outlook.com', 'zXc@987vBnM', 'emma', 'watson', 'Silver Birch Ave', 'Sudbury', 'J7J7J7', 'Canada', 3068765432, 2);
+INSERT INTO Utilisateurs VALUES (5, 'david.smith@icloud.com', 'P@ssw0rd123!', 'david', 'smith', 'Windermere Rd', 'Laval', 'K8K8K8', 'Canada', 4033456789, 2);
+INSERT INTO Utilisateurs VALUES (6, 'charlie_brown@aol.com', 'QwErTyUiOp456', 'charlie', 'brown', 'Blueberry Ln', 'Sherbrooke', 'L9L9L9', 'Canada', 4037654321, 2);
+INSERT INTO Utilisateurs VALUES (7, 'olivia.jones@gmail.com', 'L0v3MyP@ssw0rd!', 'olivia', 'jones', 'Redwood Dr', 'Trois-Rivières', 'M1M1M1', 'Canada', 4164567890, 3);
+INSERT INTO Utilisateurs VALUES (8, 'lucas_miller@yahoo.ca', 'Safe!Pass6789', 'lucas', 'miller', 'Sycamore St', 'Saguenay', 'N2N2N2', 'Canada', 4166543210, 1);
+INSERT INTO Utilisateurs VALUES (9, 'sophia_wilson@hotmail.com', 'R@nd0mP@123', 'sophia', 'wilson', 'Ashwood Ave', 'Gatineau', 'P3P3P3', 'Canada', 4185678901, 1);
+INSERT INTO Utilisateurs VALUES (10, 'liam.anderson@protonmail.com', 'Tr1ckyPa123', 'liam', 'anderson', 'Juniper St', 'Saint John', 'R4R4R4', 'Canada', 4185432109, 1);
+INSERT INTO Utilisateurs VALUES (11, 'noah_thomas@live.com', 'Tr1ckyPaw0rd!', 'noah', 'thomas', 'Magnolia Ct', 'Moncton', 'S5S5S5', 'Canada', 5146789012, 2);
+INSERT INTO Utilisateurs VALUES (12, 'isabella.moore@ymail.com', 'S3cur3_K3y#89', 'isabella', 'moore', 'Firwood Dr', 'Drummondville', 'T6T6T6', 'Canada', 5144321098, 1);
+INSERT INTO Utilisateurs VALUES (13, 'ethan.harris@gmail.com', 'H@rd2Gu3ss987', 'ethan', 'harris', 'Evergreen Blvd', 'Granby', 'V7V7V7', 'Canada', 6047890123, 1);
+INSERT INTO Utilisateurs VALUES (14, 'ava_clark@yahoo.com', 'TopSecret_456!', 'ava', 'clark', 'Orchard Ln', 'Belleville', 'X8X8X8', 'Canada', 6043210987, 3);
+INSERT INTO Utilisateurs VALUES (15, 'james_walker@outlook.com', '123qWeRTy!@#', 'james', 'walker', 'Meadowbrook Rd', 'Chilliwack', 'Y9Y9Y9', 'Canada', 6138901234, 3);
+INSERT INTO Utilisateurs VALUES (16, 'mia.rodriguez@hotmail.com', 'S@mpleP@ss678', 'mia', 'rodriguez', 'Foxglove Dr', 'Red Deer', 'A2B3C4', 'Canada', 6132109876, 1);
+INSERT INTO Utilisateurs VALUES (17, 'benjamin_hall@icloud.com', 'M@ybeSecuRe!34', 'benjamin', 'hall', 'Crimson Maple Rd', 'Lethbridge', 'D5E6F7', 'Canada', 9029012345, 2);
+INSERT INTO Utilisateurs VALUES (18, 'amelia.young@gmail.com', 'U1tR@Str0ng!!', 'amelia', 'young', 'Summit Ave', 'Medicine Hat', 'G8H9J1', 'Canada', 9021098765, 2);
+INSERT INTO Utilisateurs VALUES (19, 'alexander.king@yahoo.ca', 'DifficultP@ss789', 'alexander', 'king', 'Starview Ln', 'Prince George', 'K2L3M4', 'Canada', 4036783456, 1);
+INSERT INTO Utilisateurs VALUES (20, 'charlotte.scott@live.com', 'NoOneKnows_098!', 'charlotte', 'scott', 'Northgate Dr', 'Sault Ste. Marie', 'N5P6R7', 'Canada', 4169876543, 2);
+
+
+Commandes:
+
