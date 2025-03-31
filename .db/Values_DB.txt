@@ -1,4 +1,7 @@
-Fournisseurs:
+USE Borealis;
+
+
+CREATE TABLE IF NOT EXIST Fournisseurs (fid int PRIMARY KEY, nom_four varchar(30));
 
 INSERT INTO Fournisseurs VALUES (48291, 'HP');
 INSERT INTO Fournisseurs VALUES (17536, 'LG');
@@ -22,14 +25,14 @@ INSERT INTO Fournisseurs VALUES (74185, 'Adidas');
 INSERT INTO Fournisseurs VALUES (20369, 'Puma');
 
 
-Entrepots:
+CREATE TABLE IF NOT EXIST Entrepots (eid int PRIMARY KEY, rue_entre varchar(60), ville_entre varchar(30), code_postal_entre char(6), pays_entre varchar(20));
 
 INSERT INTO Entrepots VALUES (1, 'Main St', 'Toronto', 'A1A1A1', 'Canada');
 INSERT INTO Entrepots VALUES (2, 'Broadway', 'Vancouver', 'B2B2B2', 'Canada');
 INSERT INTO Entrepots VALUES (3, 'King St', 'Montreal', 'C3C3C3', 'Canada');
 
 
-Utilisateurs:
+CREATE TABLE IF NOT EXIST Utilisateurs (uid int PRIMARY KEY, courriel_util varchar(100) NOT NULL, mdp_util varchar(30) NOT NULL, prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30), code_postal_util char(6), pays_util varchar(20), telephone_util varchar(12), eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid));
 
 INSERT INTO Utilisateurs VALUES (1, 'john.doe@gmail.com', 'XyZ1!a9bC', 'john', 'doe', 'Heritage Dr', 'Waterloo', 'E4E4E4', 'Canada', 2041234567, 2);
 INSERT INTO Utilisateurs VALUES (2, 'sarah_92@yahoo.com', 'mN2oP@qR3s', 'sarah', 'doe', 'Stonebridge Ln', 'Thunder Bay', 'G5G5G5', 'Canada', 2049876543, 1);
@@ -53,5 +56,134 @@ INSERT INTO Utilisateurs VALUES (19, 'alexander.king@yahoo.ca', 'DifficultP@ss78
 INSERT INTO Utilisateurs VALUES (20, 'charlotte.scott@live.com', 'NoOneKnows_098!', 'charlotte', 'scott', 'Northgate Dr', 'Sault Ste. Marie', 'N5P6R7', 'Canada', 4169876543, 2);
 
 
-Commandes:
+CREATE TABLE IF NOT EXIST Produits (pid int PRIMARY KEY, nom_prod varchar(50), prix_prod decimal(5, 2), unite_prod int, categorie_prod enum('Aliment', 'Automobile', 'Électronique', 'Jouet', 'Maison', 'Vêtements'), description_prod varchar(500), image_prod varchar(200), vedette bool, fid int NOT NULL, FOREIGN KEY (fid) REFERENCES Fournisseurs(fid));
 
+INSERT INTO Produits VALUES (123456, 'Smartphone X', 495.99, 1, 'Aliment', 'A high-quality product designed for everyday use.', NULL, False, 63028);
+INSERT INTO Produits VALUES (654321, 'Gaming Laptop Z', 335.99, 2, 'Automobile', 'Experience the next level of innovation and style.', NULL, False, 71483);
+INSERT INTO Produits VALUES (789012, 'Wireless Earbuds', 607.99, 6, 'Électronique', 'Perfect for home, office, or on-the-go needs.', NULL, False, 48291);
+INSERT INTO Produits VALUES (345678, '4K Smart TV', 633.99, 12, 'Jouet', 'A must-have item with outstanding performance.', NULL, False, 69357);
+INSERT INTO Produits VALUES (901234, 'Bluetooth Speaker', 532.99, 2, 'Maison', 'Designed with precision and durability in mind.', NULL, False, 74185);
+INSERT INTO Produits VALUES (567892, 'Coffee Maker', 280.99, 1, 'Vêtements', 'Compact, lightweight, and easy to use.', NULL, False, 91875);
+INSERT INTO Produits VALUES (234567, 'Electric Scooter', 853.99, 6, 'Aliment', 'Combining elegance with cutting-edge technology.', NULL, False, 58631);
+INSERT INTO Produits VALUES (890123, 'Robot Vacuum', 381.99, 12, 'Électronique', 'An essential item for modern living.', NULL, False, 58631);
+INSERT INTO Produits VALUES (456789, 'Graphic Card RTX', 603.99, 1, 'Jouet', 'Enhance your experience with superior quality.', NULL, False, 52904);
+INSERT INTO Produits VALUES (678901, 'Mechanical Keyboard', 776.99, 6, 'Maison', 'The ultimate companion for your daily routine.', NULL, False, 80463);
+INSERT INTO Produits VALUES (345123, 'Smartwatch Pro', 101.99, 2, 'Automobile', 'Built for convenience and long-lasting reliability.', NULL, False, 91875);
+INSERT INTO Produits VALUES (987654, 'Noise-Canceling Headphones', 551.99, 12, 'Vêtements', 'Perfect for both professionals and casual users.', NULL, False, 17536);
+INSERT INTO Produits VALUES (210987, 'Air Purifier', 852.99, 6, 'Aliment', 'Crafted to offer maximum comfort and efficiency.', NULL, False, 80463);
+INSERT INTO Produits VALUES (543210, 'Portable Power Bank', 625.99, 1, 'Jouet', 'A stylish solution to your everyday challenges.', NULL, False, 14720);
+INSERT INTO Produits VALUES (678345, 'DSLR Camera', 656.99, 12, 'Électronique', 'Innovative design meets high-performance features.', NULL, False, 85021);
+INSERT INTO Produits VALUES (890456, 'Fitness Tracker', 21.99, 2, 'Maison', 'Engineered for efficiency and simplicity.', NULL, False, 48291);
+INSERT INTO Produits VALUES (123789, 'Microwave Oven', 891.99, 1, 'Automobile', 'The ultimate companion for your daily routine.', NULL, False, 32907);
+INSERT INTO Produits VALUES (456012, 'Gaming Mouse', 462.99, 6, 'Vêtements', 'Delivering top-tier performance at an affordable price.', NULL, False, 26540);
+INSERT INTO Produits VALUES (789345, 'Smart LED Bulb', 46.99, 12, 'Aliment', 'An essential item for modern living.', NULL, False, 32907);
+INSERT INTO Produits VALUES (234890, 'Streaming Device', 769.99, 2, 'Électronique', 'Upgrade your lifestyle with this premium item.', NULL, False, 85021);
+INSERT INTO Produits VALUES (567123, 'Adjustable Desk Chair', 742.99, 6, 'Jouet', 'Seamlessly integrates into any setup or space.', NULL, False, 63028);
+INSERT INTO Produits VALUES (901678, 'Cordless Vacuum', 142.99, 12, 'Maison', 'Reliable and durable, making it a great investment.', NULL, False, 48291);
+INSERT INTO Produits VALUES (345012, 'External Hard Drive', 209.99, 1, 'Automobile', 'Bringing functionality and aesthetics together.', NULL, False, 85021);
+INSERT INTO Produits VALUES (678234, 'USB-C Hub', 700.99, 2, 'Vêtements', 'A game-changing product with smart features.', NULL, False, 20369);
+INSERT INTO Produits VALUES (890567, 'Smart Thermostat', 630.99, 6, 'Aliment', 'Combining affordability with high-end quality.', NULL, False, 48291);
+INSERT INTO Produits VALUES (123901, 'Car Dash Cam', 734.99, 12, 'Jouet', 'Designed for effortless and enjoyable use.', NULL, False, 48291);
+INSERT INTO Produits VALUES (456234, 'Wireless Charger', 227.99, 1, 'Électronique', 'A sleek and modern addition to your collection.', NULL, False, 52904);
+INSERT INTO Produits VALUES (789678, 'Home Security Camera', 915.99, 2, 'Maison', 'The perfect gift for any occasion.', NULL, False, 17536);
+INSERT INTO Produits VALUES (234123, 'Electric Toothbrush', 835.99, 12, 'Automobile', 'Created with attention to detail and excellence.', NULL, False, 17536);
+INSERT INTO Produits VALUES (567890, 'Waterproof Bluetooth Speaker', 238.99, 6, 'Vêtements', 'Your go-to choice for convenience and style.', NULL, False, 17536);
+INSERT INTO Produits VALUES (901456, 'High-Speed Router', 942.99, 1, 'Aliment', 'Versatile, stylish, and built to last.', NULL, False, 32907);
+INSERT INTO Produits VALUES (345679, 'Professional Tripod', 634.99, 6, 'Électronique', 'An innovative solution to everyday needs.', NULL, False, 91875);
+INSERT INTO Produits VALUES (678931, 'Portable Projector', 825.99, 2, 'Jouet', 'Designed to exceed your expectations.', NULL, False, 31678);
+INSERT INTO Produits VALUES (890234, 'Wireless Doorbell', 518.99, 12, 'Maison', 'Performance-driven with a user-friendly interface.', NULL, False, 14720);
+INSERT INTO Produits VALUES (123567, 'Standing Desk', 550.99, 6, 'Automobile', 'A powerful yet compact product for all users.', NULL, False, 48291);
+INSERT INTO Produits VALUES (456784, 'Mini Fridge', 697.99, 1, 'Vêtements', 'Crafted with premium materials and technology.', NULL, False, 31678);
+INSERT INTO Produits VALUES (729015, 'Smart Lock', 487.99, 12, 'Aliment', 'Reliable and efficient, ensuring customer satisfaction.', NULL, False, 58631);
+INSERT INTO Produits VALUES (234345, 'Portable Air Conditioner', 156.99, 2, 'Jouet', 'Designed for ease of use and maximum comfort.', NULL, False, 31678);
+INSERT INTO Produits VALUES (567678, 'Infrared Thermometer', 457.99, 1, 'Électronique', 'The best in class for performance and design.', NULL, False, 63028);
+INSERT INTO Produits VALUES (901890, 'Ergonomic Office Chair', 570.99, 6, 'Maison', 'Take your experience to the next level with this.', NULL, False, 26057);
+INSERT INTO Produits VALUES (345901, 'Compact Soundbar', 210.99, 12, 'Automobile', 'A carefully designed product for long-term use.', NULL, False, 69357);
+INSERT INTO Produits VALUES (678123, 'Smart Ceiling Fan', 971.99, 2, 'Vêtements', 'Exceptional quality at a reasonable price.', NULL, False, 20369);
+INSERT INTO Produits VALUES (893446, 'Cordless Hair Clippers', 423.99, 6, 'Aliment', 'Make every moment better with this amazing item.', NULL, False, 74185);
+INSERT INTO Produits VALUES (123234, 'Portable Ice Maker', 862.99, 12, 'Électronique', 'An innovative must-have for any household.', NULL, False, 26057);
+INSERT INTO Produits VALUES (456567, 'Handheld Steamer', 157.99, 1, 'Jouet', 'Simplify your life with this smart solution.', NULL, False, 52904);
+INSERT INTO Produits VALUES (789890, 'Smart Light Strip', 11.99, 2, 'Maison', 'A stylish and functional addition to your lifestyle.', NULL, False, 26057);
+INSERT INTO Produits VALUES (234678, 'WiFi Mesh System', 231.99, 6, 'Automobile', 'Packed with powerful features for great results.', NULL, False, 85021);
+INSERT INTO Produits VALUES (567901, 'Smart Plug', 990.99, 12, 'Vêtements', 'Designed for those who appreciate quality and style.', NULL, False, 93842);
+INSERT INTO Produits VALUES (901238, 'Touchscreen Monitor', 852.99, 1, 'Jouet', 'A timeless product with modern capabilities.', NULL, False, 58631);
+INSERT INTO Produits VALUES (345456, 'Noise Reduction Earplugs', 125.99, 6, 'Électronique', 'Experience the perfect blend of form and function.', NULL, False, 37219);
+
+
+
+CREATE TABLE IF NOT EXIST Commandes (cid int PRIMARY KEY, date_comm date, prix_total_comm decimal(6, 2), rue_comm varchar(60), ville_comm varchar(30), code_postal_comm char(6), pays_comm varchar(20), uid int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid));
+
+INSERT INTO Commandes VALUES (1, '2025-01-16', NULL, 'Queen St', 'Calgary', 'S8T9V1', 'Canada', 14);
+INSERT INTO Commandes VALUES (2, '2025-01-17', NULL, 'Maple Ave', 'Edmonton', 'X2Y3A4', 'Canada', 17);
+INSERT INTO Commandes VALUES (3, '2025-01-18', NULL, 'Elm St', 'Ottawa', 'B5C6D7', 'Canada', 17);
+INSERT INTO Commandes VALUES (4, '2025-01-19', NULL, 'Cedar Rd', 'Winnipeg', 'E8F9G1', 'Canada', 18);
+INSERT INTO Commandes VALUES (5, '2025-01-20', NULL, 'Pine Dr', 'Quebec City', 'H2J3K4', 'Canada', 11);
+INSERT INTO Commandes VALUES (6, '2025-01-21', NULL, 'Oak Blvd', 'Halifax', 'L5M6N7', 'Canada', 12);
+INSERT INTO Commandes VALUES (7, '2025-01-22', NULL, 'Birch Ln', 'Victoria', 'P8R9S1', 'Canada', 15);
+INSERT INTO Commandes VALUES (8, '2025-01-25', NULL, 'Spruce Ct', 'Saskatoon', 'T2V3X4', 'Canada', 6);
+INSERT INTO Commandes VALUES (9, '2025-01-26', NULL, 'Willow Way', 'Regina', 'Y5A6B7', 'Canada', 9);
+INSERT INTO Commandes VALUES (10, '2025-01-27', NULL, 'Chestnut St', 'St John', 'C8D9E1', 'Canada', 19);
+INSERT INTO Commandes VALUES (11, '2025-01-29', NULL, 'River Rd', 'Charlottetown', 'F2G3H4', 'Canada', 10);
+INSERT INTO Commandes VALUES (12, '2025-01-30', NULL, 'Sunset Ave', 'Fredericton', 'J5K6L7', 'Canada', 20);
+INSERT INTO Commandes VALUES (13, '2025-02-01', NULL, 'Highland Dr', 'Whitehorse', 'M8N9P1', 'Canada', 15);
+INSERT INTO Commandes VALUES (14, '2025-02-02', NULL, 'Lakeshore Rd', 'Yellowknife', 'R2S3T4', 'Canada', 12);
+INSERT INTO Commandes VALUES (15, '2025-02-02', NULL, 'Victoria St', 'Iqaluit', 'V5X6Y7', 'Canada', 7);
+INSERT INTO Commandes VALUES (16, '2025-02-04', NULL, 'Church St', 'Mississauga', 'A8B9C1', 'Canada', 5);
+INSERT INTO Commandes VALUES (17, '2025-02-06', NULL, 'Front St', 'Brampton', 'D2E3F4', 'Canada', 6);
+INSERT INTO Commandes VALUES (18, '2025-02-08', NULL, 'Bay St', 'Hamilton', 'G5H6J7', 'Canada', 10);
+INSERT INTO Commandes VALUES (19, '2025-02-11', NULL, 'Water St', 'Kitchener', 'K8L9M1', 'Canada', 5);
+INSERT INTO Commandes VALUES (20, '2025-02-14', NULL, 'Park Ave', 'London', 'N2P3R4', 'Canada', 13);
+INSERT INTO Commandes VALUES (21, '2025-02-16', NULL, 'Mountain Rd', 'Markham', 'S5T6V7', 'Canada', 11);
+INSERT INTO Commandes VALUES (22, '2025-02-26', NULL, 'Valley View Dr', 'Vaughan', 'X8Y9A1', 'Canada', 20);
+INSERT INTO Commandes VALUES (23, '2025-03-02', NULL, 'College St', 'Surrey', 'B2C3D4', 'Canada', 15);
+INSERT INTO Commandes VALUES (24, '2025-03-03', NULL, 'University Ave', 'Burnaby', 'E5F6G7', 'Canada', 14);
+INSERT INTO Commandes VALUES (25, '2025-03-08', NULL, 'Railway Ave', 'Richmond', 'H8J9K1', 'Canada', 7);
+INSERT INTO Commandes VALUES (26, '2025-03-10', NULL, 'Harbour St', 'Abbotsford', 'L2M3N4', 'Canada', 8);
+INSERT INTO Commandes VALUES (27, '2025-03-11', NULL, 'Meadow Ln', 'Kelowna', 'P5R6S7', 'Canada', 13);
+INSERT INTO Commandes VALUES (28, '2025-03-12', NULL, 'Glenwood Dr', 'Kamloops', 'T8V9X1', 'Canada', 7);
+INSERT INTO Commandes VALUES (29, '2025-03-14', NULL, 'Country Club Rd', 'Nanaimo', 'Y2A3B4', 'Canada', 14);
+INSERT INTO Commandes VALUES (30, '2025-03-15', NULL, 'College St', 'Guelph', 'C5D6E7', 'Canada', 6);
+
+
+CREATE TABLE IF NOT EXIST Livraisons (lid int PRIMARY KEY, date_livr date, transporteur_livr enum('FedEx', 'Poste Canada', 'Purolator', 'UPS'), cid int NOT NULL, eid int NOT NULL, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
+
+INSERT INTO Livraisons VALUES (1, '2025-01-19', 'FedEx', 1, 1);
+INSERT INTO Livraisons VALUES (2, '2025-01-20', 'Poste Canada', 2, 2);
+INSERT INTO Livraisons VALUES (3, '2025-01-21', 'Purolator', 2, 1);
+INSERT INTO Livraisons VALUES (4, '2025-01-22', 'UPS', 3, 3);
+INSERT INTO Livraisons VALUES (5, '2025-01-22', 'FedEx', 4, 2);
+INSERT INTO Livraisons VALUES (6, '2025-01-23', 'Poste Canada', 5, 1);
+INSERT INTO Livraisons VALUES (7, '2025-01-23', 'Purolator', 5, 2);
+INSERT INTO Livraisons VALUES (8, '2025-01-24', 'UPS', 6, 3);
+INSERT INTO Livraisons VALUES (9, '2025-01-28', 'FedEx', 7, 1);
+INSERT INTO Livraisons VALUES (10, '2025-01-28', 'Poste Canada', 8, 3);
+INSERT INTO Livraisons VALUES (11, '2025-01-29', 'Purolator', 8, 2);
+INSERT INTO Livraisons VALUES (12, '2025-01-30', 'UPS', 9, 1);
+INSERT INTO Livraisons VALUES (13, '2025-02-01', 'FedEx', 10, 3);
+INSERT INTO Livraisons VALUES (14, '2025-02-01', 'Poste Canada', 10, 2);
+INSERT INTO Livraisons VALUES (15, '2025-02-03', 'Purolator', 11, 1);
+INSERT INTO Livraisons VALUES (16, '2025-02-05', 'UPS', 12, 2);
+INSERT INTO Livraisons VALUES (17, '2025-02-05', 'FedEx', 12, 3);
+INSERT INTO Livraisons VALUES (18, '2025-02-06', 'Poste Canada', 13, 2);
+INSERT INTO Livraisons VALUES (19, '2025-02-08', 'Purolator', 14, 2);
+INSERT INTO Livraisons VALUES (20, '2025-02-10', 'UPS', 14, 1);
+INSERT INTO Livraisons VALUES (21, '2025-02-16', 'FedEx', 15, 2);
+INSERT INTO Livraisons VALUES (22, '2025-02-17', 'Poste Canada', 16, 1);
+INSERT INTO Livraisons VALUES (23, '2025-02-20', 'Purolator', 16, 3);
+INSERT INTO Livraisons VALUES (24, '2025-03-01', 'UPS', 17, 2);
+INSERT INTO Livraisons VALUES (25, '2025-03-06', 'FedEx', 18, 1);
+INSERT INTO Livraisons VALUES (26, '2025-03-06', 'Poste Canada', 19, 2);
+INSERT INTO Livraisons VALUES (27, '2025-03-12', 'Purolator', 20, 2);
+INSERT INTO Livraisons VALUES (28, '2025-03-13', 'UPS', 20, 3);
+INSERT INTO Livraisons VALUES (29, '2025-03-14', 'FedEx', 21, 1);
+INSERT INTO Livraisons VALUES (30, '2025-03-16', 'Poste Canada', 22, 1);
+INSERT INTO Livraisons VALUES (31, '2025-03-19', 'Purolator', 22, 2);
+INSERT INTO Livraisons VALUES (32, '2025-03-18', 'UPS', 23, 3);
+INSERT INTO Livraisons VALUES (33, '2025-03-20', 'FedEx', 24, 2);
+INSERT INTO Livraisons VALUES (34, '2025-03-22', 'Poste Canada', 25, 1);
+INSERT INTO Livraisons VALUES (35, '2025-03-24', 'Purolator', 26, 2);
+INSERT INTO Livraisons VALUES (36, '2025-03-25', 'UPS', 26, 1);
+INSERT INTO Livraisons VALUES (37, '2025-03-27', 'FedEx', 27, 2);
+INSERT INTO Livraisons VALUES (38, '2025-03-27', 'Poste Canada', 28, 1);
+INSERT INTO Livraisons VALUES (39, '2025-03-28', 'Purolator', 29, 3);
+INSERT INTO Livraisons VALUES (40, '2025-03-29', 'UPS', 30, 2);
