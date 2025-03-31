@@ -23,6 +23,7 @@
         placeholder="Search"
         class="search-input"
         aria-label="Search products"
+        pattern="[a-zA-Z0-9\-]{1,}"
         />
         <div class="category-button">
           <select aria-label="Select category" name="category">
@@ -91,49 +92,32 @@
       </svg>
       GENERAL INFORMATION
     </button>
-    <button class="account-tab border-down" onclick="switchAccountTabs(event, 'Delivery')">
+    <button class="account-tab" onclick="switchAccountTabs(event, 'Delivery')">
       <svg width="45" height="40" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M43.8333 2.16666L20.9167 25.0833M43.8333 2.16666L29.25 43.8333L20.9167 25.0833M43.8333 2.16666L2.16667 16.75L20.9167 25.0833" stroke="#1E1E1E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       DELIVERY INFORMATION
-    </button>
-    <button class="account-tab" onclick="switchAccountTabs(event, 'Payment')">
-      <svg width="45" height="40" viewBox="0 0 50 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M2.08333 14.8333H47.9167M6.25 2.33334H43.75C46.0512 2.33334 47.9167 4.19882 47.9167 6.50001V31.5C47.9167 33.8012 46.0512 35.6667 43.75 35.6667H6.25C3.94881 35.6667 2.08333 33.8012 2.08333 31.5V6.50001C2.08333 4.19882 3.94881 2.33334 6.25 2.33334Z" stroke="#1E1E1E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      PAYMENT INFORMATION
     </button>
   </section>
   <section id="General" class="account-info default-tab">
     <h1 class="info-title">GENERAL INFORMATION</h1>
     <form>
       <div class="info-input">
-        <p>Name:</p>
-        <label>
-          <input type="text" name="account-name"/>
-        </label>
+        <label>Name:</label>
+          <input type="text" id="account-name" name="account-name" pattern="[a-zA-Z\- ]{1,}"/>
+        <label>Surname:</label>
+          <input type="text" id="account-surname" name="account-surname" pattern="[a-zA-Z\- ]{1,}"/>
       </div>
       <div class="info-input">
-        <p>Birthday:</p>
-        <label>
-          <input type="date" name="account-date"/>
-        </label>
+        <label>Email:</label>
+          <input type="email" id="account-email" name="account-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"/>
       </div>
       <div class="info-input">
-        <p>Email:</p>
-        <label>
-          <input type="text" name="account-email"/>
-        </label>
+       <label>Phone: </label><input type="tel" id="account_phone" name="account_phone" pattern="[0-9\-\(\) ]{10,14}">
       </div>
-      <div class="info-input">
-        <p>Primary language:</p>
-        <div class="language-select">
-          <span class="language-text">English</span>
-          <svg class="dropdown-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 15L7 10H17L12 15Z" fill="#1D1B20"/>
-          </svg>
-        </div>
-      </div>
+      <!-- <div class="info-input">
+        <a href="">Change password</a>
+      </div> -->
       <div class="account-save">
         <button class="save-btn">SAVE MODIFICATION</button>
       </div>
@@ -143,66 +127,30 @@
     <h1 class="info-title">DELIVERY INFORMATION</h1>
     <form>
       <div class="info-input">
-        <p>Name: </p>
-        <label>
-          <input type="text" name="account-name"/>
-        </label>
+        <label>Street: </label><input type="text" id="signup_street" name="signup_street" pattern="[a-zA-Z0-9\-]{1,}">
       </div>
       <div class="info-input">
-        <p>Birthday:</p>
-        <label>
-          <input type="date" name="account-date"/>
-        </label>
+        <label>Postal Code: </label><input type="text" id="signup_post" name="signup_post" pattern="[a-zA-Z0-9 ]{7}">
       </div>
       <div class="info-input">
-        <p>Email:</p>
-        <label>
-          <input type="text" name="account-email"/>
-        </label>
+        <label>City: </label><input type="text" id="signup_city" name="signup_city" pattern="[a-zA-Z\-]{1,}">
       </div>
       <div class="info-input">
-        <p>Primary language:</p>
-        <div class="language-select">
-          <span class="language-text">English</span>
-          <svg class="dropdown-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 15L7 10H17L12 15Z" fill="#1D1B20"/>
-          </svg>
-        </div>
-      </div>
-      <div class="account-save">
-        <button class="save-btn">SAVE MODIFICATION</button>
-      </div>
-    </form>
-  </section>
-  <section id="Payment" class="account-info">
-    <h1 class="info-title">PAYMENT INFORMATION</h1>
-    <form>
-      <div class="info-input">
-        <p>Name:</p>
-        <label>
-          <input type="text" name="account-name"/>
-        </label>
-      </div>
-      <div class="info-input">
-        <p>Birthday:</p>
-        <label>
-          <input type="date" name="account-date"/>
-        </label>
-      </div>
-      <div class="info-input">
-        <p>Email:</p>
-        <label>
-          <input type="text" name="account-email"/>
-        </label>
-      </div>
-      <div class="info-input">
-        <p>Primary language:</p>
-        <div class="language-select">
-          <span class="language-text">English</span>
-          <svg class="dropdown-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 15L7 10H17L12 15Z" fill="#1D1B20"/>
-          </svg>
-        </div>
+        <label for="signup-province">Province: <select id="signup-province" name="billing-province" required>
+          <option value="AB">Alberta</option>
+          <option value="BC">British Columbia</option>
+          <option value="MB">Manitoba</option>
+          <option value="NB">New Brunswick</option>
+          <option value="NL">Newfoundland and Labrador</option>
+          <option value="NT">Northwest Territories</option>
+          <option value="NS">Nova Scotia</option>
+          <option value="NU">Nunavut</option>
+          <option value="ON">Ontario</option>
+          <option value="PE">Prince Edward Island</option>
+          <option value="QC">Quebec</option>
+          <option value="SK">Saskatchewan</option>
+          <option value="YT">Yukon</option>
+        </select></label>
       </div>
       <div class="account-save">
         <button class="save-btn">SAVE MODIFICATION</button>

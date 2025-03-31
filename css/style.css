@@ -840,7 +840,7 @@ header {
 }
 
 .info-input input{
-  width: 100%;
+  width: 25%;
   font-size: 16px;
   border: none;
   border-radius: 5px;
@@ -851,6 +851,19 @@ header {
 
 .info-input input:hover {
   background-color: #f1f1f1;
+}
+
+.info-input label {
+  margin-top: 15px;
+}
+
+.info-input select {
+  width: 70%;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  transition: 250ms;
 }
 
 .language-select {
@@ -1165,8 +1178,24 @@ header {
   margin-top: 10px;
   transition: 250ms;
 }
+
 .signup-container input:hover, .signin-container input:hover {
   background-color: #f1f1f1;
+}
+
+.signup-nameAndSurname input {
+  width: 24%;
+  margin-right: 5px;
+}
+
+.signup-province select {
+  width: 60%;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 10px;
+  transition: 250ms;
 }
 
 .signup-btn, .signin-btn {
@@ -1189,6 +1218,12 @@ header {
 .signup-btn:after, .signin-btn:after {
   clear: both;
 }
+
+/* Global input verification styles */
+input:invalid {
+  background-color: lightpink;
+}
+
 /* Responsive styles */
 @media only screen and (max-width: 1200px) {
 
