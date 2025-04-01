@@ -16,4 +16,4 @@ CREATE TABLE IF NOT EXISTS Livraisons (lid int PRIMARY KEY, date_livr date, tran
 
 CREATE TABLE IF NOT EXISTS LigneComms (cid int NOT NULL, pid int NOT NULL, quantite int, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (pid) REFERENCES Produits(pid));
 
-CREATE TABLE IF NOT EXISTS DisponibiliteProds (pid int NOT NULL, eid int NOT NULL, quantite int, FOREIGN KEY (pid) REFERENCES Produits(pid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
+CREATE TABLE IF NOT EXISTS DispoProds (pid int NOT NULL, eid int NOT NULL, quantite int, FOREIGN KEY (pid) REFERENCES Produits(pid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
