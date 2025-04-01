@@ -4,16 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title></title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" href="img/logo_colour.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="icon" href="/static/favicon.ico" sizes="any">
+  <link rel="icon" href="/static/img/logo_colour.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/static/icon.png">
 </head>
 <body>
   <header class="header">
   <div class="top-bar">
     <div class="logo-container">
-      <img src="img/fullLogo_colour_white.svg" alt="Borealis"/>
+      <img src="/static/img/fullLogo_colour_white.svg" alt="Borealis"/>
     </div>
     <div class="search-bar">
       <form>
@@ -51,7 +51,7 @@
       </form>
     </div>
     <nav class="nav-links">
-      <a href="#" class="nav-link">SIGN UP / SIGN IN</a>
+      <a href={{ url_for('connect') }} class="nav-link">SIGN UP / SIGN IN</a>
       <div class="cart-container">
         <svg
           class="cart-icon"
@@ -225,5 +225,5 @@
   <p>Borealis - <span id="currentYear"></span></p>
 </footer>
 </body>
-<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="/static/js/app.js"></script>
 </html>
