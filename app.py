@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import pymysql, pymysql.cursors
 
 app = Flask(__name__)
 
@@ -31,9 +32,9 @@ def cart():
 def checkout():
     return render_template('checkout.html')
 
-@app.route('/order')
+@app.route('/orders')
 def order():
-    return render_template('order.html')
+    return render_template('orders.html')
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -43,4 +44,22 @@ def page_not_found(e):
                            error_title=error_title,error_msg=error_msg), 404
 
 if __name__ == '__main__':
+  """mot_de_passe = input("Veuillez entrer votre mot de passe: ")
+
+  conn = pymysql.connect(
+    host='localhost', user='root',
+    password=mot_de_passe, db='borealis')
+  cur = conn.cursor()"""
+  """
+  exemple de code:
+  try:
+    cmd = "INSERT INTO utilisateurs VALUES('denise@ulaval.ca', '88888888','Denise','reine.png');"
+    cur.execute(cmd)
+    conn.commit()
+  except Exception as e:
+    print(e)"""
+
   app.run()
+
+  """cur.close()
+  conn.close()"""
