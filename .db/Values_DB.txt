@@ -51,7 +51,7 @@ INSERT INTO Utilisateurs VALUES (14, 'ava_clark@yahoo.com', 'TopSecret_456!', 'a
 INSERT INTO Utilisateurs VALUES (15, 'james_walker@outlook.com', '123qWeRTy!@#', 'james', 'walker', '743 Meadowbrook Rd', 'Chilliwack', 'Y9Y9Y9', 'QC', 'Canada', 6138901234, 3);
 INSERT INTO Utilisateurs VALUES (16, 'mia.rodriguez@hotmail.com', 'S@mpleP@ss678', 'mia', 'rodriguez', '124 Foxglove Dr', 'Red Deer', 'A2B3C4', 'QC', 'Canada', 6132109876, 1);
 INSERT INTO Utilisateurs VALUES (17, 'benjamin_hall@icloud.com', 'M@ybeSecuRe!34', 'benjamin', 'hall', '3256 Crimson Maple Rd', 'Lethbridge', 'D5E6F7', 'QC', 'Canada', 9029012345, 2);
-INSERT INTO Utilisateurs VALUES (18, 'amelia.young@gmail.com', 'U1tR@Str0ng!!', 'amelia', 'young', 'Summit Ave', '1 Medicine Hat', 'G8H9J1', 'QC', 'Canada', 9021098765, 2);
+INSERT INTO Utilisateurs VALUES (18, 'amelia.young@gmail.com', 'U1tR@Str0ng!!', 'amelia', 'young', '12 Summit Ave', 'Medicine Hat', 'G8H9J1', 'QC', 'Canada', 9021098765, 2);
 INSERT INTO Utilisateurs VALUES (19, 'alexander.king@yahoo.ca', 'DifficultP@ss789', 'alexander', 'king', '4 Starview Ln', 'Prince George', 'K2L3M4', 'QC', 'Canada', 4036783456, 1);
 INSERT INTO Utilisateurs VALUES (20, 'charlotte.scott@live.com', 'NoOneKnows_098!', 'charlotte', 'scott', '27 Northgate Dr', 'Sault Ste. Marie', 'N5P6R7', 'QC', 'Canada', 4169876543, 2);
 
