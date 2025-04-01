@@ -13,25 +13,30 @@
   <header class="header">
   <div class="top-bar">
     <div class="logo-container">
-      <img src="/static/img/fullLogo_colour_white.svg" alt="Borealis"/>
+      <a href="{{url_for('index')}}"><img src="/static/img/fullLogo_colour_white.svg" alt="Borealis"/></a>
     </div>
     <div class="search-bar">
-      <form>
+      <form action="search" method="POST" id="itemSearch">
         <input
         type="search"
         placeholder="Search"
         class="search-input"
         aria-label="Search products"
         pattern="[a-zA-Z0-9\-]{1,}"
+        name="search"
         />
         <div class="category-button">
           <select aria-label="Select category" name="category">
             <option value="all">All categories</option>
-            <option value="test1">Test01</option>
-            <option value="test2">Test02</option>
+            <option value="Vêtements">Clothes</option>
+            <option value="Électronique">Electronics</option>
+            <option value="Aliment">Food</option>
+            <option value="Maison">Household</option>
+            <option value="Jouet">Toys</option>
+            <option value="Automobile">Vehicles</option>
           </select>
         </div>
-        <button class="search-button" aria-label="Search">
+        <button type="submit" form='itemSearch' class="search-button" aria-label="Search">
           <svg
             class="search-icon"
             width="20"
@@ -51,7 +56,11 @@
       </form>
     </div>
     <nav class="nav-links">
-      <a href="#" class="nav-link">SIGN UP / SIGN IN</a>
+      {% if connected %}
+        <a href="{{url_for('account')}}" class="nav-link">ACCOUNT</a>
+      {% else %}
+        <a href="{{url_for('connect')}}" class="nav-link">SIGN UP / SIGN IN</a>
+      {% endif %}
       <div class="cart-container">
         <svg
           class="cart-icon"
