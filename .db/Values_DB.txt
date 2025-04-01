@@ -1,7 +1,7 @@
 USE Borealis;
 
 
-CREATE TABLE IF NOT EXIST Fournisseurs (fid int PRIMARY KEY, nom_four varchar(30));
+CREATE TABLE IF NOT EXISTS Fournisseurs (fid int PRIMARY KEY, nom_four varchar(30));
 
 INSERT INTO Fournisseurs VALUES (48291, 'HP');
 INSERT INTO Fournisseurs VALUES (17536, 'LG');
@@ -25,14 +25,14 @@ INSERT INTO Fournisseurs VALUES (74185, 'Adidas');
 INSERT INTO Fournisseurs VALUES (20369, 'Puma');
 
 
-CREATE TABLE IF NOT EXIST Entrepots (eid int PRIMARY KEY, rue_entre varchar(60), ville_entre varchar(30), code_postal_entre char(6), pays_entre varchar(20));
+CREATE TABLE IF NOT EXISTS Entrepots (eid int PRIMARY KEY, rue_entre varchar(60), ville_entre varchar(30), code_postal_entre char(6), pays_entre varchar(20));
 
 INSERT INTO Entrepots VALUES (1, 'Main St', 'Toronto', 'A1A1A1', 'Canada');
 INSERT INTO Entrepots VALUES (2, 'Broadway', 'Vancouver', 'B2B2B2', 'Canada');
 INSERT INTO Entrepots VALUES (3, 'King St', 'Montreal', 'C3C3C3', 'Canada');
 
 
-CREATE TABLE IF NOT EXIST Utilisateurs (uid int PRIMARY KEY, courriel_util varchar(100) NOT NULL, mdp_util varchar(30) NOT NULL, prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30), code_postal_util char(6), pays_util varchar(20), telephone_util varchar(12), eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid));
+CREATE TABLE IF NOT EXISTS Utilisateurs (uid int PRIMARY KEY, courriel_util varchar(100) NOT NULL, mdp_util varchar(30) NOT NULL, prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30), code_postal_util char(6), pays_util varchar(20), telephone_util varchar(12), eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid));
 
 INSERT INTO Utilisateurs VALUES (1, 'john.doe@gmail.com', 'XyZ1!a9bC', 'john', 'doe', 'Heritage Dr', 'Waterloo', 'E4E4E4', 'Canada', 2041234567, 2);
 INSERT INTO Utilisateurs VALUES (2, 'sarah_92@yahoo.com', 'mN2oP@qR3s', 'sarah', 'doe', 'Stonebridge Ln', 'Thunder Bay', 'G5G5G5', 'Canada', 2049876543, 1);
@@ -56,7 +56,7 @@ INSERT INTO Utilisateurs VALUES (19, 'alexander.king@yahoo.ca', 'DifficultP@ss78
 INSERT INTO Utilisateurs VALUES (20, 'charlotte.scott@live.com', 'NoOneKnows_098!', 'charlotte', 'scott', 'Northgate Dr', 'Sault Ste. Marie', 'N5P6R7', 'Canada', 4169876543, 2);
 
 
-CREATE TABLE IF NOT EXIST Produits (pid int PRIMARY KEY, nom_prod varchar(50), prix_prod decimal(5, 2), unite_prod int, categorie_prod enum('Aliment', 'Automobile', 'Électronique', 'Jouet', 'Maison', 'Vêtements'), description_prod varchar(500), image_prod varchar(200), vedette bool, fid int NOT NULL, FOREIGN KEY (fid) REFERENCES Fournisseurs(fid));
+CREATE TABLE IF NOT EXISTS Produits (pid int PRIMARY KEY, nom_prod varchar(50), prix_prod decimal(5, 2), unite_prod int, categorie_prod enum('Aliment', 'Automobile', 'Électronique', 'Jouet', 'Maison', 'Vêtements'), description_prod varchar(500), image_prod varchar(200), vedette bool, fid int NOT NULL, FOREIGN KEY (fid) REFERENCES Fournisseurs(fid));
 
 INSERT INTO Produits VALUES (123456, 'Smartphone X', 495.99, 1, 'Aliment', 'A high-quality product designed for everyday use.', NULL, False, 63028);
 INSERT INTO Produits VALUES (654321, 'Gaming Laptop Z', 335.99, 2, 'Automobile', 'Experience the next level of innovation and style.', NULL, False, 71483);
@@ -111,7 +111,7 @@ INSERT INTO Produits VALUES (345456, 'Noise Reduction Earplugs', 125.99, 6, 'Él
 
 
 
-CREATE TABLE IF NOT EXIST Commandes (cid int PRIMARY KEY, date_comm date, prix_total_comm decimal(6, 2), rue_comm varchar(60), ville_comm varchar(30), code_postal_comm char(6), pays_comm varchar(20), uid int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid));
+CREATE TABLE IF NOT EXISTS Commandes (cid int PRIMARY KEY, date_comm date, prix_total_comm decimal(6, 2), rue_comm varchar(60), ville_comm varchar(30), code_postal_comm char(6), pays_comm varchar(20), uid int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid));
 
 INSERT INTO Commandes VALUES (1, '2025-01-16', NULL, 'Queen St', 'Calgary', 'S8T9V1', 'Canada', 14);
 INSERT INTO Commandes VALUES (2, '2025-01-17', NULL, 'Maple Ave', 'Edmonton', 'X2Y3A4', 'Canada', 17);
@@ -145,7 +145,7 @@ INSERT INTO Commandes VALUES (29, '2025-03-14', NULL, 'Country Club Rd', 'Nanaim
 INSERT INTO Commandes VALUES (30, '2025-03-15', NULL, 'College St', 'Guelph', 'C5D6E7', 'Canada', 6);
 
 
-CREATE TABLE IF NOT EXIST Livraisons (lid int PRIMARY KEY, date_livr date, transporteur_livr enum('FedEx', 'Poste Canada', 'Purolator', 'UPS'), cid int NOT NULL, eid int NOT NULL, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
+CREATE TABLE IF NOT EXISTS Livraisons (lid int PRIMARY KEY, date_livr date, transporteur_livr enum('FedEx', 'Poste Canada', 'Purolator', 'UPS'), cid int NOT NULL, eid int NOT NULL, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
 
 INSERT INTO Livraisons VALUES (1, '2025-01-19', 'FedEx', 1, 1);
 INSERT INTO Livraisons VALUES (2, '2025-01-20', 'Poste Canada', 2, 2);
