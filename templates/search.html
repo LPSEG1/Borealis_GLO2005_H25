@@ -94,104 +94,31 @@
 </header>
 <main class="main-content">
   <div class="search-results">
-    <p>1-100 of over 347 results for</p>
-    <p class="search-term">"Maple Syrup"</p>
-    <button class="filter-button">
-    <span>FILTER</span>
-    <svg
-      class="filter-icon"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M22 3H2L10 12.46V19L14 21V12.46L22 3Z"
-        stroke="#F5F5F5"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg>
-  </button>
+    <p>{{ nbrItems }} results for <span class="search-term">{{ term }}</span></p>
+
   </div>
   <section class="product-list">
-    <article class="product-card">
-      <img
-        src="https://placehold.co/272x202/e0e0e0/e0e0e0"
-        alt="Maple Syrup"
-        class="product-image"
-      />
-      <div class="product-details">
-        <h2 class="product-title">Maple Syrup (1L)</h2>
-        <p class="product-vendor">Canadia Farms | La Tuque, QC</p>
-        <p class="product-description">
-          Lorem ipsum odor amet, consectetuer adipiscing elit. Ullamcorper magna
-          dui sem blandit posuere, orci auctor habitasse. Fringilla nostra
-          torquent curabitur imperdiet ornare dui nisl. Ut purus vehicula neque
-          tempor bibendum. Convallis sollicitudin metus venenatis egestas
-          ridiculus sollicitudin. Id phasellus tortor luctus faucibus eget,
-          condimentum fames. Parturient feugiat facilisis neque sit aptent.
-          Fermentum et sollicitudin magna habitant cubilia sapien.
-        </p>
-        <p class="product-price">11,99$</p>
-        <div class="product-buttons">
-          <button class="details-btn">DETAILS</button>
-          <button class="buy-btn">BUY</button>
+    {% for item in items %}
+      <article class="product-card">
+        <img
+          src="{{item.image}}"
+          alt="{{item.name}}"
+          class="product-image"
+        />
+        <div class="product-details">
+          <h2 class="product-title">{{item.name}}</h2>
+          <p class="product-vendor">{{item.brand}}</p>
+          <p class="product-description">
+            {{item.description}}
+          </p>
+          <p class="product-price">{{item.price}}$</p>
+          <div class="product-buttons">
+            <button class="details-btn">DETAILS</button>
+            <button class="buy-btn">BUY</button>
+          </div>
         </div>
-      </div>
-    </article>
-    <article class="product-card">
-      <img
-        src="https://placehold.co/272x202/e0e0e0/e0e0e0"
-        alt="Maple Syrup"
-        class="product-image"
-      />
-      <div class="product-details">
-        <h2 class="product-title">Maple Syrup (1L)</h2>
-        <p class="product-vendor">Canadia Farms | La Tuque, QC</p>
-        <p class="product-description">
-          Lorem ipsum odor amet, consectetuer adipiscing elit. Ullamcorper magna
-          dui sem blandit posuere, orci auctor habitasse. Fringilla nostra
-          torquent curabitur imperdiet ornare dui nisl. Ut purus vehicula neque
-          tempor bibendum. Convallis sollicitudin metus venenatis egestas
-          ridiculus sollicitudin. Id phasellus tortor luctus faucibus eget,
-          condimentum fames. Parturient feugiat facilisis neque sit aptent.
-          Fermentum et sollicitudin magna habitant cubilia sapien.
-        </p>
-        <p class="product-price">11,99$</p>
-        <div class="product-buttons">
-          <button class="details-btn">DETAILS</button>
-          <button class="buy-btn">BUY</button>
-        </div>
-      </div>
-    </article>
-    <article class="product-card">
-      <img
-        src="https://placehold.co/272x202/e0e0e0/e0e0e0"
-        alt="Maple Syrup"
-        class="product-image"
-      />
-      <div class="product-details">
-        <h2 class="product-title">Maple Syrup (1L)</h2>
-        <p class="product-vendor">Canadia Farms | La Tuque, QC</p>
-        <p class="product-description">
-          Lorem ipsum odor amet, consectetuer adipiscing elit. Ullamcorper magna
-          dui sem blandit posuere, orci auctor habitasse. Fringilla nostra
-          torquent curabitur imperdiet ornare dui nisl. Ut purus vehicula neque
-          tempor bibendum. Convallis sollicitudin metus venenatis egestas
-          ridiculus sollicitudin. Id phasellus tortor luctus faucibus eget,
-          condimentum fames. Parturient feugiat facilisis neque sit aptent.
-          Fermentum et sollicitudin magna habitant cubilia sapien.
-        </p>
-        <p class="product-price">11,99$</p>
-        <div class="product-buttons">
-          <button class="details-btn">DETAILS</button>
-          <button class="buy-btn">BUY</button>
-        </div>
-      </div>
-    </article>
+      </article>
+    {% endfor %}
   </section>
 </main>
 <footer class="site-footer">
