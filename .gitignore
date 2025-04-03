@@ -9,3 +9,4 @@ dist
 mysql_commands.txt
 mysql_connector.py
 __pycache__
+.env
