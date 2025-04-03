@@ -23,7 +23,7 @@ def search():
   conn = pymysql.connect(
     host='localhost',
     user='root',
-    password='Kasl6559256!',
+    password='***',
     db='borealis',
     charset='utf8')
   if itemCategory == '"all"':
