@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 import pymysql, pymysql.cursors
-import database
+import util
 
 app = Flask(__name__)
 
@@ -25,7 +25,7 @@ def search():
     cmd='SELECT DISTINCT P.nom_prod AS name, F.nom_four AS brand, P.description_prod AS description, P.prix_prod AS price, P.image_prod AS image FROM produits P INNER JOIN fournisseurs F ON P.fid = F.fid WHERE P. nom_prod LIKE "%'+searchTerm+'%" OR F.nom_four LIKE "%'+searchTerm+'%" AND P.unite_prod > 0;'
   else:
     cmd='SELECT DISTINCT P.nom_prod AS name, F.nom_four AS brand, P.description_prod AS description, P.prix_prod AS price, P.image_prod AS image, P.categorie_prod FROM produits P INNER JOIN fournisseurs F ON P.fid = F.fid WHERE P. categorie_prod = '+itemCategory+' AND P. nom_prod LIKE "%'+searchTerm+'%" OR F.nom_four LIKE "%'+searchTerm+'%" AND P.unite_prod > 0'
-  cur = connectdatabase().cursor()
+  cur = connection_database().cursor()
   cur.execute(cmd)
   items = cur.fetchall()
 
