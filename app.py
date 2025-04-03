@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request
 import pymysql, pymysql.cursors
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
 
@@ -19,11 +21,11 @@ def account():
 def search():
   searchTerm = request.form.get('search')
   itemCategory = '"'+request.form.get('category')+'"'
-
+  load_dotenv()
   conn = pymysql.connect(
     host='localhost',
     user='root',
-    password='Kasl6559256!',
+    password=os.getenv("PASSWORD"),
     db='borealis',
     charset='utf8')
   if itemCategory == '"all"':
@@ -60,22 +62,5 @@ def page_not_found(e):
                            error_title=error_title,error_msg=error_msg), 404
 
 if __name__ == '__main__':
-  """mot_de_passe = input("Veuillez entrer votre mot de passe: ")
-
-  conn = pymysql.connect(
-    host='localhost', user='root',
-    password=mot_de_passe, db='borealis')
-  cur = conn.cursor()"""
-  """
-  exemple de code:
-  try:
-    cmd = "INSERT INTO utilisateurs VALUES('denise@ulaval.ca', '88888888','Denise','reine.png');"
-    cur.execute(cmd)
-    conn.commit()
-  except Exception as e:
-    print(e)"""
 
   app.run()
-
-  """cur.close()
-  conn.close()"""
