@@ -1,17 +1,21 @@
 from dotenv import load_dotenv
 import os, hashlib, pymysql
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+dotenv_path = os.path.join(BASE_DIR, '.env/local.env')
+
 def connection_database():
   """connection à la base de donnée sql.
         Returns:
             La connection à la base de donnée."""
-  load_dotenv()
+  load_dotenv(dotenv_path)
   connection = pymysql.connect(
     host='localhost',
     user='root',
-    password=os.getenv("PASSWORD"),
+    password = os.getenv('PASSWORD'),
     db='borealis',
     charset='utf8')
+
   return connection
 
 def hacher(mot_de_passe):
