@@ -1,4 +1,11 @@
-USE Borealis;
+DROP TABLE IF EXISTS Fournisseurs;
+DROP TABLE IF EXISTS Entrepots;
+DROP TABLE IF EXISTS Utilisateurs;
+DROP TABLE IF EXISTS Produits;
+DROP TABLE IF EXISTS Commandes;
+DROP TABLE IF EXISTS Livraisons;
+DROP TABLE IF EXISTS LigneComms;
+DROP TABLE IF EXISTS DispoProds;
 
 
 CREATE TABLE IF NOT EXISTS Fournisseurs (fid int PRIMARY KEY, nom_four varchar(30));
