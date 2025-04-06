@@ -2,6 +2,8 @@ DROP PROCEDURE IF EXISTS ChercherProduit;
 DROP PROCEDURE IF EXISTS ChangerMdp;
 DROP PROCEDURE IF EXISTS ChangerMdp;
 DROP PROCEDURE IF EXISTS AjouterPanier;
+DROP PROCEDURE IF EXISTS AfficherInfosUtilisateur;
+DROP PROCEDURE IF EXISTS VerifierConnexion;
 
 
 DELIMITER //
@@ -67,6 +69,28 @@ BEGIN
     SELECT uid
     FROM Utilisateurs
     WHERE courriel_util = courriel AND mdp_util = mot_de_passe;
+END//
+DELIMITER ;
+
+DELIMITER // #Melqui
+CREATE PROCEDURE AfficherInfosUtilisateur(
+    IN id_utilisateur INT)
+BEGIN
+    SELECT
+      U.courriel_util AS courriel,
+      U.prenom_util AS prenom,
+        U.nom_util AS nom,
+        U.telephone_util AS telephone,
+       U.rue_util AS adresse,
+        U.code_postal_util AS code_postal,
+        U.ville_util AS ville,
+      U.province_util AS province,
+      E.rue_entre AS adresse_entrepot,
+        E.ville_entre AS ville_entrepot,
+        E.province_entre AS province_entrepot
+    FROM Utilisateurs U
+    JOIN Entrepots E ON U.eid_util = E.eid
+    WHERE U.uid = id_utilisateur;
 END//
 DELIMITER ;
 
