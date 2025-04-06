@@ -57,3 +57,16 @@ BEGIN
     INSERT INTO Panier VALUES (util_id, prod_id, qte);
 END//
 DELIMITER ;
+
+
+DELIMITER // #Melqui
+CREATE PROCEDURE VerifierConnexion(
+    IN courriel VARCHAR(100),
+    IN mot_de_passe VARCHAR(30))
+BEGIN
+    SELECT uid
+    FROM Utilisateurs
+    WHERE courriel_util = courriel AND mdp_util = mot_de_passe;
+END//
+DELIMITER ;
+
