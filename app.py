@@ -6,7 +6,14 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-  return render_template('Index.html')
+  try:
+    cur = util.connection_database().cursor()
+    cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod FROM Fournisseurs F INNER JOIN Produits P ON F.fid = P.fid WHERE P.vedette = 1')
+    items = cur.fetchall()
+    util.connection_database().close()
+    return render_template('Index.html', items=items)
+  except Exception as e:
+    return str(e)
 
 @app.route('/connect')
 def connect():
@@ -34,9 +41,19 @@ def search():
   except Exception as e:
     return str(e)
 
-@app.route('/item')
-def item():
-    return render_template('item.html')
+@app.route('/item/<itemPage>', methods=['GET', 'POST'])
+def item(itemPage):
+  try:
+    cur = util.connection_database().cursor()
+    cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod FROM Fournisseurs F INNER JOIN Produits P ON F.fid = P.fid WHERE P.pid = '+itemPage+'')
+    item = cur.fetchone()
+    cur.execute('SELECT D.quantite, E.ville_entre FROM Dispoprods D INNER JOIN Entrepots E ON D.eid = E.eid WHERE D.pid = ' + itemPage + ' ORDER BY D.quantite DESC')
+    dispos = cur.fetchall()
+    util.connection_database().close()
+    return render_template('item.html', item=item, dispos=dispos)
+  except Exception as e:
+    return str(e)
+
 
 @app.route('/cart')
 def cart():

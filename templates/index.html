@@ -83,14 +83,6 @@
       <button class="language-button">EN</button>
     </nav>
   </div>
-  <nav class="shop-nav">
-    <a href="#" class="nav-item right-border">NEW ITEMS</a>
-    <a href="#" class="nav-item right-border">BOREALIS EXCLUSIVE</a>
-    <a href="#" class="nav-item right-border">SHOP BY TYPE</a>
-    <a href="#" class="nav-item right-border">SHOP BY REGION</a>
-    <a href="#" class="nav-item right-border">BEST SELLERS</a>
-    <a href="#" class="nav-item">DEALS</a>
-  </nav>
 </header>
 <main class="main-content">
   <section class="welcome-section">
@@ -100,134 +92,24 @@
     </h1>
   </section>
   <section class="products-grid">
+    {% for item in items %}
     <article class="product-card">
       <img
-        src="https://placehold.co/272x202/e6e6e6/e6e6e6"
-        alt="Maple Syrup"
+        src="{{item[5]}}"
+        alt="{{item[1]}}"
         class="product-image"
       />
       <div class="product-info">
-        <h2 class="product-title">Maple Syrup (1L)</h2>
-        <p class="product-vendor">Canadia Farms | La Tuque, QC</p>
-        <p class="product-price">11,99$</p>
+        <h2 class="product-title">{{item[1]}}</h2>
+        <p class="product-vendor">{{item[2]}}</p>
+        <p class="product-price">{{item[4]}}$</p>
       </div>
       <div class="product-buttons">
-        <button class="details-btn">DETAILS</button>
-        <button class="buy-btn">BUY</button>
+        <button class="details-btn" onclick="window.location.href='{{url_for('item', itemPage=item[0])}}'">DETAILS</button>
+        <button class="buy-btn" onclick="window.location.href='{{url_for('item', itemPage=item[0])}}'">BUY</button>
       </div>
     </article>
-    <article class="product-card">
-      <img
-        src="https://placehold.co/272x202/e6e6e6/e6e6e6"
-        alt="Tin Cloth Hat"
-        class="product-image"
-      />
-      <div class="product-info">
-        <h2 class="product-title">Tin Cloth Hat</h2>
-        <p class="product-vendor">BATUN | Vancouver, BC</p>
-        <p class="product-price">12,99$</p>
-      </div>
-      <div class="product-buttons">
-        <button class="details-btn">DETAILS</button>
-        <button class="buy-btn">BUY</button>
-      </div>
-    </article>
-    <article class="product-card">
-      <img
-        src="https://placehold.co/272x202/e6e6e6/e6e6e6"
-        alt="Apple Maple Pie"
-        class="product-image"
-      />
-      <div class="product-info">
-        <h2 class="product-title">Apple Maple Pie</h2>
-        <p class="product-vendor">Bakery @ Queen | Windsor, ON</p>
-        <p class="product-price">17,99$</p>
-      </div>
-      <div class="product-buttons">
-        <button class="details-btn">DETAILS</button>
-        <button class="buy-btn">BUY</button>
-      </div>
-    </article>
-    <article class="product-card">
-      <img
-        src="https://placehold.co/272x202/e6e6e6/e6e6e6"
-        alt="Vanilla Ice Cream"
-        class="product-image"
-      />
-      <div class="product-info">
-        <h2 class="product-title">Vanilla Ice Cream (2L)</h2>
-        <p class="product-vendor">Coaticook | Coaticook, QC</p>
-        <p class="product-price">5,99$</p>
-      </div>
-      <div class="product-buttons">
-        <button class="details-btn">DETAILS</button>
-        <button class="buy-btn">BUY</button>
-      </div>
-    </article>
-    <article class="product-card">
-      <img
-        src="https://placehold.co/272x202/e6e6e6/e6e6e6"
-        alt="Red Cotton Beanie"
-        class="product-image"
-      />
-      <div class="product-info">
-        <h2 class="product-title">Red Cotton Beanie</h2>
-        <p class="product-vendor">Met-Artisan | Winnipeg, MB</p>
-        <p class="product-price">8,99$</p>
-      </div>
-      <div class="product-buttons">
-        <button class="details-btn">DETAILS</button>
-        <button class="buy-btn">BUY</button>
-      </div>
-    </article>
-    <article class="product-card">
-      <img
-        src="https://placehold.co/272x202/e6e6e6/e6e6e6"
-        alt="Slow Cooker"
-        class="product-image"
-      />
-      <div class="product-info">
-        <h2 class="product-title">Slow Cooker</h2>
-        <p class="product-vendor">Stkitchen | Toronto, ON</p>
-        <p class="product-price">97,99$</p>
-      </div>
-      <div class="product-buttons">
-        <button class="details-btn">DETAILS</button>
-        <button class="buy-btn">BUY</button>
-      </div>
-    </article>
-    <article class="product-card">
-      <img
-        src="https://placehold.co/272x202/e6e6e6/e6e6e6"
-        alt="Party Cards"
-        class="product-image"
-      />
-      <div class="product-info">
-        <h2 class="product-title">Party Cards</h2>
-        <p class="product-vendor">Legacy North Games | Montreal, QC</p>
-        <p class="product-price">35,99$</p>
-      </div>
-      <div class="product-buttons">
-        <button class="details-btn">DETAILS</button>
-        <button class="buy-btn">BUY</button>
-      </div>
-    </article>
-    <article class="product-card">
-      <img
-        src="https://placehold.co/272x202/e6e6e6/e6e6e6"
-        alt="Lion Plush"
-        class="product-image"
-      />
-      <div class="product-info">
-        <h2 class="product-title">Lion Plush</h2>
-        <p class="product-vendor">CalChild Workshop | Calgary, AB</p>
-        <p class="product-price">5,99$</p>
-      </div>
-      <div class="product-buttons">
-        <button class="details-btn">DETAILS</button>
-        <button class="buy-btn">BUY</button>
-      </div>
-    </article>
+    {% endfor %}
   </section>
 </main>
 <footer class="site-footer">

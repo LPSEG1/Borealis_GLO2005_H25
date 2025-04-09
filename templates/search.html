@@ -83,42 +83,33 @@
       <button class="language-button">EN</button>
     </nav>
   </div>
-  <nav class="shop-nav">
-    <a href="#" class="nav-item right-border">NEW ITEMS</a>
-    <a href="#" class="nav-item right-border">BOREALIS EXCLUSIVE</a>
-    <a href="#" class="nav-item right-border">SHOP BY TYPE</a>
-    <a href="#" class="nav-item right-border">SHOP BY REGION</a>
-    <a href="#" class="nav-item right-border">BEST SELLERS</a>
-    <a href="#" class="nav-item">DEALS</a>
-  </nav>
 </header>
 <main class="main-content">
   <div class="search-results">
     <p>{{ nbrItems }} results for <span class="search-term">{{ term }}</span></p>
-
   </div>
   <section class="product-list">
     {% for item in items %}
       <article class="product-card">
         <img
-          src="{{item[4]}}"
-          alt="{{item[0]}}"
+          src="{{item[5]}}"
+          alt="{{item[1]}}"
           class="product-image"
         />
         <div class="product-details">
-          <h2 class="product-title">{{item[0]}}</h2>
-          <p class="product-vendor">{{item[1]}}</p>
+          <h2 class="product-title">{{item[1]}}</h2>
+          <p class="product-vendor">{{item[2]}}</p>
           <p class="product-description">
-            {{item[2]}}
+            {{item[3]}}
           </p>
-          <p class="product-price">{{item[3]}}$</p>
+          <p class="product-price">{{item[4]}}$</p>
           <div class="product-buttons">
-            <button class="details-btn">DETAILS</button>
+            <button class="details-btn" onclick="window.location.href='{{url_for('account')}}'">DETAILS</button>
             <button class="buy-btn">BUY</button>
           </div>
         </div>
       </article>
-    {%endfor%}
+    {% endfor %}
   </section>
 </main>
 <footer class="site-footer">

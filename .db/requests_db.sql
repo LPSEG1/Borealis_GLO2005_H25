@@ -19,7 +19,7 @@ BEGIN
     DECLARE cate_p varchar(30);
     DECLARE lect_comp bool DEFAULT FALSE;
 
-      DECLARE curs CURSOR FOR SELECT P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod
+      DECLARE curs CURSOR FOR SELECT P.pid, P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod
       FROM Fournisseurs F INNER JOIN Produits P ON F.fid = P.fid WHERE P.nom_prod LIKE CONCAT ('%',keyword,'%') AND P.categorie_prod = category OR F.nom_four LIKE CONCAT ('%',keyword,'%');
 
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
@@ -55,7 +55,7 @@ BEGIN
     DECLARE cate_p varchar(30);
     DECLARE lect_comp bool DEFAULT FALSE;
 
-      DECLARE curs CURSOR FOR SELECT P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod
+      DECLARE curs CURSOR FOR SELECT P.pid, P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod
       FROM Fournisseurs F INNER JOIN Produits P ON F.fid = P.fid WHERE P.nom_prod LIKE CONCAT ('%',keyword,'%') OR F.nom_four LIKE CONCAT ('%',keyword,'%');
 
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;

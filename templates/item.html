@@ -84,14 +84,6 @@
       <button class="language-button">EN</button>
     </nav>
   </div>
-  <nav class="shop-nav">
-    <a href="#" class="nav-item right-border">NEW ITEMS</a>
-    <a href="#" class="nav-item right-border">BOREALIS EXCLUSIVE</a>
-    <a href="#" class="nav-item right-border">SHOP BY TYPE</a>
-    <a href="#" class="nav-item right-border">SHOP BY REGION</a>
-    <a href="#" class="nav-item right-border">BEST SELLERS</a>
-    <a href="#" class="nav-item">DEALS</a>
-  </nav>
 </header>
 <main class="item-page main-content">
   <article class="product-details">
@@ -99,32 +91,26 @@
       <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/ba1de81e174273077b4d5a14570b2cc153f5c1de" alt="Maple Syrup" class="product-image">
     </section>
     <section class="product-info">
-      <h1 class="product-title">Maple Syrup (1L)</h1>
-      <p class="product-subtitle">Canadia Farms | La Tuque, QC</p>
+      <h1 class="product-title">{{item[1]}}</h1>
+      <p class="product-subtitle">{{item[2]}}</p>
       <p class="product-description">
-        Lorem ipsum odor amet, consectetuer adipiscing elit. Ullamcorper magna dui sem blandit posuere, orci auctor habitasse. Fringilla nostra torquent curabitur imperdiet ornare dui nisl. Ut purus vehicula neque tempor bibendum. Convallis sollicitudin metus venenatis egestas ridiculus sollicitudin. Id phasellus tortor luctus faucibus eget, condimentum fames. Parturient feugiat facilisis neque sit aptent. Fermentum et sollicitudin magna habitant cubilia sapien.
+        {{item[3]}}
       </p>
 
       <div class="product-details-list">
         <div class="detail-item">
-          <p>BRAND</p>
           <p>COMPANY</p>
-          <p>LOCATION</p>
           <p>TYPE</p>
-          <p>QUANTITY</p>
         </div>
         <div class="detail-item-labels">
-          <p>BrandTM</p>
-          <p>Canadia Farms</p>
-          <p>La Tuque, QC</p>
-          <p>Food</p>
-          <p>1L</p>
+          <p>{{item[2]}}</p>
+          <p>{{item[6]}}</p>
         </div>
       </div>
     </section>
     <aside class="purchase-box">
       <p class="price-label">Price:</p>
-      <p class="price">11,99$</p>
+      <p class="price">{{item[4]}}$</p>
       <p class="delivery">
         Delivery date:<br>
         July 1st 2025
@@ -132,9 +118,9 @@
       <p class="stock-status">In Stock</p>
       <div class="warehouse-availability">
         <p>Warehouse availability</p>
-        <p>Montreal: <span class="available-nbr">24</span></p>
-        <p>Toronto: <span class="available-nbr">54</span></p>
-        <p>Vancouver: <span class="available-nbr">21</span></p>
+        {% for disponible in dispos %}
+          <p>{{disponible[1]}} <span class="available-nbr">{{disponible[0]}}</span></p>
+        {% endfor %}
       </div>
       <form>
         <div class="quantity-selector">
