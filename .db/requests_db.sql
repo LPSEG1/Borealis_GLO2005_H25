@@ -185,3 +185,53 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+
+DELIMITER // #Melqui
+CREATE PROCEDURE PasserCommande(
+  IN p_uid INT,
+  IN p_rue_comm VARCHAR(60),
+  IN p_ville_comm VARCHAR(30),
+  IN p_code_postal_comm CHAR(6),
+  IN p_province_comm ENUM('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'),
+  IN p_pays_comm VARCHAR(20)
+)
+BEGIN
+  DECLARE nouveau_cid INT;
+  DECLARE rue_client VARCHAR(60);
+  DECLARE ville_client VARCHAR(30);
+  DECLARE code_postal_client CHAR(6);
+  DECLARE province_client ENUM('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT');
+  DECLARE pays_client VARCHAR(20);
+
+  # gestion erreur si l'utilisateur n'existe pas
+  IF NOT EXISTS (SELECT 1 FROM Utilisateurs WHERE uid = p_uid) THEN
+  SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Utilisateur inexistant.';
+  END IF;
+
+  # récupérer l’adresse du compte utilisateur
+  SELECT rue_util, ville_util, code_postal_util, province_util, pays_util
+  INTO rue_client, ville_client, code_postal_client, province_client, pays_client
+  FROM Utilisateurs
+  WHERE uid = p_uid;
+
+  # utiliser les valeurs fournies ou celles de l'user s'il manque une valeur
+  SET p_rue_comm = IFNULL(p_rue_comm, rue_client);
+  SET p_ville_comm = IFNULL(p_ville_comm, ville_client);
+  SET p_code_postal_comm = IFNULL(p_code_postal_comm, code_postal_client);
+  SET p_province_comm = IFNULL(p_province_comm, province_client);
+  SET p_pays_comm = IFNULL(p_pays_comm, pays_client);
+
+  # générer un nouveau cid automatiquement
+  SELECT IFNULL(MAX(cid), 0) + 1 INTO nouveau_cid FROM Commandes;
+
+  # insértion de la commande
+  INSERT INTO Commandes (
+    cid, date_comm, rue_comm, ville_comm, code_postal_comm, province_comm, pays_comm, uid
+  )
+  VALUES (
+    nouveau_cid, CURRENT_DATE, p_rue_comm, p_ville_comm, p_code_postal_comm, p_province_comm, p_pays_comm, p_uid
+  );
+
+END //
+DELIMITER ;
+
