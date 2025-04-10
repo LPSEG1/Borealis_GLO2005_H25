@@ -131,7 +131,7 @@ BEGIN
 END//
 DELIMITER ;
 
-DELIMITER //#Melqui
+DELIMITER // #Melqui
 CREATE PROCEDURE CreerCompte (
     IN email VARCHAR(100),
     IN mdp VARCHAR(30),
