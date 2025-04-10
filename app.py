@@ -52,6 +52,46 @@ def account(user):
   except Exception as e:
     return str(e)
 
+@app.route('/accountChangePersonal/<user>', methods=['POST'])
+def accountChangePersonal(user):
+  try:
+    newName = request.form.get('account-name')
+    newSurname = request.form.get('account-surname')
+    newEmail = request.form.get('account-email')
+    newPhone = request.form.get('account-phone')
+
+    connection = util.connection_database()
+    cur = connection.cursor()
+    cur.execute('UPDATE utilisateurs SET courriel_util = "'+newEmail+'", prenom_util = "'+newName+'", nom_util = "'+newSurname+'", telephone_util = "'+newPhone+'" WHERE uid = '+user+'')
+    connection.commit()
+    message = "Modification réussi."
+    cur.execute('CALL AfficherInfosUtilisateur(' + user + ')')
+    account = cur.fetchone()
+    connection.close()
+    return render_template('account.html', account=account, message=message)
+  except Exception as e:
+    return str(e)
+
+@app.route('/accountChangeDelivery/<user>', methods=['POST'])
+def accountChangeDelivery(user):
+  try:
+    newStreet = request.form.get('account-street')
+    newPost = request.form.get('account-post')
+    newCity = request.form.get('account-city')
+    newProvince = request.form.get('account-province')
+    newWarehouse = request.form.get('account-warehouse')
+
+    connection = util.connection_database()
+    cur = connection.cursor()
+    cur.execute('UPDATE utilisateurs SET rue_util = "'+newStreet+'", ville_util = "'+newCity+'", code_postal_util = "'+newPost+'", province_util = "'+newProvince+'", eid_util = '+ newWarehouse+' WHERE uid = '+user+'')
+    connection.commit()
+    message = "Modification réussi."
+    cur.execute('CALL AfficherInfosUtilisateur(' + user + ')')
+    account = cur.fetchone()
+    connection.close()
+    return render_template('account.html', account=account, message=message)
+  except Exception as e:
+    return str(e)
 @app.route('/search', methods=['POST'])
 def search():
   try:
@@ -84,16 +124,16 @@ def item(itemPage):
     return str(e)
 
 
-@app.route('/cart')
-def cart():
+@app.route('/cart/<user>')
+def cart(user):
     return render_template('cart.html')
 
-@app.route('/checkout')
-def checkout():
+@app.route('/checkout/<user>')
+def checkout(user):
     return render_template('checkout.html')
 
-@app.route('/orders')
-def order():
+@app.route('/orders/<user>')
+def order(user):
     return render_template('orders.html')
 
 @app.errorhandler(404)

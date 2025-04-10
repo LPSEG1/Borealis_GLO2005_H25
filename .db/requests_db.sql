@@ -114,6 +114,7 @@ CREATE PROCEDURE AfficherInfosUtilisateur(
     IN id_utilisateur INT)
 BEGIN
     SELECT
+      U.uid AS userID,
       U.courriel_util AS courriel,
       U.prenom_util AS prenom,
         U.nom_util AS nom,
