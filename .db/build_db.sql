@@ -39,7 +39,7 @@ INSERT INTO Entrepots VALUES (2, '64 Broadway', 'Vancouver', 'B2B2B2', 'BC', 'Ca
 INSERT INTO Entrepots VALUES (3, '78 King St', 'Montreal', 'C3C3C3', 'QC', 'Canada');
 
 
-CREATE TABLE IF NOT EXISTS Utilisateurs (uid int PRIMARY KEY, courriel_util varchar(100) NOT NULL, mdp_util varchar(30) NOT NULL, prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30), code_postal_util char(6), province_util enum('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'), pays_util varchar(20), telephone_util bigint, eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid));
+CREATE TABLE IF NOT EXISTS Utilisateurs (uid int NOT NULL AUTO_INCREMENT PRIMARY KEY, courriel_util varchar(100) NOT NULL UNIQUE, mdp_util varchar(30) NOT NULL, prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30), code_postal_util char(6), province_util enum('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'), pays_util varchar(20), telephone_util bigint, eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid));
 
 INSERT INTO Utilisateurs VALUES (1, 'john.doe@gmail.com', 'XyZ1!a9bC', 'john', 'doe', '142 Heritage Dr', 'Waterloo', 'E4E4E4', 'ON', 'Canada', 2041234567, 2);
 INSERT INTO Utilisateurs VALUES (2, 'sarah_92@yahoo.com', 'mN2oP@qR3s', 'sarah', 'doe', '9875 Stonebridge Ln', 'Thunder Bay', 'G5G5G5', 'ON', 'Canada', 2049876543, 1);
