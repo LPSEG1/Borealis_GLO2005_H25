@@ -835,8 +835,8 @@ header {
 }
 
 .info-input {
-  display: flex;
-  gap: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .info-input input{
@@ -845,7 +845,8 @@ header {
   border: none;
   border-radius: 5px;
   padding: 5px;
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   transition: 250ms;
 }
 
@@ -858,11 +859,13 @@ header {
 }
 
 .info-input select {
-  width: 70%;
+  width: 75%;
   font-size: 16px;
   border: none;
   border-radius: 5px;
   padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   transition: 250ms;
 }
 

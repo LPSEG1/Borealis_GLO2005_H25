@@ -122,6 +122,7 @@ BEGIN
         U.code_postal_util AS code_postal,
         U.ville_util AS ville,
       U.province_util AS province,
+      U.eid_util AS entrepot_favoris,
       E.rue_entre AS adresse_entrepot,
         E.ville_entre AS ville_entrepot,
         E.province_entre AS province_entrepot
@@ -131,7 +132,7 @@ BEGIN
 END//
 DELIMITER ;
 
-DELIMITER //#Melqui
+DELIMITER // #Melqui
 CREATE PROCEDURE CreerCompte (
     IN email VARCHAR(100),
     IN mdp VARCHAR(30),

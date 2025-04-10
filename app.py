@@ -41,9 +41,16 @@ def connection():
   finally:
     return index()
 
-@app.route('/account')
-def account():
-    return render_template('account.html')
+@app.route('/account/<user>')
+def account(user):
+  try:
+    cur = util.connection_database().cursor()
+    cur.execute('CALL AfficherInfosUtilisateur('+user+')')
+    account = cur.fetchone()
+    util.connection_database().close()
+    return render_template('account.html', account=account)
+  except Exception as e:
+    return str(e)
 
 @app.route('/search', methods=['POST'])
 def search():
