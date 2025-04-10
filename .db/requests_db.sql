@@ -235,3 +235,55 @@ BEGIN
 END //
 DELIMITER ;
 
+
+DELIMITER // #Melqui
+CREATE PROCEDURE MettreAJourUtilisateur(
+    IN p_uid INT,
+    IN p_email VARCHAR(100),
+    IN p_prenom VARCHAR(30),
+    IN p_nom VARCHAR(30),
+    IN p_telephone BIGINT,
+    IN p_rue VARCHAR(60),
+    IN p_ville VARCHAR(30),
+    IN p_code_postal CHAR(6),
+    IN p_province ENUM('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'),
+    IN p_entrepot_id INT
+)
+BEGIN
+    # variables temporaires
+    DECLARE verif_util INT;
+    DECLARE verif_entrepot INT;
+
+    # vérifie si l'utilisateur existe
+    SELECT COUNT(*) INTO verif_util FROM Utilisateurs WHERE uid = p_uid;
+    IF verif_util = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Utilisateur inexistant.';
+    END IF;
+
+    # vérifier si l'entrepôt est valide (s’il est fourni)
+    IF p_entrepot_id IS NOT NULL THEN
+        SELECT COUNT(*) INTO verif_entrepot FROM Entrepots WHERE eid = p_entrepot_id;
+        IF verif_entrepot = 0 THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Entrepôt non valide.';
+        END IF;
+    END IF;
+
+    #MAJ à jour des infos
+    #COALESCE: si j’ai une nouvelle valeur, je la mets. sinon, je garde l’ancienne.
+    #COALESCE(nouvelle_valeur, valeur_actuelle)
+    UPDATE Utilisateurs
+    SET
+        courriel_util = COALESCE(p_email, courriel_util),
+        prenom_util = COALESCE(p_prenom, prenom_util),
+        nom_util = COALESCE(p_nom, nom_util),
+        telephone_util = COALESCE(p_telephone, telephone_util),
+        rue_util = COALESCE(p_rue, rue_util),
+        ville_util = COALESCE(p_ville, ville_util),
+        code_postal_util = COALESCE(p_code_postal, code_postal_util),
+        province_util = COALESCE(p_province, province_util),
+        eid_util = COALESCE(p_entrepot_id, eid_util)
+    WHERE uid = p_uid;
+
+END //
+DELIMITER ;
+
