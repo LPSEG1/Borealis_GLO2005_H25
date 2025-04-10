@@ -131,3 +131,55 @@ BEGIN
 END//
 DELIMITER ;
 
+DELIMITER //#Melqui
+CREATE PROCEDURE CreerCompte (
+    IN email VARCHAR(100),
+    IN mdp VARCHAR(30),
+    IN prenom VARCHAR(30),
+    IN nom VARCHAR(30),
+    IN rue VARCHAR(60),
+    IN ville VARCHAR(30),
+    IN code_postal CHAR(6),
+    IN province ENUM('BC', 'ON', 'QC'),
+    IN pays VARCHAR(20),
+    IN telephone BIGINT,
+    IN entrepot_id INT
+)
+BEGIN
+    # Pour vérifier si le courriel existe déjà ou pas
+    IF EXISTS (SELECT 1 FROM Utilisateurs WHERE courriel_util = email) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Ce courriel est déjà utilisé.';
+    ELSE
+        # insèrer le nouvel utilisateur
+        INSERT INTO Utilisateurs (
+            courriel_util,
+            mdp_util,
+            prenom_util,
+            nom_util,
+            rue_util,
+            ville_util,
+            code_postal_util,
+            province_util,
+            pays_util,
+            telephone_util,
+            eid_util
+        )
+        VALUES (
+            email,
+            mdp,
+            prenom,
+            nom,
+            rue,
+            ville,
+            code_postal,
+            province,
+            pays,
+            telephone,
+            entrepot_id
+        );
+
+        # retourner l'uid du compte créé
+        SELECT LAST_INSERT_ID() AS nouvel_uid;
+    END IF;
+END //
+DELIMITER ;
