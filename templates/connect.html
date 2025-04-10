@@ -12,7 +12,7 @@
 <body>
 <header>
   <div class="logo-center">
-    <img src="/static/img/fullLogo_colour_white.svg" alt="Borealis"/>
+    <a href="{{url_for('index')}}"><img src="/static/img/fullLogo_colour_white.svg" alt="Borealis"/></a>
   </div>
 </header>
 <main class="main-content connect-container">
@@ -20,20 +20,20 @@
     <h3>SIGN-UP</h3>
     <form>
       <div class="signup-nameAndSurname">
-        <label>Name: </label><input type="text" id="signup_name" name="signup_name" pattern="[a-zA-Z\- ]{1,}">
-        <label>Surname: </label><input type="text" id="signup_surname" name="signup_surname" pattern="[a-zA-Z\- ]{1,}">
+        <label>Name: </label><input type="text" id="signup_name" name="signup_name" pattern="[a-zA-Z\- ]{1,30}">
+        <label>Surname: </label><input type="text" id="signup_surname" name="signup_surname" pattern="[a-zA-Z\- ]{1,30}">
       </div>
       <div class="signup-email">
         <label>Email: </label><input type="email" id="signup_email" name="signup_email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$">
       </div>
       <div class="signup-street">
-        <label>Street: </label><input type="text" id="signup_street" name="signup_street" pattern="[a-zA-Z0-9\-]{1,}">
+        <label>Street: </label><input type="text" id="signup_street" name="signup_street" pattern="[a-zA-Z0-9\- ]{1,60}">
       </div>
       <div class="signup-post">
-        <label>Postal Code: </label><input type="text" id="signup_post" name="signup_post" pattern="[a-zA-Z0-9 ]{7}">
+        <label>Postal Code: </label><input type="text" id="signup_post" name="signup_post" pattern="[a-zA-Z0-9]{6}">
       </div>
       <div class="signup-city">
-        <label>City: </label><input type="text" id="signup_city" name="signup_city" pattern="[a-zA-Z\-]{1,}">
+        <label>City: </label><input type="text" id="signup_city" name="signup_city" pattern="[a-zA-Z\-]{1,30}">
       </div>
       <div class="signup-province">
         <label for="signup-province">Province: <select id="signup-province" name="billing-province" required>
@@ -56,21 +56,21 @@
         <label>Phone: </label><input type="text" id="signup_phone" name="signup_phone" pattern="[0-9\-\(\) ]{10,14}">
       </div>
       <div class="signup-password">
-        <label>Password: </label><input type="password" id="signup_password" name="signup_password" pattern="[a-zA-Z0-9!@#$%^*_|]{5,}">
+        <label>Password: </label><input type="password" id="signup_password" name="signup_password" pattern="[a-zA-Z0-9!@#$%^*_|]{5,30}">
       </div>
-      <button class="signup-btn">SIGN UP</button>
+      <button class="signup-btn" formaction="{{url_for('connection')}}">SIGN UP</button>
     </form>
   </div>
   <div class="signin-container">
     <h3>SIGN-IN</h3>
-    <form>
+    <form >
       <div class="signin-email">
         <label>Email: </label><input type="email" id="signin_email" name="signin_email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$">
       </div>
       <div class="signin-password">
-        <label>Password: </label><input type="password" id="signin_password" name="signup_password" pattern="[a-zA-Z0-9!@#$%^*_|]{5,}">
+        <label>Password: </label><input type="password" id="signin_password" name="signup_password" pattern="[a-zA-Z0-9!@#$%^*_|]{5,30}">
       </div>
-      <button class="signin-btn">SIGN IN</button>
+      <button class="signin-btn" formaction="{{url_for('connection')}}">SIGN IN</button>
       <div class="signin-forgot">
         <!-- <a href="">Forgot Password?</a> -->
       </div>

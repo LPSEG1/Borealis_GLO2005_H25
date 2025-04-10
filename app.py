@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import pymysql, pymysql.cursors
 import util
+import secrets
 
 app = Flask(__name__)
 
@@ -18,6 +19,27 @@ def index():
 @app.route('/connect')
 def connect():
     return render_template('connect.html')
+
+@app.route('/connection')
+def connection():
+  """non fonctionnel"""
+  try:
+    email = request.form.get('signin_email')
+    password = hacher(request.form.get('signin_password'))
+    cur = util.connection_database().cursor()
+    cur.execute('SELECT U.uid FROM utilisateurs U where U.courriel_util = "'+email+'";')
+    vid = cur.fetchall()
+    cur.execute('select M.mdp_util from mothacher M, utilisateurs U where M.mid = "'+uid+'";')
+    """mothacher a remplacer par le nom de la table de mdp"""
+    mdp = cur.fetchall()
+    util.connection_database().close()
+    print(secrets.compare_digest(password, mdp))
+  except Exception as e:
+    return str(e)
+  else:
+    """signup ici"""
+  finally:
+    return index()
 
 @app.route('/account')
 def account():
