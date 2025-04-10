@@ -1,12 +1,11 @@
-DROP TABLE IF EXISTS Commandes;
-DROP TABLE IF EXISTS Utilisateurs;
-DROP TABLE IF EXISTS Livraisons;
-DROP TABLE IF EXISTS DispoProds;
-DROP TABLE IF EXISTS LigneComms;
-DROP TABLE IF EXISTS Produits;
 DROP TABLE IF EXISTS Fournisseurs;
 DROP TABLE IF EXISTS Entrepots;
-
+DROP TABLE IF EXISTS Utilisateurs;
+DROP TABLE IF EXISTS Produits;
+DROP TABLE IF EXISTS Commandes;
+DROP TABLE IF EXISTS Livraisons;
+DROP TABLE IF EXISTS LigneComms;
+DROP TABLE IF EXISTS DispoProds;
 
 
 CREATE TABLE IF NOT EXISTS Fournisseurs (fid int PRIMARY KEY, nom_four varchar(30));
@@ -40,28 +39,28 @@ INSERT INTO Entrepots VALUES (2, '64 Broadway', 'Vancouver', 'B2B2B2', 'BC', 'Ca
 INSERT INTO Entrepots VALUES (3, '78 King St', 'Montreal', 'C3C3C3', 'QC', 'Canada');
 
 
-CREATE TABLE IF NOT EXISTS Utilisateurs (uid int NOT NULL AUTO_INCREMENT PRIMARY KEY, courriel_util varchar(100) NOT NULL UNIQUE, mdp_util varchar(30) NOT NULL, prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30), code_postal_util char(6), province_util enum('BC', 'ON', 'QC'), pays_util varchar(20), telephone_util bigint, eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid));
+CREATE TABLE IF NOT EXISTS Utilisateurs (uid int PRIMARY KEY, courriel_util varchar(100) NOT NULL, mdp_util varchar(30) NOT NULL, prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30), code_postal_util char(6), province_util enum('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'), pays_util varchar(20), telephone_util bigint, eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid));
 
-INSERT INTO Utilisateurs VALUES (1, 'john.doe@gmail.com', 'XyZ1!a9bC', 'john', 'doe', '142 Heritage Dr', 'Waterloo', 'E4E4E4', 'QC', 'Canada', 2041234567, 2);
-INSERT INTO Utilisateurs VALUES (2, 'sarah_92@yahoo.com', 'mN2oP@qR3s', 'sarah', 'doe', '9875 Stonebridge Ln', 'Thunder Bay', 'G5G5G5', 'QC', 'Canada', 2049876543, 1);
-INSERT INTO Utilisateurs VALUES (3, 'michael123@hotmail.com', 'A$dfG56hJkl', 'michael', 'doe', '9074 Horizon Blvd', 'Barrie', 'H6H6H6', 'QC', 'Canada', 3062345678, 2);
-INSERT INTO Utilisateurs VALUES (4, 'emma.watson@outlook.com', 'zXc@987vBnM', 'emma', 'watson', '15 Silver Birch Ave', 'Sudbury', 'J7J7J7', 'QC', 'Canada', 3068765432, 2);
+INSERT INTO Utilisateurs VALUES (1, 'john.doe@gmail.com', 'XyZ1!a9bC', 'john', 'doe', '142 Heritage Dr', 'Waterloo', 'E4E4E4', 'ON', 'Canada', 2041234567, 2);
+INSERT INTO Utilisateurs VALUES (2, 'sarah_92@yahoo.com', 'mN2oP@qR3s', 'sarah', 'doe', '9875 Stonebridge Ln', 'Thunder Bay', 'G5G5G5', 'ON', 'Canada', 2049876543, 1);
+INSERT INTO Utilisateurs VALUES (3, 'michael123@hotmail.com', 'A$dfG56hJkl', 'michael', 'doe', '9074 Horizon Blvd', 'Barrie', 'H6H6H6', 'ON', 'Canada', 3062345678, 2);
+INSERT INTO Utilisateurs VALUES (4, 'emma.watson@outlook.com', 'zXc@987vBnM', 'emma', 'watson', '15 Silver Birch Ave', 'Sudbury', 'J7J7J7', 'ON', 'Canada', 3068765432, 2);
 INSERT INTO Utilisateurs VALUES (5, 'david.smith@icloud.com', 'P@ssw0rd123!', 'david', 'smith', '2987 Windermere Rd', 'Laval', 'K8K8K8', 'QC', 'Canada', 4033456789, 2);
 INSERT INTO Utilisateurs VALUES (6, 'charlie_brown@aol.com', 'QwErTyUiOp456', 'charlie', 'brown', '2310 Blueberry Ln', 'Sherbrooke', 'L9L9L9', 'QC', 'Canada', 4037654321, 2);
 INSERT INTO Utilisateurs VALUES (7, 'olivia.jones@gmail.com', 'L0v3MyP@ssw0rd!', 'olivia', 'jones', '2097 Redwood Dr', 'Trois-Rivières', 'M1M1M1', 'QC', 'Canada', 4164567890, 3);
 INSERT INTO Utilisateurs VALUES (8, 'lucas_miller@yahoo.ca', 'Safe!Pass6789', 'lucas', 'miller', '76 Sycamore St', 'Saguenay', 'N2N2N2', 'QC', 'Canada', 4166543210, 1);
 INSERT INTO Utilisateurs VALUES (9, 'sophia_wilson@hotmail.com', 'R@nd0mP@123', 'sophia', 'wilson', '54 Ashwood Ave', 'Gatineau', 'P3P3P3', 'QC', 'Canada', 4185678901, 1);
-INSERT INTO Utilisateurs VALUES (10, 'liam.anderson@protonmail.com', 'Tr1ckyPa123', 'liam', 'anderson', '1-87 Juniper St', 'Saint John', 'R4R4R4', 'QC', 'Canada', 4185432109, 1);
-INSERT INTO Utilisateurs VALUES (11, 'noah_thomas@live.com', 'Tr1ckyPaw0rd!', 'noah', 'thomas', '78A Magnolia Ct', 'Moncton', 'S5S5S5', 'QC', 'Canada', 5146789012, 2);
+INSERT INTO Utilisateurs VALUES (10, 'liam.anderson@protonmail.com', 'Tr1ckyPa123', 'liam', 'anderson', '1-87 Juniper St', 'Saint John', 'R4R4R4', 'NB', 'Canada', 4185432109, 1);
+INSERT INTO Utilisateurs VALUES (11, 'noah_thomas@live.com', 'Tr1ckyPaw0rd!', 'noah', 'thomas', '78A Magnolia Ct', 'Moncton', 'S5S5S5', 'NB', 'Canada', 5146789012, 2);
 INSERT INTO Utilisateurs VALUES (12, 'isabella.moore@ymail.com', 'S3cur3_K3y#89', 'isabella', 'moore', '3456 Firwood Dr', 'Drummondville', 'T6T6T6', 'QC', 'Canada', 5144321098, 1);
 INSERT INTO Utilisateurs VALUES (13, 'ethan.harris@gmail.com', 'H@rd2Gu3ss987', 'ethan', 'harris', '876 Evergreen Blvd', 'Granby', 'V7V7V7', 'QC', 'Canada', 6047890123, 1);
-INSERT INTO Utilisateurs VALUES (14, 'ava_clark@yahoo.com', 'TopSecret_456!', 'ava', 'clark', '8001 Orchard Ln', 'Belleville', 'X8X8X8', 'QC', 'Canada', 6043210987, 3);
-INSERT INTO Utilisateurs VALUES (15, 'james_walker@outlook.com', '123qWeRTy!@#', 'james', 'walker', '743 Meadowbrook Rd', 'Chilliwack', 'Y9Y9Y9', 'QC', 'Canada', 6138901234, 3);
-INSERT INTO Utilisateurs VALUES (16, 'mia.rodriguez@hotmail.com', 'S@mpleP@ss678', 'mia', 'rodriguez', '124 Foxglove Dr', 'Red Deer', 'A2B3C4', 'QC', 'Canada', 6132109876, 1);
-INSERT INTO Utilisateurs VALUES (17, 'benjamin_hall@icloud.com', 'M@ybeSecuRe!34', 'benjamin', 'hall', '3256 Crimson Maple Rd', 'Lethbridge', 'D5E6F7', 'QC', 'Canada', 9029012345, 2);
-INSERT INTO Utilisateurs VALUES (18, 'amelia.young@gmail.com', 'U1tR@Str0ng!!', 'amelia', 'young', '12 Summit Ave', 'Medicine Hat', 'G8H9J1', 'QC', 'Canada', 9021098765, 2);
-INSERT INTO Utilisateurs VALUES (19, 'alexander.king@yahoo.ca', 'DifficultP@ss789', 'alexander', 'king', '4 Starview Ln', 'Prince George', 'K2L3M4', 'QC', 'Canada', 4036783456, 1);
-INSERT INTO Utilisateurs VALUES (20, 'charlotte.scott@live.com', 'NoOneKnows_098!', 'charlotte', 'scott', '27 Northgate Dr', 'Sault Ste. Marie', 'N5P6R7', 'QC', 'Canada', 4169876543, 2);
+INSERT INTO Utilisateurs VALUES (14, 'ava_clark@yahoo.com', 'TopSecret_456!', 'ava', 'clark', '8001 Orchard Ln', 'Belleville', 'X8X8X8', 'ON', 'Canada', 6043210987, 3);
+INSERT INTO Utilisateurs VALUES (15, 'james_walker@outlook.com', '123qWeRTy!@#', 'james', 'walker', '743 Meadowbrook Rd', 'Chilliwack', 'Y9Y9Y9', 'BC', 'Canada', 6138901234, 3);
+INSERT INTO Utilisateurs VALUES (16, 'mia.rodriguez@hotmail.com', 'S@mpleP@ss678', 'mia', 'rodriguez', '124 Foxglove Dr', 'Red Deer', 'A2B3C4', 'AB', 'Canada', 6132109876, 1);
+INSERT INTO Utilisateurs VALUES (17, 'benjamin_hall@icloud.com', 'M@ybeSecuRe!34', 'benjamin', 'hall', '3256 Crimson Maple Rd', 'Lethbridge', 'D5E6F7', 'AB', 'Canada', 9029012345, 2);
+INSERT INTO Utilisateurs VALUES (18, 'amelia.young@gmail.com', 'U1tR@Str0ng!!', 'amelia', 'young', '12 Summit Ave', 'Medicine Hat', 'G8H9J1', 'AB', 'Canada', 9021098765, 2);
+INSERT INTO Utilisateurs VALUES (19, 'alexander.king@yahoo.ca', 'DifficultP@ss789', 'alexander', 'king', '4 Starview Ln', 'Prince George', 'K2L3M4', 'BC', 'Canada', 4036783456, 1);
+INSERT INTO Utilisateurs VALUES (20, 'charlotte.scott@live.com', 'NoOneKnows_098!', 'charlotte', 'scott', '27 Northgate Dr', 'Sault Ste. Marie', 'N5P6R7', 'ON', 'Canada', 4169876543, 2);
 
 
 CREATE TABLE IF NOT EXISTS Produits (pid int PRIMARY KEY, nom_prod varchar(50), prix_prod decimal(5, 2), unite_prod int, categorie_prod enum('Aliment', 'Automobile', 'Électronique', 'Jouet', 'Maison', 'Vêtements'), description_prod varchar(500), image_prod varchar(200), vedette bool, fid int NOT NULL, FOREIGN KEY (fid) REFERENCES Fournisseurs(fid));

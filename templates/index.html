@@ -57,7 +57,7 @@
     </div>
     <nav class="nav-links">
       {% if connected %}
-        <a href="{{url_for('account')}}" class="nav-link">ACCOUNT</a>
+        <a href="{{url_for('account', user=1)}}" class="nav-link">ACCOUNT</a>
       {% else %}
         <a href="{{url_for('connect')}}" class="nav-link">SIGN UP / SIGN IN</a>
       {% endif %}
@@ -106,7 +106,7 @@
       </div>
       <div class="product-buttons">
         <button class="details-btn" onclick="window.location.href='{{url_for('item', itemPage=item[0])}}'">DETAILS</button>
-        <button class="buy-btn" onclick="window.location.href='{{url_for('item', itemPage=item[0])}}'">BUY</button>
+        <button class="buy-btn" onclick="window.location.href='{{url_for('account', user=9)}}'">BUY</button>
       </div>
     </article>
     {% endfor %}
