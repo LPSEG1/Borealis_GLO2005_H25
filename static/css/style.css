@@ -817,6 +817,11 @@ header {
   border-bottom: 2px solid #000000;
 }
 
+.modifSuccesful {
+  color: #27ca40;
+  font-weight: 700;
+}
+
 .account-info {
   display: none;
   background-color: #D9D9D9;

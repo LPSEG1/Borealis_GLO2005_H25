@@ -101,63 +101,69 @@
     </button>
   </section>
   <section id="General" class="account-info default-tab">
+    {%  if message %}
+      <h3 class="modifSuccesful">{{ message }}</h3>
+    {% endif %}
     <h1 class="info-title">GENERAL INFORMATION</h1>
-    <form>
+    <form action="{{url_for('accountChangePersonal', user=account[0])}}" method="POST" id="accountChangePersonal">
       <div class="info-input">
         <label>Name:</label>
-          <input type="text" id="account-name" name="account-name" pattern="[a-zA-Z\- ]{1,}" value="{{account[1]}}"/>
+          <input type="text" id="account-name" name="account-name" pattern="[a-zA-Z\- ]{1,}" value="{{account[2]}}"/>
         <label>Surname:</label>
-          <input type="text" id="account-surname" name="account-surname" pattern="[a-zA-Z\- ]{1,}" value="{{account[2]}}"/>
+          <input type="text" id="account-surname" name="account-surname" pattern="[a-zA-Z\- ]{1,}" value="{{account[3]}}"/>
       </div>
       <div class="info-input">
         <label>Email:</label>
-          <input type="email" id="account-email" name="account-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" value="{{account[0]}}"/>
+          <input type="email" id="account-email" name="account-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" value="{{account[1]}}"/>
       </div>
       <div class="info-input">
-       <label>Phone: </label><input type="tel" id="account_phone" name="account_phone" pattern="[0-9\-\(\) ]{10,14}" value="{{account[3]}}">
+       <label>Phone: </label><input type="tel" id="account-phone" name="account-phone" pattern="[0-9\-\(\) ]{10,14}" value="{{account[4]}}">
       </div>
       <!-- <div class="info-input">
         <a href="">Change password</a>
       </div> -->
       <div class="account-save">
-        <button class="save-btn">SAVE MODIFICATION</button>
+        <button type="submit" form='accountChangePersonal' class="save-btn">SAVE MODIFICATION</button>
       </div>
     </form>
   </section>
   <section id="Delivery" class="account-info">
+    {% if message %}
+      <h3 class="modifSuccesful">{{ message }}</h3>
+    {% endif %}
     <h1 class="info-title">DELIVERY INFORMATION</h1>
-    <form>
+    <form action="{{url_for('accountChangeDelivery', user=account[0])}}" method="POST" id="accountChangeDelivery">
       <div class="info-input">
-        <label>Street: </label><input type="text" id="signup_street" name="signup_street" pattern="[a-zA-Z0-9 \-]{1,}" value="{{account[4]}}">
+        <label>Street: </label><input type="text" id="account-street" name="account-street" pattern="[a-zA-Z0-9 \-]{1,}" value="{{account[5]}}">
       </div>
       <div class="info-input">
-        <label>Postal Code: </label><input type="text" id="signup_post" name="signup_post" pattern="[a-zA-Z0-9]{6}" value="{{account[5]}}">
+        <label>Postal Code: </label><input type="text" id="account-post" name="account-post" pattern="[a-zA-Z0-9]{6}" value="{{account[6]}}">
       </div>
       <div class="info-input">
-        <label>City: </label><input type="text" id="signup_city" name="signup_city" pattern="[a-zA-Z \-]{1,}" value="{{account[6]}}">
+        <label>City: </label><input type="text" id="account-city" name="account-city" pattern="[a-zA-Z \-]{1,}" value="{{account[7]}}">
       </div>
       <div class="info-input">
         <label for="account-province">Province: <select id="account-province" name="account-province" required>
-          <option value="AB" {% if account[7] == "AB"%} selected {% endif %}>Alberta</option>
-          <option value="BC" {% if account[7] == "BC"%} selected {% endif %}>British Columbia</option>
-          <option value="MB" {% if account[7] == "MB"%} selected {% endif %}>Manitoba</option>
-          <option value="NB" {% if account[7] == "NB"%} selected {% endif %}>New Brunswick</option>
-          <option value="NL" {% if account[7] == "NL"%} selected {% endif %}>Newfoundland and Labrador</option>
-          <option value="NT" {% if account[7] == "NT"%} selected {% endif %}>Northwest Territories</option>
-          <option value="NS" {% if account[7] == "NS"%} selected {% endif %}>Nova Scotia</option>
-          <option value="NU" {% if account[7] == "NU"%} selected {% endif %}>Nunavut</option>
-          <option value="ON" {% if account[7] == "ON"%} selected {% endif %}>Ontario</option>
-          <option value="PE" {% if account[7] == "PE"%} selected {% endif %}>Prince Edward Island</option>
-          <option value="QC" {% if account[7] == "QC"%} selected {% endif %}>Quebec</option>
-          <option value="SK" {% if account[7] == "SK"%} selected {% endif %}>Saskatchewan</option>
-          <option value="YT" {% if account[7] == "YT"%} selected {% endif %}>Yukon</option>
+          <option value="AB" {% if account[8] == "AB"%} selected {% endif %}>Alberta</option>
+          <option value="BC" {% if account[8] == "BC"%} selected {% endif %}>British Columbia</option>
+          <option value="MB" {% if account[8] == "MB"%} selected {% endif %}>Manitoba</option>
+          <option value="NB" {% if account[8] == "NB"%} selected {% endif %}>New Brunswick</option>
+          <option value="NL" {% if account[8] == "NL"%} selected {% endif %}>Newfoundland and Labrador</option>
+          <option value="NT" {% if account[8] == "NT"%} selected {% endif %}>Northwest Territories</option>
+          <option value="NS" {% if account[8] == "NS"%} selected {% endif %}>Nova Scotia</option>
+          <option value="NU" {% if account[8] == "NU"%} selected {% endif %}>Nunavut</option>
+          <option value="ON" {% if account[8] == "ON"%} selected {% endif %}>Ontario</option>
+          <option value="PE" {% if account[8] == "PE"%} selected {% endif %}>Prince Edward Island</option>
+          <option value="QC" {% if account[8] == "QC"%} selected {% endif %}>Quebec</option>
+          <option value="SK" {% if account[8] == "SK"%} selected {% endif %}>Saskatchewan</option>
+          <option value="YT" {% if account[8] == "YT"%} selected {% endif %}>Yukon</option>
         </select></label>
       </div>
       <div class="info-input">
         <label for="account-warehouse">Favourite warehouse: <select id="account-warehouse" name="account-warehouse" required>
-          <option value="3" {% if account[8] == 3 %} selected {% endif %}>Montreal</option>
-          <option value="1" {% if account[8] == 1 %} selected {% endif %}>Toronto</option>
-          <option value="2" {% if account[8] == 2 %} selected {% endif %}>Vancouver</option>
+          <option value="3" {% if account[9] == 3 %} selected {% endif %}>Montreal</option>
+          <option value="1" {% if account[9] == 1 %} selected {% endif %}>Toronto</option>
+          <option value="2" {% if account[9] == 2 %} selected {% endif %}>Vancouver</option>
         </select></label>
       </div>
       <div class="account-save">
