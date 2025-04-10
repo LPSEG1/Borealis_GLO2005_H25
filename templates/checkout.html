@@ -21,7 +21,7 @@
       <form action="search" method="POST" id="itemSearch">
         <input
         type="search"
-        placeholder="Search"
+        placeholder="Recherche"
         class="search-input"
         aria-label="Search products"
         pattern="[a-zA-Z0-9\-]{1,}"
@@ -29,13 +29,13 @@
         />
         <div class="category-button">
           <select aria-label="Select category" name="category">
-            <option value="all">All categories</option>
-            <option value="Vêtements">Clothes</option>
-            <option value="Électronique">Electronics</option>
-            <option value="Aliment">Food</option>
-            <option value="Maison">Household</option>
-            <option value="Jouet">Toys</option>
-            <option value="Automobile">Vehicles</option>
+            <option value="all">Tous categories</option>
+            <option value="Aliment">Aliment</option>
+            <option value="Automobile">Automobile</option>
+            <option value="Électronique">Électronique</option>
+            <option value="Jouet">Jouet</option>
+            <option value="Maison">Maison</option>
+            <option value="Vêtements">Vêtements</option>
           </select>
         </div>
         <button type="submit" form='itemSearch' class="search-button" aria-label="Search">
@@ -59,9 +59,10 @@
     </div>
     <nav class="nav-links">
       {% if connected %}
-        <a href="{{url_for('account')}}" class="nav-link">ACCOUNT</a>
+        <a href="{{url_for('account')}}" class="nav-link">COMPTE</a>
+        <a href="{{url_for('orders', user=1)}}" class="nav-link">COMMANDES</a>
       {% else %}
-        <a href="{{url_for('connect')}}" class="nav-link">SIGN UP / SIGN IN</a>
+        <a href="{{url_for('connect')}}" class="nav-link">CONNEXION</a>
       {% endif %}
       <div class="cart-container">
         <svg
@@ -80,91 +81,93 @@
             stroke-linejoin="round"
           />
         </svg>
-        <span class="cart-text">CART</span>
+        <span class="cart-text">PANIER</span>
       </div>
-      <button class="language-button">EN</button>
+      <!-- <button class="language-button">EN</button> -->
     </nav>
   </div>
 </header>
 <main class="checkout-container main-content">
-  <h1 class="checkout-title">CHECKOUT</h1>
+  <h1 class="checkout-title">PAIEMENT</h1>
   <form>
     <section class="checkout-shipping-info">
-     <h1>SHIPPING INFORMATION</h1>
+     <h1>INFORMATION LIVRAISON</h1>
       <div class="checkout-inputs">
-        <label for="shipping-name">Name: <input id="shipping-name" type="text" name="shipping-name" placeholder="Name" required></label>
+        <label for="shipping-name">Prénom: <input id="shipping-name" type="text" name="shipping-name" pattern="[a-zA-Z\- ]{1,}" required></label>
+        <label for="shipping-surname">Nom: <input id="shipping-surname" type="text" name="shipping-surname" pattern="[a-zA-Z\- ]{1,}" required></label>
       </div>
       <div class="checkout-inputs">
-        <label for="shipping-road">Road: <input id="shipping-road" type="text" name="shipping-road" placeholder="Road" required></label>
+        <label for="shipping-road">Rue: <input id="shipping-road" type="text" name="shipping-road" pattern="[a-zA-Z0-9 \-]{1,}" required></label>
       </div>
       <div class="checkout-inputs">
-        <label for="shipping-post">Postal Code: <input id="shipping-post" type="text" name="shipping-post" placeholder="Postal Code" required></label>
+        <label for="shipping-post">Code postal: <input id="shipping-post" type="text" name="shipping-post" pattern="[a-zA-Z0-9]{6}" required></label>
       </div>
       <div class="checkout-inputs">
-        <label for="checkout-city">City: <input id="checkout-city" type="text" name="shipping-city" placeholder="City" required></label>
+        <label for="shipping-city">Ville: <input id="shipping-city" type="text" name="shipping-city" pattern="[a-zA-Z \-]{1,}" required></label>
       </div>
       <div class="checkout-inputs">
         <label for="shipping-province">Province: <select id="shipping-province" name="shipping-province" required>
-          <option value="AB">Alberta</option>
-          <option value="BC">British Columbia</option>
-          <option value="MB">Manitoba</option>
-          <option value="NB">New Brunswick</option>
-          <option value="NL">Newfoundland and Labrador</option>
-          <option value="NT">Northwest Territories</option>
-          <option value="NS">Nova Scotia</option>
-          <option value="NU">Nunavut</option>
-          <option value="ON">Ontario</option>
-          <option value="PE">Prince Edward Island</option>
-          <option value="QC">Quebec</option>
-          <option value="SK">Saskatchewan</option>
-          <option value="YT">Yukon</option>
+          <option value="AB" {% if account[8] == "AB"%} selected {% endif %}>Alberta</option>
+          <option value="BC" {% if account[8] == "BC"%} selected {% endif %}>Colombie-Britannique</option>
+          <option value="PE" {% if account[8] == "PE"%} selected {% endif %}>Île-du-Prince-Édouard</option>
+          <option value="MB" {% if account[8] == "MB"%} selected {% endif %}>Manitoba</option>
+          <option value="NB" {% if account[8] == "NB"%} selected {% endif %}>Nouveau-Brunswick</option>
+          <option value="NS" {% if account[8] == "NS"%} selected {% endif %}>Nouvelle-Écosse</option>
+          <option value="NU" {% if account[8] == "NU"%} selected {% endif %}>Nunavut</option>
+          <option value="ON" {% if account[8] == "ON"%} selected {% endif %}>Ontario</option>
+          <option value="QC" {% if account[8] == "QC"%} selected {% endif %}>Québec</option>
+          <option value="SK" {% if account[8] == "SK"%} selected {% endif %}>Saskatchewan</option>
+          <option value="NL" {% if account[8] == "NL"%} selected {% endif %}>Terre-Neuve-et-Labrador</option>
+          <option value="NT" {% if account[8] == "NT"%} selected {% endif %}>Territoires du Nord-Ouest</option>
+          <option value="YT" {% if account[8] == "YT"%} selected {% endif %}>Yukon</option>
         </select></label>
       </div>
     </section>
     <section class="checkout-billing-info">
-    <h1>BILLING INFORMATION</h1>
+    <h1>INFORMATION FACTURE</h1>
       <div class="checkout-inputs">
-          <label for="billing-name">Name: <input id="billing-name" type="text" name="billing-name" placeholder="Name" required></label>
+          <label for="billing-name">Prénom: <input id="billing-name" type="text" name="billing-name" pattern="[a-zA-Z\- ]{1,}" required></label>
+          <label for="billing-surname">Nom: <input id="billing-surname" type="text" name="billing-surname" pattern="[a-zA-Z\- ]{1,}" required></label>
       </div>
       <div class="checkout-inputs">
-        <label for="billing-road">Road: <input id="billing-road" type="text" name="billing-road" placeholder="Road" required></label>
+        <label for="billing-road">Rue: <input id="billing-road" type="text" name="billing-road" pattern="[a-zA-Z0-9 \-]{1,}" required></label>
       </div>
       <div class="checkout-inputs">
-        <label for="billing-post">Postal Code: <input id="billing-post" type="text" name="billing-post" placeholder="Postal Code" required></label>
+        <label for="billing-post">Code postal: <input id="billing-post" type="text" name="billing-post" placeholder="Postal Code" required></label>
       </div>
       <div class="checkout-inputs">
-        <label for="billing-city">City: <input id="billing-city" type="text" name="billing-city" placeholder="City" required></label>
+        <label for="billing-city">Ville: <input id="billing-city" type="text" name="billing-city" placeholder="City" required></label>
       </div>
       <div class="checkout-inputs">
         <label for="billing-province">Province: <select id="billing-province" name="billing-province" required>
-          <option value="AB">Alberta</option>
-          <option value="BC">British Columbia</option>
-          <option value="MB">Manitoba</option>
-          <option value="NB">New Brunswick</option>
-          <option value="NL">Newfoundland and Labrador</option>
-          <option value="NT">Northwest Territories</option>
-          <option value="NS">Nova Scotia</option>
-          <option value="NU">Nunavut</option>
-          <option value="ON">Ontario</option>
-          <option value="PE">Prince Edward Island</option>
-          <option value="QC">Quebec</option>
-          <option value="SK">Saskatchewan</option>
-          <option value="YT">Yukon</option>
+          <option value="AB" {% if account[8] == "AB"%} selected {% endif %}>Alberta</option>
+          <option value="BC" {% if account[8] == "BC"%} selected {% endif %}>Colombie-Britannique</option>
+          <option value="PE" {% if account[8] == "PE"%} selected {% endif %}>Île-du-Prince-Édouard</option>
+          <option value="MB" {% if account[8] == "MB"%} selected {% endif %}>Manitoba</option>
+          <option value="NB" {% if account[8] == "NB"%} selected {% endif %}>Nouveau-Brunswick</option>
+          <option value="NS" {% if account[8] == "NS"%} selected {% endif %}>Nouvelle-Écosse</option>
+          <option value="NU" {% if account[8] == "NU"%} selected {% endif %}>Nunavut</option>
+          <option value="ON" {% if account[8] == "ON"%} selected {% endif %}>Ontario</option>
+          <option value="QC" {% if account[8] == "QC"%} selected {% endif %}>Québec</option>
+          <option value="SK" {% if account[8] == "SK"%} selected {% endif %}>Saskatchewan</option>
+          <option value="NL" {% if account[8] == "NL"%} selected {% endif %}>Terre-Neuve-et-Labrador</option>
+          <option value="NT" {% if account[8] == "NT"%} selected {% endif %}>Territoires du Nord-Ouest</option>
+          <option value="YT" {% if account[8] == "YT"%} selected {% endif %}>Yukon</option>
         </select></label>
       </div>
     </section>
     <section class="checkout-payment-info">
-      <h1>PAYMENT INFORMATION</h1>
+      <h1>INFORMATION PAIEMENT</h1>
       <div class="checkout-inputs">
-          <label for="payment-name">Cardholder name: <input id="payment-name" type="text" name="payment-name" placeholder="Name" required></label>
+          <label for="payment-name">Nom du titulaire: <input id="payment-name" type="text" name="payment-name" placeholder="Name" required></label>
       </div>
       <div class="checkout-inputs">
-        <label for="payment-card">Card number: <input id="payment-card" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" name="payment-card" placeholder="XXXX XXXX XXXX XXXX" required></label>
+        <label for="payment-card">Numéro: <input id="payment-card" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" name="payment-card" placeholder="XXXX XXXX XXXX XXXX" required></label>
       </div>
       <div class="checkout-inputs">
-        <label for="payment-dateMM">Card expiration date:
+        <label for="payment-dateMM">Date d'expiration:
           <select id="payment-dateMM" name="payment-dateMM" required>
-            <option value="">Month</option>
+            <option value="">Mois</option>
             <option value="01">01</option>
             <option value="02">02</option>
             <option value="03">03</option>
@@ -178,8 +181,8 @@
             <option value="11">11</option>
             <option value="12">12</option>
           </select>
-          <select id="payment-dateYY" name="payment-dateMM" required>
-            <option value="">Year</option>
+          <select id="payment-dateYY" name="payment-dateYY" required>
+            <option value="">Année</option>
             <option value="25">2025</option>
             <option value="26">2026</option>
             <option value="27">2027</option>
@@ -194,7 +197,7 @@
       </div>
     </section>
     <section class="checkout-submit">
-      <button class="checkout-btn">CHECKOUT</button>
+      <button class="checkout-btn">PAYER</button>
     </section>
   </form>
 </main>

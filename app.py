@@ -24,8 +24,8 @@ def connect():
 def connection():
   """non fonctionnel"""
   try:
-    email = request.form.get('signin_email')
-    password = hacher(request.form.get('signin_password'))
+    email = request.form.get('signin-email')
+    password = hacher(request.form.get('signin-password'))
     cur = util.connection_database().cursor()
     cur.execute('SELECT U.uid FROM utilisateurs U where U.courriel_util = "'+email+'";')
     vid = cur.fetchall()
@@ -44,10 +44,11 @@ def connection():
 @app.route('/account/<user>')
 def account(user):
   try:
-    cur = util.connection_database().cursor()
+    connection = util.connection_database()
+    cur = connection.cursor()
     cur.execute('CALL AfficherInfosUtilisateur('+user+')')
     account = cur.fetchone()
-    util.connection_database().close()
+    connection.close()
     return render_template('account.html', account=account)
   except Exception as e:
     return str(e)
@@ -98,13 +99,14 @@ def search():
     searchTerm = request.form.get('search')
     itemCategory = request.form.get('category')
 
-    cur = util.connection_database().cursor()
+    connection = util.connection_database()
+    cur = connection.cursor()
     if itemCategory == 'all':
       cur.execute('CALL ChercherProduitNoCategories("'+searchTerm+'")')
     else:
       cur.execute('CALL ChercherProduit("'+searchTerm+'","'+itemCategory+'")')
     items = cur.fetchall()
-    util.connection_database().close()
+    connection.close()
 
     return render_template('search.html', nbrItems = len(items), term=searchTerm, items=items)
   except Exception as e:
@@ -113,12 +115,13 @@ def search():
 @app.route('/item/<itemPage>', methods=['GET', 'POST'])
 def item(itemPage):
   try:
-    cur = util.connection_database().cursor()
+    connection = util.connection_database()
+    cur = connection.cursor()
     cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod FROM Fournisseurs F INNER JOIN Produits P ON F.fid = P.fid WHERE P.pid = '+itemPage+'')
     item = cur.fetchone()
     cur.execute('SELECT D.quantite, E.ville_entre FROM Dispoprods D INNER JOIN Entrepots E ON D.eid = E.eid WHERE D.pid = ' + itemPage + ' ORDER BY D.quantite DESC')
     dispos = cur.fetchall()
-    util.connection_database().close()
+    connection.close()
     return render_template('item.html', item=item, dispos=dispos)
   except Exception as e:
     return str(e)
@@ -134,8 +137,11 @@ def checkout(user):
 
 @app.route('/orders/<user>')
 def order(user):
-    return render_template('orders.html')
+  try:
 
+    return render_template('orders.html')
+  except Exception as e:
+    return str(e)
 @app.errorhandler(404)
 def page_not_found(e):
     error_title = "Not Found"
