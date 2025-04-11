@@ -30,7 +30,6 @@ def connect():
 
 @app.route('/connection', methods=['POST'])
 def connection():
-  """fonctionnel, manque la suite"""
   try:
     email = request.form.get('signin-email')
     password = util.hacher(request.form.get('signin-password'))
@@ -44,21 +43,19 @@ def connection():
     mdp = cur.fetchone()
     connection.close()
     if secrets.compare_digest(password, mdp[0]):
-      print("Le mot de passe est bon")
       global VarGlobal
       VarGlobal = True
       global GlobalUser
       GlobalUser = uid
       return index()
     else:
-      print("Mauvais mot de passe")
+      print("Mauvais mot de passe") # à modifier pour le montrer à l'utilisateur donc sur la page html
       return render_template('connect.html', connected=VarGlobal, user=GlobalUser)
   except Exception as e:
     return str(e)
 
 @app.route('/inscription', methods=['POST'])
 def inscription():
-  """fonctionnel, manque la suite"""
   try:
     prenom = request.form.get('signup-name')
     nom = request.form.get('signup-surname')
