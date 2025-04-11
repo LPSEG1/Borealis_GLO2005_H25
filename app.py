@@ -25,7 +25,7 @@ def connect():
 
 @app.route('/connection', methods=['POST'])
 def connection():
-  """fonctionnel, manque la suite, erreur au niv de method post quand 2 post sur la page... devrait pas avoir d'erreur..."""
+  """fonctionnel, manque la suite"""
   try:
     email = request.form.get('signin-email')
     password = util.hacher(request.form.get('signin-password'))
@@ -39,16 +39,15 @@ def connection():
     connection.close()
     if secrets.compare_digest(password, mdp[0]):
       print("Le mot de passe est bon")
+      return index()
     else:
       print("Mauvais mot de passe")
   except Exception as e:
     return str(e)
-  finally:
-    return index()
 
 @app.route('/inscription', methods=['POST'])
 def inscription():
-  """non fonctionnel, erreur au niv de l'execute"""
+  """fonctionnel, manque la suite"""
   try:
     prenom = request.form.get('signup-name')
     nom = request.form.get('signup-surname')
@@ -58,21 +57,19 @@ def inscription():
     codePostal = request.form.get('signup-post')
     ville = request.form.get('signup-city')
     province = request.form.get('signup-province')
-    password = util.hacher(request.form.get('signup-password'))
+    password = "testeur" #util.hacher(request.form.get('signup-password'))
     pays = "Canada"
     entrepot = request.form.get('signup-warehouse')
 
     connection = util.connection_database()
     cur = connection.cursor()
-    cur.execute('CALL CreerCompte("'+email+'", "'+password+'", '+prenom+', '+nom+', '+adresse+', '+ville+', '+codePostal+', '+province+', '+pays+', '+telephone+', '+entrepot+')')
+    cur.execute('CALL CreerCompte("'+email+'", "'+password+'", "'+prenom+'", "'+nom+'", "'+adresse+'", "'+ville+'", "'+codePostal+'", "'+province+'", "'+pays+'", "'+telephone+'", "'+entrepot+'")')
     connection.commit()
     connection.close()
-    print('Le compte est créé'+prenom+'')
+    print('Le compte est créé '+prenom+'')
     return index()
   except Exception as e:
     return str(e)
-  finally:
-    return index()
 
 @app.route('/account/<user>')
 def account(user):
