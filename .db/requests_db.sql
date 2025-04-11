@@ -94,8 +94,13 @@ DELIMITER //
 CREATE PROCEDURE #Nick
     AjouterPanier(IN util_id int, IN prod_id int, IN qte int)
 BEGIN
-    CREATE TEMPORARY TABLE IF NOT EXISTS Panier (uid int, pid int, quantite int);
-    INSERT INTO Panier VALUES (util_id, prod_id, qte);
+    DECLARE newQte int;
+    IF EXISTS (SELECT * FROM panier WHERE uid = util_id AND pid = prod_id) THEN
+      SET newQte := qte+(SELECT qte FROM panier WHERE uid = util_id AND pid = prod_id);
+      UPDATE panier SET qte = newQte WHERE uid = util_id AND pid = prod_id;
+    ELSE
+      INSERT INTO panier VALUES (util_id, prod_id, qte);
+    END IF;
 END//
 DELIMITER ;
 
