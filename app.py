@@ -23,20 +23,19 @@ def connect():
 
 @app.route('/connection', methods=['POST'])
 def connection():
-  """non fonctionnel"""
+  """fonctionnel, manque la suite"""
   try:
     email = request.form.get('signin-email')
     password = util.hacher(request.form.get('signup-password'))
     connection = util.connection_database()
     cur = connection.cursor()
-    cur.execute('SELECT U.uid FROM utilisateurs U where U.courriel_util = "'+email+'"')
+    cur.execute('''SELECT U.uid FROM utilisateurs U where U.courriel_util = (%s)''', email)
     uid = cur.fetchone()
-    userID = uid[0]
-    cur.execute('SELECT M.mdp_util FROM mothacher M, utilisateurs U WHERE M.mid = U.uid AND M.mid = "'+userID+'"')
+    cur.execute('''SELECT M.mdp_util FROM mothacher M, utilisateurs U WHERE M.mid = U.uid AND M.mid = (%s)''', uid)
     """mothacher a remplacer par le nom de la table de mdp"""
     mdp = cur.fetchone()
     connection.close()
-    print(secrets.compare_digest(password, mdp))
+    print(secrets.compare_digest(password, mdp[0]))
   except Exception as e:
     return str(e)
   else:
