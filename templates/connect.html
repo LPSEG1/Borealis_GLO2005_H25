@@ -63,14 +63,14 @@
   </div>
   <div class="signin-container">
     <h3>CONNEXION</h3>
-    <form >
+    <form action="{{url_for('connection')}}" method= "POST">
       <div class="signin-email">
         <label>Courriel: </label><input type="email" id="signin-email" name="signin-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$">
       </div>
       <div class="signin-password">
         <label>Mot de passe: </label><input type="password" id="signin-password" name="signup-password" pattern="[a-zA-Z0-9!@#$%^*_|]{5,30}">
       </div>
-      <button class="signin-btn" formaction="{{url_for('connection')}}">CONNEXION</button>
+      <button type= "submit" class="signin-btn">CONNEXION</button>
       <div class="signin-forgot">
         <!-- <a href="">Forgot Password?</a> -->
       </div>
