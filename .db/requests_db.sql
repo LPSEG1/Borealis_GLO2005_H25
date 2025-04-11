@@ -144,7 +144,7 @@ CREATE PROCEDURE CreerCompte (
     IN rue VARCHAR(60),
     IN ville VARCHAR(30),
     IN code_postal CHAR(6),
-    IN province ENUM('BC', 'ON', 'QC'),
+    IN province ENUM('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'),
     IN pays VARCHAR(20),
     IN telephone BIGINT,
     IN entrepot_id INT

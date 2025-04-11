@@ -18,7 +18,7 @@
 <main class="main-content connect-container">
   <div class="signup-container">
     <h3>INSCRIPTION</h3>
-    <form>
+    <form action="{{url_for('inscription')}}" method= "POST">
       <div class="signup-nameAndSurname">
         <label>Prénom: </label><input type="text" id="signup-name" name="signup-name" pattern="[a-zA-Z\- ]{1,30}">
         <label>Nom: </label><input type="text" id="signup-surname" name="signup-surname" pattern="[a-zA-Z\- ]{1,30}">
@@ -27,13 +27,13 @@
         <label>Courriel: </label><input type="email" id="signup-email" name="signup-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$">
       </div>
       <div class="signup-street">
-        <label>Rue: </label><input type="text" id="signup-street" name="signup-street" pattern="[a-zA-Z0-9\- ]{1,60}">
+        <label>Rue: </label><input type="text" id="signup-street" name="signup-street" pattern="[a-zA-Z0-9\- \']{1,60}">
       </div>
       <div class="signup-post">
         <label>Code postal: </label><input type="text" id="signup-post" name="signup-post" pattern="[a-zA-Z0-9]{6}">
       </div>
       <div class="signup-city">
-        <label>Ville: </label><input type="text" id="signup-city" name="signup-city" pattern="[a-zA-Z\-]{1,30}">
+        <label>Ville: </label><input type="text" id="signup-city" name="signup-city" pattern="[a-zA-Z\- ]{1,30}">
       </div>
       <div class="signup-province">
         <label for="signup-province">Province: <select id="signup-province" name="signup-province" required>
@@ -58,7 +58,7 @@
       <div class="signup-password">
         <label>Mot de passe: </label><input type="password" id="signup-password" name="signup-password" pattern="[a-zA-Z0-9!@#$%^*_|]{5,30}">
       </div>
-      <button class="signup-btn" formaction="{{url_for('connection')}}">INSCRIPTION</button>
+      <button type="submit" class="signup-btn">INSCRIPTION</button>
     </form>
   </div>
   <div class="signin-container">
@@ -68,9 +68,9 @@
         <label>Courriel: </label><input type="email" id="signin-email" name="signin-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$">
       </div>
       <div class="signin-password">
-        <label>Mot de passe: </label><input type="password" id="signin-password" name="signup-password" pattern="[a-zA-Z0-9!@#$%^*_|]{5,30}">
+        <label>Mot de passe: </label><input type="password" id="signin-password" name="signin-password" pattern="[a-zA-Z0-9!@#$%^*_|]{5,30}">
       </div>
-      <button type= "submit" class="signin-btn">CONNEXION</button>
+      <button type="submit" class="signin-btn">CONNEXION</button>
       <div class="signin-forgot">
         <!-- <a href="">Forgot Password?</a> -->
       </div>
