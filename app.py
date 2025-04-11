@@ -8,20 +8,25 @@ import secrets
 
 app = Flask(__name__)
 
+VarGlobal = False
+GlobalUser = 0
+
 @app.route('/')
 def index():
+  global VarGlobal
+  global GlobalUser
   try:
     cur = util.connection_database().cursor()
     cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod FROM Fournisseurs F INNER JOIN Produits P ON F.fid = P.fid WHERE P.vedette = 1')
     items = cur.fetchall()
     util.connection_database().close()
-    return render_template('Index.html', items=items)
+    return render_template('Index.html', items=items, connected=VarGlobal, user=GlobalUser)
   except Exception as e:
     return str(e)
 
 @app.route('/connect')
 def connect():
-    return render_template('connect.html')
+    return render_template('connect.html', connected=VarGlobal)
 
 @app.route('/connection', methods=['POST'])
 def connection():
@@ -32,16 +37,22 @@ def connection():
     connection = util.connection_database()
     cur = connection.cursor()
     cur.execute('''SELECT U.uid FROM utilisateurs U where U.courriel_util = (%s)''', email)
-    uid = cur.fetchone()
+    utilId = cur.fetchone()
+    uid = utilId[0]
     cur.execute('''SELECT M.mdp_util FROM mothacher M, utilisateurs U WHERE M.mid = U.uid AND M.mid = (%s)''', uid)
     """mothacher a remplacer par le nom de la table de mdp"""
     mdp = cur.fetchone()
     connection.close()
     if secrets.compare_digest(password, mdp[0]):
       print("Le mot de passe est bon")
+      global VarGlobal
+      VarGlobal = True
+      global GlobalUser
+      GlobalUser = uid
       return index()
     else:
       print("Mauvais mot de passe")
+      return render_template('connect.html', connected=VarGlobal, user=GlobalUser)
   except Exception as e:
     return str(e)
 
@@ -60,10 +71,13 @@ def inscription():
     password = util.hacher(request.form.get('signup-password'))
     pays = "Canada"
     entrepot = request.form.get('signup-warehouse')
-
     connection = util.connection_database()
     cur = connection.cursor()
     cur.execute('CALL CreerCompte("'+email+'", "'+prenom+'", "'+nom+'", "'+adresse+'", "'+ville+'", "'+codePostal+'", "'+province+'", "'+pays+'", "'+telephone+'", "'+entrepot+'", "'+password+'")')
+    cur.execute('SELECT LAST_INSERT_ID()')
+    id = cur.fetchone()
+    global GlobalUser
+    GlobalUser = id[0]
     connection.commit()
     connection.close()
     print('Le compte à '+prenom+' est créé')
@@ -79,7 +93,7 @@ def account(user):
     cur.execute('CALL AfficherInfosUtilisateur('+user+')')
     account = cur.fetchone()
     connection.close()
-    return render_template('account.html', account=account)
+    return render_template('account.html', account=account, connected=VarGlobal, user=GlobalUser)
   except Exception as e:
     return str(e)
 
@@ -99,7 +113,7 @@ def accountChangePersonal(user):
     cur.execute('CALL AfficherInfosUtilisateur(' + user + ')')
     account = cur.fetchone()
     connection.close()
-    return render_template('account.html', account=account, message=message)
+    return render_template('account.html', account=account, message=message, connected=VarGlobal, user=GlobalUser)
   except Exception as e:
     return str(e)
 
@@ -120,7 +134,7 @@ def accountChangeDelivery(user):
     cur.execute('CALL AfficherInfosUtilisateur(' + user + ')')
     account = cur.fetchone()
     connection.close()
-    return render_template('account.html', account=account, message=message)
+    return render_template('account.html', account=account, message=message, connected=VarGlobal, user=GlobalUser)
   except Exception as e:
     return str(e)
 @app.route('/search', methods=['POST'])
@@ -138,7 +152,7 @@ def search():
     items = cur.fetchall()
     connection.close()
 
-    return render_template('search.html', nbrItems = len(items), term=searchTerm, items=items)
+    return render_template('search.html', nbrItems = len(items), term=searchTerm, items=items, connected=VarGlobal, user=GlobalUser)
   except Exception as e:
     return str(e)
 
@@ -152,21 +166,21 @@ def item(itemPage):
     cur.execute('SELECT D.quantite, E.ville_entre FROM Dispoprods D INNER JOIN Entrepots E ON D.eid = E.eid WHERE D.pid = ' + itemPage + ' ORDER BY D.quantite DESC')
     dispos = cur.fetchall()
     connection.close()
-    return render_template('item.html', item=item, dispos=dispos)
+    return render_template('item.html', item=item, dispos=dispos, connected=VarGlobal, user=GlobalUser)
   except Exception as e:
     return str(e)
 
 
 @app.route('/cart/<user>')
 def cart(user):
-    return render_template('cart.html')
+    return render_template('cart.html', connected=VarGlobal, user=GlobalUser)
 
 @app.route('/checkout/<user>')
 def checkout(user):
-    return render_template('checkout.html')
+    return render_template('checkout.html', connected=VarGlobal, user=GlobalUser)
 
 @app.route('/orders/<user>')
-def order(user):
+def orders(user):
   try:
     connection = util.connection_database()
     cur = connection.cursor()
@@ -178,7 +192,7 @@ def order(user):
     images = cur.fetchall()
     connection.close()
     deliveryNbr = 0
-    return render_template('orders.html', orders=orders, deliveries=deliveries, images=images, deliveryNbr=deliveryNbr)
+    return render_template('orders.html', orders=orders, deliveries=deliveries, images=images, deliveryNbr=deliveryNbr, connected=VarGlobal, user=GlobalUser)
   except Exception as e:
     return str(e)
 
@@ -186,7 +200,7 @@ def order(user):
 def page_not_found(e):
     error_title = "Not Found"
     error_msg = "That page doesn't exist"
-    return render_template('404.html',
+    return render_template('404.html', connected=VarGlobal, user=GlobalUser,
                            error_title=error_title,error_msg=error_msg), 404
 
 if __name__ == '__main__':
