@@ -115,6 +115,7 @@ INSERT INTO Produits VALUES (234678, 'WiFi Mesh System', 231.99, 6, 'Automobile'
 INSERT INTO Produits VALUES (567901, 'Smart Plug', 990.99, 12, 'Vêtements', 'Designed for those who appreciate quality and style.', NULL, False, 93842);
 INSERT INTO Produits VALUES (901238, 'Touchscreen Monitor', 852.99, 1, 'Jouet', 'A timeless product with modern capabilities.', NULL, False, 58631);
 INSERT INTO Produits VALUES (345456, 'Noise Reduction Earplugs', 125.99, 6, 'Électronique', 'Experience the perfect blend of form and function.', NULL, False, 37219);
+INSERT INTO produits VALUES (984396, 'Shampooing & Revitalisant 2 en 1 pine mint', 13.99, 15, 'Cosmétiques', 'Notre tout nouveau Shampooing & Revitalisant 2 en 1 100 % naturel est un mélange parfait des meilleurs ingrédients de la nature pour vous offrir une expérience de soins capillaires extraordinaire. Comme une promenade au cœur de la forêt boréale canadienne. Une combinaison de pin frais, de gaulthérie et de menthe rafraîchissante.', 'product984396.webp', False, 17536);
 
 
 
@@ -392,3 +393,4 @@ INSERT INTO DispoProds VALUES (1, 567892, 7);
 INSERT INTO DispoProds VALUES (3, 567901, 6);
 INSERT INTO DispoProds VALUES (2, 567901, 9);
 INSERT INTO DispoProds VALUES (1, 567901, 10);
+INSERT INTO dispoprods (eid, pid, quantite) VALUES (1, 984396, 5), (2, 984396, 5), (3, 984396, 5);
