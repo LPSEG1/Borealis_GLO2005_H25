@@ -57,16 +57,16 @@ def inscription():
     codePostal = request.form.get('signup-post')
     ville = request.form.get('signup-city')
     province = request.form.get('signup-province')
-    password = "testeur" #util.hacher(request.form.get('signup-password'))
+    password = util.hacher(request.form.get('signup-password'))
     pays = "Canada"
     entrepot = request.form.get('signup-warehouse')
 
     connection = util.connection_database()
     cur = connection.cursor()
-    cur.execute('CALL CreerCompte("'+email+'", "'+password+'", "'+prenom+'", "'+nom+'", "'+adresse+'", "'+ville+'", "'+codePostal+'", "'+province+'", "'+pays+'", "'+telephone+'", "'+entrepot+'")')
+    cur.execute('CALL CreerCompte("'+email+'", "'+prenom+'", "'+nom+'", "'+adresse+'", "'+ville+'", "'+codePostal+'", "'+province+'", "'+pays+'", "'+telephone+'", "'+entrepot+'", "'+password+'")')
     connection.commit()
     connection.close()
-    print('Le compte est créé '+prenom+'')
+    print('Le compte à '+prenom+' est créé')
     return index()
   except Exception as e:
     return str(e)
