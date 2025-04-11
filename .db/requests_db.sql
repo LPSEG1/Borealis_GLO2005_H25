@@ -5,6 +5,7 @@ DROP PROCEDURE IF EXISTS ChangerMdp;
 DROP PROCEDURE IF EXISTS AjouterPanier;
 DROP PROCEDURE IF EXISTS AfficherInfosUtilisateur;
 DROP PROCEDURE IF EXISTS VerifierConnexion;
+DROP PROCEDURE IF EXISTS CreerCompte;
 
 
 DELIMITER //
@@ -135,10 +136,9 @@ BEGIN
 END//
 DELIMITER ;
 
-DELIMITER // #Melqui
+DELIMITER // #Original: Melqui | Modifications: David
 CREATE PROCEDURE CreerCompte (
     IN email VARCHAR(100),
-    IN mdp VARCHAR(30),
     IN prenom VARCHAR(30),
     IN nom VARCHAR(30),
     IN rue VARCHAR(60),
@@ -147,9 +147,11 @@ CREATE PROCEDURE CreerCompte (
     IN province ENUM('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'),
     IN pays VARCHAR(20),
     IN telephone BIGINT,
-    IN entrepot_id INT
+    IN entrepot_id INT,
+    IN mdp VARCHAR(64)
 )
 BEGIN
+    DECLARE nouvel_mid int;
     # Pour vérifier si le courriel existe déjà ou pas
     IF EXISTS (SELECT 1 FROM Utilisateurs WHERE courriel_util = email) THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Ce courriel est déjà utilisé.';
@@ -157,7 +159,6 @@ BEGIN
         # insèrer le nouvel utilisateur
         INSERT INTO Utilisateurs (
             courriel_util,
-            mdp_util,
             prenom_util,
             nom_util,
             rue_util,
@@ -170,7 +171,6 @@ BEGIN
         )
         VALUES (
             email,
-            mdp,
             prenom,
             nom,
             rue,
@@ -181,9 +181,11 @@ BEGIN
             telephone,
             entrepot_id
         );
-
         # retourner l'uid du compte créé
-        SELECT LAST_INSERT_ID() AS nouvel_uid;
+        SELECT LAST_INSERT_ID() AS nouvel_uid INTO nouvel_mid;
+        # insèrer le nouvel mot de passe de l'utilisateur
+        INSERT INTO MotHacher (mid, mdp_util) VALUES(nouvel_mid,mdp);
+
     END IF;
 END //
 DELIMITER ;
