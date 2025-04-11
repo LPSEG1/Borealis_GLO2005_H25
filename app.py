@@ -74,7 +74,7 @@ def inscription():
     connection = util.connection_database()
     cur = connection.cursor()
     cur.execute('CALL CreerCompte("'+email+'", "'+prenom+'", "'+nom+'", "'+adresse+'", "'+ville+'", "'+codePostal+'", "'+province+'", "'+pays+'", "'+telephone+'", "'+entrepot+'", "'+password+'")')
-    cur.execute('SELECT LAST_INSERT_ID()')
+    cur.execute('SELECT M.mid FROM mothacher M ORDER BY M.mid DESC LIMIT 1')
     id = cur.fetchone()
     global GlobalUser
     GlobalUser = id[0]
