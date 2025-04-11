@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS Panier;
 DROP TABLE IF EXISTS DispoProds;
 DROP TABLE IF EXISTS LigneComms;
 DROP TABLE IF EXISTS Produits;
@@ -6,6 +7,7 @@ DROP TABLE IF EXISTS Livraisons;
 DROP TABLE IF EXISTS Commandes;
 DROP TABLE IF EXISTS Utilisateurs;
 DROP TABLE IF EXISTS Entrepots;
+
 
 
 CREATE TABLE IF NOT EXISTS Fournisseurs (fid int PRIMARY KEY, nom_four varchar(30));
@@ -394,3 +396,5 @@ INSERT INTO DispoProds VALUES (3, 567901, 6);
 INSERT INTO DispoProds VALUES (2, 567901, 9);
 INSERT INTO DispoProds VALUES (1, 567901, 10);
 INSERT INTO dispoprods (eid, pid, quantite) VALUES (1, 984396, 5), (2, 984396, 5), (3, 984396, 5);
+
+CREATE TABLE IF NOT EXISTS Panier (uid int NOT NULL, pid int NOT NULL, qte int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid), FOREIGN KEY (pid) REFERENCES Produits(pid));
