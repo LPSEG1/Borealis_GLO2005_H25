@@ -1,10 +1,10 @@
 DROP TABLE IF EXISTS Fournisseurs;
 DROP TABLE IF EXISTS Entrepots;
-DROP TABLE IF EXISTS Utilisateurs;
-DROP TABLE IF EXISTS Produits;
-DROP TABLE IF EXISTS Commandes;
 DROP TABLE IF EXISTS Livraisons;
 DROP TABLE IF EXISTS LigneComms;
+DROP TABLE IF EXISTS Commandes;
+DROP TABLE IF EXISTS Utilisateurs;
+DROP TABLE IF EXISTS Produits;
 DROP TABLE IF EXISTS DispoProds;
 
 
@@ -152,48 +152,48 @@ INSERT INTO Commandes VALUES (29, '2025-03-14', NULL, '999 Country Club Rd', 'Na
 INSERT INTO Commandes VALUES (30, '2025-03-15', NULL, '542 College St', 'Guelph', 'C5D6E7', 'QC', 'Canada', 6);
 
 
-CREATE TABLE IF NOT EXISTS Livraisons (lid int PRIMARY KEY, date_livr date, transporteur_livr enum('FedEx', 'Poste Canada', 'Purolator', 'UPS'), cid int NOT NULL, eid int NOT NULL, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
+CREATE TABLE IF NOT EXISTS Livraisons (lid int PRIMARY KEY, date_livr date, transporteur_livr enum('Intelcom', 'Poste Canada', 'Purolator', 'UPS'), cid int NOT NULL, eid int NOT NULL, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
 
-INSERT INTO Livraisons VALUES (1, '2025-01-19', 'FedEx', 1, 1);
+INSERT INTO Livraisons VALUES (1, '2025-01-19', 'Intelcom', 1, 1);
 INSERT INTO Livraisons VALUES (2, '2025-01-20', 'Poste Canada', 2, 2);
 INSERT INTO Livraisons VALUES (3, '2025-01-21', 'Purolator', 2, 1);
-INSERT INTO Livraisons VALUES (4, '2025-01-22', 'UPS', 3, 3);
-INSERT INTO Livraisons VALUES (5, '2025-01-22', 'FedEx', 4, 2);
+INSERT INTO Livraisons VALUES (4, '2025-01-22', 'Intelcom', 3, 3);
+INSERT INTO Livraisons VALUES (5, '2025-01-22', 'Intelcom', 4, 2);
 INSERT INTO Livraisons VALUES (6, '2025-01-23', 'Poste Canada', 5, 1);
 INSERT INTO Livraisons VALUES (7, '2025-01-23', 'Purolator', 5, 2);
-INSERT INTO Livraisons VALUES (8, '2025-01-24', 'UPS', 6, 3);
-INSERT INTO Livraisons VALUES (9, '2025-01-28', 'FedEx', 7, 1);
+INSERT INTO Livraisons VALUES (8, '2025-01-24', 'Poste Canada', 6, 3);
+INSERT INTO Livraisons VALUES (9, '2025-01-28', 'Intelcom', 7, 1);
 INSERT INTO Livraisons VALUES (10, '2025-01-28', 'Poste Canada', 8, 3);
 INSERT INTO Livraisons VALUES (11, '2025-01-29', 'Purolator', 8, 2);
-INSERT INTO Livraisons VALUES (12, '2025-01-30', 'UPS', 9, 1);
-INSERT INTO Livraisons VALUES (13, '2025-02-01', 'FedEx', 10, 3);
+INSERT INTO Livraisons VALUES (12, '2025-01-30', 'Purolator', 9, 1);
+INSERT INTO Livraisons VALUES (13, '2025-02-01', 'Intelcom', 10, 3);
 INSERT INTO Livraisons VALUES (14, '2025-02-01', 'Poste Canada', 10, 2);
 INSERT INTO Livraisons VALUES (15, '2025-02-03', 'Purolator', 11, 1);
-INSERT INTO Livraisons VALUES (16, '2025-02-05', 'UPS', 12, 2);
-INSERT INTO Livraisons VALUES (17, '2025-02-05', 'FedEx', 12, 3);
+INSERT INTO Livraisons VALUES (16, '2025-02-05', 'Intelcom', 12, 2);
+INSERT INTO Livraisons VALUES (17, '2025-02-05', 'Intelcom', 12, 3);
 INSERT INTO Livraisons VALUES (18, '2025-02-06', 'Poste Canada', 13, 2);
 INSERT INTO Livraisons VALUES (19, '2025-02-08', 'Purolator', 14, 2);
-INSERT INTO Livraisons VALUES (20, '2025-02-10', 'UPS', 14, 1);
-INSERT INTO Livraisons VALUES (21, '2025-02-16', 'FedEx', 15, 2);
+INSERT INTO Livraisons VALUES (20, '2025-02-10', 'Poste Canada', 14, 1);
+INSERT INTO Livraisons VALUES (21, '2025-02-16', 'Intelcom', 15, 2);
 INSERT INTO Livraisons VALUES (22, '2025-02-17', 'Poste Canada', 16, 1);
 INSERT INTO Livraisons VALUES (23, '2025-02-20', 'Purolator', 16, 3);
-INSERT INTO Livraisons VALUES (24, '2025-03-01', 'UPS', 17, 2);
-INSERT INTO Livraisons VALUES (25, '2025-03-06', 'FedEx', 18, 1);
+INSERT INTO Livraisons VALUES (24, '2025-03-01', 'Purolator', 17, 2);
+INSERT INTO Livraisons VALUES (25, '2025-03-06', 'Intelcom', 18, 1);
 INSERT INTO Livraisons VALUES (26, '2025-03-06', 'Poste Canada', 19, 2);
 INSERT INTO Livraisons VALUES (27, '2025-03-12', 'Purolator', 20, 2);
-INSERT INTO Livraisons VALUES (28, '2025-03-13', 'UPS', 20, 3);
-INSERT INTO Livraisons VALUES (29, '2025-03-14', 'FedEx', 21, 1);
+INSERT INTO Livraisons VALUES (28, '2025-03-13', 'Intelcom', 20, 3);
+INSERT INTO Livraisons VALUES (29, '2025-03-14', 'Intelcom', 21, 1);
 INSERT INTO Livraisons VALUES (30, '2025-03-16', 'Poste Canada', 22, 1);
 INSERT INTO Livraisons VALUES (31, '2025-03-19', 'Purolator', 22, 2);
-INSERT INTO Livraisons VALUES (32, '2025-03-18', 'UPS', 23, 3);
-INSERT INTO Livraisons VALUES (33, '2025-03-20', 'FedEx', 24, 2);
+INSERT INTO Livraisons VALUES (32, '2025-03-18', 'Poste Canada', 23, 3);
+INSERT INTO Livraisons VALUES (33, '2025-03-20', 'Intelcom', 24, 2);
 INSERT INTO Livraisons VALUES (34, '2025-03-22', 'Poste Canada', 25, 1);
 INSERT INTO Livraisons VALUES (35, '2025-03-24', 'Purolator', 26, 2);
-INSERT INTO Livraisons VALUES (36, '2025-03-25', 'UPS', 26, 1);
-INSERT INTO Livraisons VALUES (37, '2025-03-27', 'FedEx', 27, 2);
+INSERT INTO Livraisons VALUES (36, '2025-03-25', 'Purolator', 26, 1);
+INSERT INTO Livraisons VALUES (37, '2025-03-27', 'Intelcom', 27, 2);
 INSERT INTO Livraisons VALUES (38, '2025-03-27', 'Poste Canada', 28, 1);
 INSERT INTO Livraisons VALUES (39, '2025-03-28', 'Purolator', 29, 3);
-INSERT INTO Livraisons VALUES (40, '2025-03-29', 'UPS', 30, 2);
+INSERT INTO Livraisons VALUES (40, '2025-03-29', 'Poste Canada', 30, 2);
 
 
 CREATE TABLE IF NOT EXISTS LigneComms (cid int NOT NULL, pid int NOT NULL, quantite int, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (pid) REFERENCES Produits(pid));

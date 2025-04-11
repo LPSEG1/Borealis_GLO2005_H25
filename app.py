@@ -53,19 +53,21 @@ def inscription():
     prenom = request.form.get('signup-name')
     nom = request.form.get('signup-surname')
     email = request.form.get('signup-email')
+    telephone = request.form.get('signup-phone')
     adresse = request.form.get('signup-street')
     codePostal = request.form.get('signup-post')
     ville = request.form.get('signup-city')
     province = request.form.get('signup-province')
-    telephone = request.form.get('signup-phone')
     password = util.hacher(request.form.get('signup-password'))
     pays = "Canada"
-    entrepot = 1
+    entrepot = request.form.get('signup-warehouse')
+
     connection = util.connection_database()
     cur = connection.cursor()
-    cur.execute('CALL CreerCompte('+email+', '+password+', '+prenom+', '+nom+', '+adresse+', '+ville+', '+codePostal+', '+province+', '+pays+', '+telephone+', '+entrepot+')')
+    cur.execute('CALL CreerCompte("'+email+'", "'+password+'", '+prenom+', '+nom+', '+adresse+', '+ville+', '+codePostal+', '+province+', '+pays+', '+telephone+', '+entrepot+')')
+    connection.commit()
     connection.close()
-    print("Le compte est créé " + str(compte))
+    print('Le compte est créé'+prenom+'')
     return index()
   except Exception as e:
     return str(e)
@@ -130,13 +132,14 @@ def search():
     searchTerm = request.form.get('search')
     itemCategory = request.form.get('category')
 
-    cur = util.connection_database().cursor()
+    connection = util.connection_database()
+    cur = connection.cursor()
     if itemCategory == 'all':
       cur.execute('CALL ChercherProduitNoCategories("'+searchTerm+'")')
     else:
       cur.execute('CALL ChercherProduit("'+searchTerm+'","'+itemCategory+'")')
     items = cur.fetchall()
-    util.connection_database().close()
+    connection.close()
 
     return render_template('search.html', nbrItems = len(items), term=searchTerm, items=items)
   except Exception as e:
@@ -167,7 +170,13 @@ def checkout(user):
 
 @app.route('/orders/<user>')
 def order(user):
+  try:
+    connection = util.connection_database()
+    cur = connection.cursor()
+
     return render_template('orders.html')
+  except Exception as e:
+    return str(e)
 
 @app.errorhandler(404)
 def page_not_found(e):

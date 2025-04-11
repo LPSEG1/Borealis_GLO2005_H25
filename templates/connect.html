@@ -26,6 +26,9 @@
       <div class="signup-email">
         <label>Courriel: </label><input type="email" id="signup-email" name="signup-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$">
       </div>
+      <div class="signup-phone">
+        <label>Téléphone: </label><input type="text" id="signup-phone" name="signup-phone" pattern="[0-9\-\(\) ]{10,14}">
+      </div>
       <div class="signup-street">
         <label>Rue: </label><input type="text" id="signup-street" name="signup-street" pattern="[a-zA-Z0-9\- \']{1,60}">
       </div>
@@ -52,8 +55,12 @@
           <option value="YT">Yukon</option>
         </select></label>
       </div>
-      <div class="signup-phone">
-        <label>Téléphone: </label><input type="text" id="signup-phone" name="signup-phone" pattern="[0-9\-\(\) ]{10,14}">
+      <div class="signup-province">
+        <label for="signup-warehouse">Entrepôt favoris: <select id="signup-warehouse" name="signup-warehouse" required>
+          <option value="3">Montréal</option>
+          <option value="1">Toronto</option>
+          <option value="2">Vancouver</option>
+        </select></label>
       </div>
       <div class="signup-password">
         <label>Mot de passe: </label><input type="password" id="signup-password" name="signup-password" pattern="[a-zA-Z0-9!@#$%^*_|]{5,30}">
