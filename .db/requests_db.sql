@@ -11,6 +11,7 @@ DELIMITER //
 CREATE PROCEDURE #Original: Nick | Modifications: L-P
 	ChercherProduit(IN keyword varchar(100), IN category varchar(30))
 BEGIN
+    DECLARE id_p int;
     DECLARE nom_f varchar(30);
     DECLARE nom_p varchar(50);
     DECLARE desc_p varchar(500);
@@ -25,14 +26,14 @@ BEGIN
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
 
         DROP TEMPORARY TABLE IF EXISTS Liste;
-        CREATE TEMPORARY TABLE IF NOT EXISTS Liste (n varchar(30), f varchar(50), d varchar(500), p decimal(5, 2), i varchar(200), c varchar(30));
+        CREATE TEMPORARY TABLE IF NOT EXISTS Liste (id int, n varchar(50), f varchar(30), d varchar(500), p decimal(5, 2), i varchar(200), c varchar(30));
         OPEN curs;
         lect: LOOP
-            FETCH curs INTO nom_p, nom_f, desc_p, prix_p, image_p, cate_p;
+            FETCH curs INTO id_p, nom_p, nom_f, desc_p, prix_p, image_p, cate_p;
             IF lect_comp THEN
                 LEAVE lect;
             END IF;
-            INSERT INTO Liste VALUES (nom_p, nom_f,desc_p, prix_p, image_p, cate_p);
+            INSERT INTO Liste VALUES (id_p, nom_p, nom_f,desc_p, prix_p, image_p, cate_p);
         END LOOP lect;
 	    CLOSE curs;
     SELECT * FROM Liste;
@@ -47,6 +48,7 @@ DELIMITER //
 CREATE PROCEDURE #Original: Nick | Modifications: L-P
 	ChercherProduitNoCategories(IN keyword varchar(100))
 BEGIN
+    DECLARE id_p int;
     DECLARE nom_f varchar(30);
     DECLARE nom_p varchar(50);
     DECLARE desc_p varchar(500);
@@ -61,14 +63,14 @@ BEGIN
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
 
         DROP TEMPORARY TABLE IF EXISTS Liste;
-        CREATE TEMPORARY TABLE IF NOT EXISTS Liste (n varchar(30), f varchar(50), d varchar(500), p decimal(5, 2), i varchar(200), c varchar(30));
+        CREATE TEMPORARY TABLE IF NOT EXISTS Liste (id int, n varchar(50), f varchar(30), d varchar(500), p decimal(5, 2), i varchar(200), c varchar(30));
         OPEN curs;
         lect: LOOP
-            FETCH curs INTO nom_p, nom_f, desc_p, prix_p, image_p, cate_p;
+            FETCH curs INTO id_p, nom_p, nom_f, desc_p, prix_p, image_p, cate_p;
             IF lect_comp THEN
                 LEAVE lect;
             END IF;
-            INSERT INTO Liste VALUES (nom_p, nom_f,desc_p, prix_p, image_p, cate_p);
+            INSERT INTO Liste VALUES (id_p, nom_p, nom_f,desc_p, prix_p, image_p, cate_p);
         END LOOP lect;
 	    CLOSE curs;
     SELECT * FROM Liste;

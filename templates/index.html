@@ -57,7 +57,7 @@
     </div>
     <nav class="nav-links">
       {% if connected %}
-        <a href="{{url_for('account')}}" class="nav-link">COMPTE</a>
+        <a href="{{url_for('account', user=1)}}" class="nav-link">COMPTE</a>
         <a href="{{url_for('orders', user=1)}}" class="nav-link">COMMANDES</a>
       {% else %}
         <a href="{{url_for('connect')}}" class="nav-link">CONNEXION</a>
@@ -96,7 +96,7 @@
     {% for item in items %}
     <article class="product-card">
       <img
-        src="{{item[5]}}"
+        src="/static/img/product/{{item[5]}}"
         alt="{{item[1]}}"
         class="product-image"
       />
@@ -106,7 +106,7 @@
         <p class="product-price">{{item[4]}}$</p>
       </div>
       <div class="product-buttons">
-        <button class="details-btn" onclick="window.location.href='{{url_for('item', itemPage=item[0])}}'">DÉTAILS/ACHETER</button>
+        <button class="details-btn" onclick="window.location.href='{{url_for('item', itemPage=item[0])}}'">DÉTAILS</button>
         <!-- <button class="buy-btn" onclick="window.location.href='{{url_for('account', user=9)}}'">ACHETER</button> -->
       </div>
     </article>
