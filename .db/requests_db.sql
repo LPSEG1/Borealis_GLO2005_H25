@@ -26,14 +26,14 @@ BEGIN
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
 
         DROP TEMPORARY TABLE IF EXISTS Liste;
-        CREATE TEMPORARY TABLE IF NOT EXISTS Liste (n varchar(50), f varchar(30), d varchar(500), p decimal(5, 2), i varchar(200), c varchar(30));
+        CREATE TEMPORARY TABLE IF NOT EXISTS Liste (id int, n varchar(50), f varchar(30), d varchar(500), p decimal(5, 2), i varchar(200), c varchar(30));
         OPEN curs;
         lect: LOOP
             FETCH curs INTO id_p, nom_p, nom_f, desc_p, prix_p, image_p, cate_p;
             IF lect_comp THEN
                 LEAVE lect;
             END IF;
-            INSERT INTO Liste VALUES (nom_p, nom_f,desc_p, prix_p, image_p, cate_p);
+            INSERT INTO Liste VALUES (id_p, nom_p, nom_f,desc_p, prix_p, image_p, cate_p);
         END LOOP lect;
 	    CLOSE curs;
     SELECT * FROM Liste;
@@ -63,14 +63,14 @@ BEGIN
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
 
         DROP TEMPORARY TABLE IF EXISTS Liste;
-        CREATE TEMPORARY TABLE IF NOT EXISTS Liste (n varchar(50), f varchar(30), d varchar(500), p decimal(5, 2), i varchar(200), c varchar(30));
+        CREATE TEMPORARY TABLE IF NOT EXISTS Liste (id int, n varchar(50), f varchar(30), d varchar(500), p decimal(5, 2), i varchar(200), c varchar(30));
         OPEN curs;
         lect: LOOP
             FETCH curs INTO id_p, nom_p, nom_f, desc_p, prix_p, image_p, cate_p;
             IF lect_comp THEN
                 LEAVE lect;
             END IF;
-            INSERT INTO Liste VALUES (nom_p, nom_f,desc_p, prix_p, image_p, cate_p);
+            INSERT INTO Liste VALUES (id_p, nom_p, nom_f,desc_p, prix_p, image_p, cate_p);
         END LOOP lect;
 	    CLOSE curs;
     SELECT * FROM Liste;

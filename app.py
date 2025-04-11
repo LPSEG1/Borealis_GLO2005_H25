@@ -99,14 +99,13 @@ def search():
     searchTerm = request.form.get('search')
     itemCategory = request.form.get('category')
 
-    connection = util.connection_database()
-    cur = connection.cursor()
+    cur = util.connection_database().cursor()
     if itemCategory == 'all':
       cur.execute('CALL ChercherProduitNoCategories("'+searchTerm+'")')
     else:
       cur.execute('CALL ChercherProduit("'+searchTerm+'","'+itemCategory+'")')
     items = cur.fetchall()
-    connection.close()
+    util.connection_database().close()
 
     return render_template('search.html', nbrItems = len(items), term=searchTerm, items=items)
   except Exception as e:
@@ -137,11 +136,8 @@ def checkout(user):
 
 @app.route('/orders/<user>')
 def order(user):
-  try:
-
     return render_template('orders.html')
-  except Exception as e:
-    return str(e)
+
 @app.errorhandler(404)
 def page_not_found(e):
     error_title = "Not Found"

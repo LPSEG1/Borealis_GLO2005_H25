@@ -57,7 +57,7 @@
     </div>
     <nav class="nav-links">
       {% if connected %}
-        <a href="{{url_for('account')}}" class="nav-link">COMPTE</a>
+        <a href="{{url_for('account', user=1)}}" class="nav-link">COMPTE</a>
         <a href="{{url_for('orders', user=1)}}" class="nav-link">COMMANDES</a>
       {% else %}
         <a href="{{url_for('connect')}}" class="nav-link">CONNEXION</a>
