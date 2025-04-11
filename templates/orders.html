@@ -88,69 +88,53 @@
 </header>
 <main class="orders-container main-content">
   <h1 class="orders-title">COMMANDES</h1>
+    {% for order in orders %}
       <article class="order-card">
         <div class="order-images">
           <div class="images-grid">
+            {% for image in images %}
+              {% if image[0] == order[0] %}
             <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/3c866ef1b1e8f931a173c42345d45957cc6d20f38cc29744bfaa3c08ccbab7c3?placeholderIfAbsent=true&apiKey=dba3b3709876496ca0dd69a6441acec0"
-              alt="Product"
+              src="/static/img/product/{{image[2]}}"
+              alt="{{image[1]}}"
               class="product-image"
             />
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/3c866ef1b1e8f931a173c42345d45957cc6d20f38cc29744bfaa3c08ccbab7c3?placeholderIfAbsent=true&apiKey=dba3b3709876496ca0dd69a6441acec0"
-              alt="Product"
-              class="product-image"
-            />
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/3c866ef1b1e8f931a173c42345d45957cc6d20f38cc29744bfaa3c08ccbab7c3?placeholderIfAbsent=true&apiKey=dba3b3709876496ca0dd69a6441acec0"
-              alt="Product"
-              class="product-image"
-            />
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/3c866ef1b1e8f931a173c42345d45957cc6d20f38cc29744bfaa3c08ccbab7c3?placeholderIfAbsent=true&apiKey=dba3b3709876496ca0dd69a6441acec0"
-              alt="Product"
-              class="product-image"
-            />
+              {% endif %}
+            {% endfor %}
           </div>
         </div>
         <div class="order-details">
           <div class="order-header">
-            <h2 class="order-number">COMMANDE #0001</h2>
-            <button class="track-button">SUIVRE</button>
-          </div>
-          <div class="delivery-info">
-            <p class="arrival-date">
-              DATE DE LIVRAISON: <span>1er Juillet 2025</span>
-            </p>
+            <h2 class="order-number">COMMANDE #{{order[0]}}</h2>
             <button class="details-button">DÉTAILS</button>
           </div>
           <div class="order-info-grid">
+            {% for delivery in deliveries %}
+              {% if delivery[0] == order[0] %}
+                {% set deliveryNbr = deliveryNbr + 1 %}
             <section class="destination-info">
+              <h2>LIVRAISON #{{ deliveryNbr }}</h2>
+              <h3>DATE DE LIVRAISON</h3>
+              <p>
+                {{ delivery[1] }}
+              </p>
               <h3>DESTINATION</h3>
               <address>
-                1234 Rue Street<br />
-                Papineauville, QC, Canada<br />
-                A2C 4E6
+                {{ delivery[2] }}<br />
+                {{ delivery[3] }}, {{ delivery[4] }}, Canada<br />
+                {{ delivery[5] }}
               </address>
               <h3>TRANSPORTEUR</h3>
               <p>
-                Poste Canada<br />
-                Numéro de suivi: <a href="#" class="tracking-link">111222333</a>
+                {{ delivery[6] }}<br />
               </p>
             </section>
-            <section class="billing-info">
-              <h3>PAIEMENT</h3>
-              <p>
-                John Doe<br />
-                **** 1234<br />
-                1234 Rue Street<br />
-                Papineauville, QC, Canada<br />
-                A2C4E6
-              </p>
-            </section>
+              {% endif %}
+            {% endfor %}
           </div>
         </div>
       </article>
+  {% endfor %}
 </main>
 <footer class="site-footer">
   <p>Borealis - <span id="currentYear"></span></p>

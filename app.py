@@ -173,8 +173,15 @@ def order(user):
   try:
     connection = util.connection_database()
     cur = connection.cursor()
-
-    return render_template('orders.html')
+    cur.execute('SELECT * FROM Commandes C WHERE C.uid = '+user+'')
+    orders = cur.fetchall()
+    cur.execute('SELECT C.cid, L.date_livr, C.rue_comm, C.ville_comm, C.code_postal_comm, C.province_comm, L.transporteur_livr FROM Livraisons L INNER JOIN Commandes C ON L.cid = C.cid WHERE C.uid = '+user+'')
+    deliveries = cur.fetchall()
+    cur.execute('SELECT DISTINCT C.cid, P.nom_prod, P.image_prod FROM produits P INNER JOIN lignecomms V ON P.pid = V.pid INNER JOIN livraisons L ON V.cid = L.cid INNER JOIN commandes C ON C.Cid = V.cid WHERE C.uid = '+user+'')
+    images = cur.fetchall()
+    connection.close()
+    deliveryNbr = 0
+    return render_template('orders.html', orders=orders, deliveries=deliveries, images=images, deliveryNbr=deliveryNbr)
   except Exception as e:
     return str(e)
 

@@ -726,7 +726,7 @@ header {
 
 .order-info-grid {
   display: flex;
-  justify-content: space-between;
+  gap: 50px;
   margin-top: 9px;
 }
 
