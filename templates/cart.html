@@ -110,7 +110,7 @@
           </div>
           <button type="submit" form='updateQuantity' class="update-btn" aria-label="Update">MAJ</button>
           </form>
-          <button class="delete-btn">SUPPRIMER</button>
+          <button onclick="window.location.href='{{url_for('deleteItemCart', user=GlobalUser, product=item[0])}}'" class="delete-btn">SUPPRIMER</button>
         </div>
       </div>
     </article>

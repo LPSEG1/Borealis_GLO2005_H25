@@ -202,6 +202,24 @@ def updateQuantity(user,product):
   except Exception as e:
     return str(e)
 
+@app.route('/deleteItemCart/<user>/<product>', methods=['GET', 'POST'])
+def deleteItemCart(user,product):
+  try:
+    GlobalUser=user
+
+    connection = util.connection_database()
+    cur = connection.cursor()
+    cur.execute('CALL EnleverPanier('+user+','+product+')')
+    connection.commit()
+    cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.prix_prod, P.image_prod, C.qte, P.unite_prod FROM Produits P INNER JOIN panier C ON P.pid = C.pid INNER JOIN fournisseurs F ON P.fid = F.fid WHERE C.uid = ' + user + '')
+    items = cur.fetchall()
+    cur.execute('SELECT AfficherTotal('+user+')')
+    price = cur.fetchone()
+    connection.close()
+    return render_template('cart.html', items=items, price=price, connected=VarGlobal, user=GlobalUser)
+  except Exception as e:
+    return str(e)
+
 @app.route('/checkout/<user>')
 def checkout(user):
     return render_template('checkout.html', connected=VarGlobal, user=GlobalUser)
