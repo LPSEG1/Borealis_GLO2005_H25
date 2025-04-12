@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS Livraisons;
 DROP TABLE IF EXISTS Commandes;
 DROP TABLE IF EXISTS Utilisateurs;
 DROP TABLE IF EXISTS Entrepots;
-
+DROP TABLE IF EXISTS MotHacher;
 
 
 CREATE TABLE IF NOT EXISTS Fournisseurs (fid int PRIMARY KEY, nom_four varchar(30));
@@ -41,31 +41,55 @@ INSERT INTO Entrepots VALUES (2, '64 Broadway', 'Vancouver', 'B2B2B2', 'BC', 'Ca
 INSERT INTO Entrepots VALUES (3, '78 King St', 'Montreal', 'C3C3C3', 'QC', 'Canada');
 
 
-CREATE TABLE IF NOT EXISTS Utilisateurs (uid int NOT NULL AUTO_INCREMENT PRIMARY KEY, courriel_util varchar(100) NOT NULL UNIQUE, mdp_util varchar(30) NOT NULL, prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30), code_postal_util char(6), province_util enum('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'), pays_util varchar(20), telephone_util bigint, eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid));
+CREATE TABLE IF NOT EXISTS Utilisateurs (uid int NOT NULL AUTO_INCREMENT PRIMARY KEY, courriel_util varchar(100) NOT NULL UNIQUE, prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30), code_postal_util char(6), province_util enum('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'), pays_util varchar(20), telephone_util bigint, eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid));
 
-INSERT INTO Utilisateurs VALUES (1, 'john.doe@gmail.com', 'XyZ1!a9bC', 'john', 'doe', '142 Heritage Dr', 'Waterloo', 'E4E4E4', 'ON', 'Canada', 2041234567, 2);
-INSERT INTO Utilisateurs VALUES (2, 'sarah_92@yahoo.com', 'mN2oP@qR3s', 'sarah', 'doe', '9875 Stonebridge Ln', 'Thunder Bay', 'G5G5G5', 'ON', 'Canada', 2049876543, 1);
-INSERT INTO Utilisateurs VALUES (3, 'michael123@hotmail.com', 'A$dfG56hJkl', 'michael', 'doe', '9074 Horizon Blvd', 'Barrie', 'H6H6H6', 'ON', 'Canada', 3062345678, 2);
-INSERT INTO Utilisateurs VALUES (4, 'emma.watson@outlook.com', 'zXc@987vBnM', 'emma', 'watson', '15 Silver Birch Ave', 'Sudbury', 'J7J7J7', 'ON', 'Canada', 3068765432, 2);
-INSERT INTO Utilisateurs VALUES (5, 'david.smith@icloud.com', 'P@ssw0rd123!', 'david', 'smith', '2987 Windermere Rd', 'Laval', 'K8K8K8', 'QC', 'Canada', 4033456789, 2);
-INSERT INTO Utilisateurs VALUES (6, 'charlie_brown@aol.com', 'QwErTyUiOp456', 'charlie', 'brown', '2310 Blueberry Ln', 'Sherbrooke', 'L9L9L9', 'QC', 'Canada', 4037654321, 2);
-INSERT INTO Utilisateurs VALUES (7, 'olivia.jones@gmail.com', 'L0v3MyP@ssw0rd!', 'olivia', 'jones', '2097 Redwood Dr', 'Trois-Rivières', 'M1M1M1', 'QC', 'Canada', 4164567890, 3);
-INSERT INTO Utilisateurs VALUES (8, 'lucas_miller@yahoo.ca', 'Safe!Pass6789', 'lucas', 'miller', '76 Sycamore St', 'Saguenay', 'N2N2N2', 'QC', 'Canada', 4166543210, 1);
-INSERT INTO Utilisateurs VALUES (9, 'sophia_wilson@hotmail.com', 'R@nd0mP@123', 'sophia', 'wilson', '54 Ashwood Ave', 'Gatineau', 'P3P3P3', 'QC', 'Canada', 4185678901, 1);
-INSERT INTO Utilisateurs VALUES (10, 'liam.anderson@protonmail.com', 'Tr1ckyPa123', 'liam', 'anderson', '1-87 Juniper St', 'Saint John', 'R4R4R4', 'NB', 'Canada', 4185432109, 1);
-INSERT INTO Utilisateurs VALUES (11, 'noah_thomas@live.com', 'Tr1ckyPaw0rd!', 'noah', 'thomas', '78A Magnolia Ct', 'Moncton', 'S5S5S5', 'NB', 'Canada', 5146789012, 2);
-INSERT INTO Utilisateurs VALUES (12, 'isabella.moore@ymail.com', 'S3cur3_K3y#89', 'isabella', 'moore', '3456 Firwood Dr', 'Drummondville', 'T6T6T6', 'QC', 'Canada', 5144321098, 1);
-INSERT INTO Utilisateurs VALUES (13, 'ethan.harris@gmail.com', 'H@rd2Gu3ss987', 'ethan', 'harris', '876 Evergreen Blvd', 'Granby', 'V7V7V7', 'QC', 'Canada', 6047890123, 1);
-INSERT INTO Utilisateurs VALUES (14, 'ava_clark@yahoo.com', 'TopSecret_456!', 'ava', 'clark', '8001 Orchard Ln', 'Belleville', 'X8X8X8', 'ON', 'Canada', 6043210987, 3);
-INSERT INTO Utilisateurs VALUES (15, 'james_walker@outlook.com', '123qWeRTy!@#', 'james', 'walker', '743 Meadowbrook Rd', 'Chilliwack', 'Y9Y9Y9', 'BC', 'Canada', 6138901234, 3);
-INSERT INTO Utilisateurs VALUES (16, 'mia.rodriguez@hotmail.com', 'S@mpleP@ss678', 'mia', 'rodriguez', '124 Foxglove Dr', 'Red Deer', 'A2B3C4', 'AB', 'Canada', 6132109876, 1);
-INSERT INTO Utilisateurs VALUES (17, 'benjamin_hall@icloud.com', 'M@ybeSecuRe!34', 'benjamin', 'hall', '3256 Crimson Maple Rd', 'Lethbridge', 'D5E6F7', 'AB', 'Canada', 9029012345, 2);
-INSERT INTO Utilisateurs VALUES (18, 'amelia.young@gmail.com', 'U1tR@Str0ng!!', 'amelia', 'young', '12 Summit Ave', 'Medicine Hat', 'G8H9J1', 'AB', 'Canada', 9021098765, 2);
-INSERT INTO Utilisateurs VALUES (19, 'alexander.king@yahoo.ca', 'DifficultP@ss789', 'alexander', 'king', '4 Starview Ln', 'Prince George', 'K2L3M4', 'BC', 'Canada', 4036783456, 1);
-INSERT INTO Utilisateurs VALUES (20, 'charlotte.scott@live.com', 'NoOneKnows_098!', 'charlotte', 'scott', '27 Northgate Dr', 'Sault Ste. Marie', 'N5P6R7', 'ON', 'Canada', 4169876543, 2);
+INSERT INTO Utilisateurs VALUES (1, 'john.doe@gmail.com', 'john', 'doe', '142 Heritage Dr', 'Waterloo', 'E4E4E4', 'ON', 'Canada', 2041234567, 2);
+INSERT INTO Utilisateurs VALUES (2, 'sarah_92@yahoo.com', 'sarah', 'doe', '9875 Stonebridge Ln', 'Thunder Bay', 'G5G5G5', 'ON', 'Canada', 2049876543, 1);
+INSERT INTO Utilisateurs VALUES (3, 'michael123@hotmail.com', 'michael', 'doe', '9074 Horizon Blvd', 'Barrie', 'H6H6H6', 'ON', 'Canada', 3062345678, 2);
+INSERT INTO Utilisateurs VALUES (4, 'emma.watson@outlook.com', 'emma', 'watson', '15 Silver Birch Ave', 'Sudbury', 'J7J7J7', 'ON', 'Canada', 3068765432, 2);
+INSERT INTO Utilisateurs VALUES (5, 'david.smith@icloud.com', 'david', 'smith', '2987 Windermere Rd', 'Laval', 'K8K8K8', 'QC', 'Canada', 4033456789, 2);
+INSERT INTO Utilisateurs VALUES (6, 'charlie_brown@aol.com', 'charlie', 'brown', '2310 Blueberry Ln', 'Sherbrooke', 'L9L9L9', 'QC', 'Canada', 4037654321, 2);
+INSERT INTO Utilisateurs VALUES (7, 'olivia.jones@gmail.com', 'olivia', 'jones', '2097 Redwood Dr', 'Trois-Rivières', 'M1M1M1', 'QC', 'Canada', 4164567890, 3);
+INSERT INTO Utilisateurs VALUES (8, 'lucas_miller@yahoo.ca', 'lucas', 'miller', '76 Sycamore St', 'Saguenay', 'N2N2N2', 'QC', 'Canada', 4166543210, 1);
+INSERT INTO Utilisateurs VALUES (9, 'sophia_wilson@hotmail.com', 'sophia', 'wilson', '54 Ashwood Ave', 'Gatineau', 'P3P3P3', 'QC', 'Canada', 4185678901, 1);
+INSERT INTO Utilisateurs VALUES (10, 'liam.anderson@protonmail.com', 'liam', 'anderson', '1-87 Juniper St', 'Saint John', 'R4R4R4', 'NB', 'Canada', 4185432109, 1);
+INSERT INTO Utilisateurs VALUES (11, 'noah_thomas@live.com', 'noah', 'thomas', '78A Magnolia Ct', 'Moncton', 'S5S5S5', 'NB', 'Canada', 5146789012, 2);
+INSERT INTO Utilisateurs VALUES (12, 'isabella.moore@ymail.com', 'isabella', 'moore', '3456 Firwood Dr', 'Drummondville', 'T6T6T6', 'QC', 'Canada', 5144321098, 1);
+INSERT INTO Utilisateurs VALUES (13, 'ethan.harris@gmail.com', 'ethan', 'harris', '876 Evergreen Blvd', 'Granby', 'V7V7V7', 'QC', 'Canada', 6047890123, 1);
+INSERT INTO Utilisateurs VALUES (14, 'ava_clark@yahoo.com', 'ava', 'clark', '8001 Orchard Ln', 'Belleville', 'X8X8X8', 'ON', 'Canada', 6043210987, 3);
+INSERT INTO Utilisateurs VALUES (15, 'james_walker@outlook.com', 'james', 'walker', '743 Meadowbrook Rd', 'Chilliwack', 'Y9Y9Y9', 'BC', 'Canada', 6138901234, 3);
+INSERT INTO Utilisateurs VALUES (16, 'mia.rodriguez@hotmail.com', 'mia', 'rodriguez', '124 Foxglove Dr', 'Red Deer', 'A2B3C4', 'AB', 'Canada', 6132109876, 1);
+INSERT INTO Utilisateurs VALUES (17, 'benjamin_hall@icloud.com', 'benjamin', 'hall', '3256 Crimson Maple Rd', 'Lethbridge', 'D5E6F7', 'AB', 'Canada', 9029012345, 2);
+INSERT INTO Utilisateurs VALUES (18, 'amelia.young@gmail.com', 'amelia', 'young', '12 Summit Ave', 'Medicine Hat', 'G8H9J1', 'AB', 'Canada', 9021098765, 2);
+INSERT INTO Utilisateurs VALUES (19, 'alexander.king@yahoo.ca', 'alexander', 'king', '4 Starview Ln', 'Prince George', 'K2L3M4', 'BC', 'Canada', 4036783456, 1);
+INSERT INTO Utilisateurs VALUES (20, 'charlotte.scott@live.com', 'charlotte', 'scott', '27 Northgate Dr', 'Sault Ste. Marie', 'N5P6R7', 'ON', 'Canada', 4169876543, 2);
 
 
-CREATE TABLE IF NOT EXISTS Produits (pid int PRIMARY KEY, nom_prod varchar(50), prix_prod decimal(5, 2), unite_prod int, categorie_prod enum('Aliment', 'Automobile', 'Électronique', 'Jouet', 'Maison', 'Vêtements'), description_prod varchar(500), image_prod varchar(200), vedette bool, fid int NOT NULL, FOREIGN KEY (fid) REFERENCES Fournisseurs(fid));
+CREATE TABLE IF NOT EXISTS MotHacher(mid int PRIMARY KEY, mdp_util varchar(64) NOT NULL, FOREIGN KEY(mid) REFERENCES Utilisateurs(uid));
+
+INSERT INTO MotHacher VALUES(1, 'bfd0597f58625059e71350c28691ffb623cffe52d4d40284e315e2b8dd71a3f1');
+INSERT INTO MotHacher VALUES(2, '4b299beecafc15c61a2cb8cef86152f1cfeb081ccdeee1281cd49c42706590c8');
+INSERT INTO MotHacher VALUES(3, 'b66beb2879fb3091909e1439c318982f52c64297154e8d90fdb2d5937f22bf68');
+INSERT INTO MotHacher VALUES(4, 'ea0f502a203f7e7ce033fe2cea85d6451c2a3f19c7e7c4c4259ccd5580b60535');
+INSERT INTO MotHacher VALUES(5, '6292d395a1f5efcf18be8bf51c696c241f950531a5b5035d36de0d7a88416604');
+INSERT INTO MotHacher VALUES(6, '4878889a9e905548d94aada4acbf9a18b1d308dc071cc875d9713ee9bf90629d');
+INSERT INTO MotHacher VALUES(7, 'ae2e41654399d5c9bffd90d3934f90ee07b60f21b91aead53cf3c9705db00b2c');
+INSERT INTO MotHacher VALUES(8, 'cf4d8246df923a57dd1c9fa1a9f1d500b73ed2ca236933331a39d5635a2ddbb5');
+INSERT INTO MotHacher VALUES(9, '13257966d65b6ca7f54259b2419e1c6f661d2803bdfb5ae4dae5b5a659c9cf91');
+INSERT INTO MotHacher VALUES(10, '814ec940beeef4b4b93c61aef1b9bd1658026d4f0a54967d8be5349378387263');
+INSERT INTO MotHacher VALUES(11, '3b2e16f77fe17088f4dda90e789f0eea660acc41116c5d18012d3119eef09a8d');
+INSERT INTO MotHacher VALUES(12, '7f52ce642674314a5d899532c91ca9eedf7962c920febc6807d5af227365872e');
+INSERT INTO MotHacher VALUES(13, 'e6deb73238fe8b8c980d931987434598a61af8186708dcb0f47c7f6909d95e75');
+INSERT INTO MotHacher VALUES(14, '36c0ce96e5240fb49013d61b27c598a622fd81ba9deca5e84f552f92aa80298d');
+INSERT INTO MotHacher VALUES(15, '3ba91700e97704d60abab96d93a16d547b3eddc483a644c513b4b35852479e35');
+INSERT INTO MotHacher VALUES(16, 'd56c4820591a3004135b7159be5e2a68eb8c82d0994077606a3fe3516ee47496');
+INSERT INTO MotHacher VALUES(17, '92d0f6ffcc610606b5f74dc063abb1950175404dfcbae7745367550bcc3ca17f');
+INSERT INTO MotHacher VALUES(18, '8d2ac26c6fead643d86935fadc29cc04f68e02068ed46555a1cb0090db2cdf09');
+INSERT INTO MotHacher VALUES(19, 'cb5ebdd6d19c006d99a5a12b8db2369c905d19db68ee6556e4c64b05ac0861c8');
+INSERT INTO MotHacher VALUES(20, '468b4aa0a99527ff9ccd02231a03629d11cfa3b9f003a5c307c69bfb3045dbd8');
+
+
+CREATE TABLE IF NOT EXISTS Produits (pid int PRIMARY KEY, nom_prod varchar(50), prix_prod decimal(5, 2), unite_prod int, categorie_prod enum('Aliment', 'Automobile', 'Électronique', 'Jouet', 'Maison', 'Vêtements', 'Cosmétiques'), description_prod varchar(500), image_prod varchar(200), vedette bool, fid int NOT NULL, FOREIGN KEY (fid) REFERENCES Fournisseurs(fid));
 
 INSERT INTO Produits VALUES (123456, 'Smartphone X', 495.99, 1, 'Aliment', 'A high-quality product designed for everyday use.', NULL, False, 63028);
 INSERT INTO Produits VALUES (654321, 'Gaming Laptop Z', 335.99, 2, 'Automobile', 'Experience the next level of innovation and style.', NULL, False, 71483);

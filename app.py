@@ -38,8 +38,7 @@ def connection():
     cur.execute('''SELECT U.uid FROM utilisateurs U where U.courriel_util = (%s)''', email)
     utilId = cur.fetchone()
     uid = utilId[0]
-    cur.execute('''SELECT M.mdp_util FROM mothacher M, utilisateurs U WHERE M.mid = U.uid AND M.mid = (%s)''', uid)
-    """mothacher a remplacer par le nom de la table de mdp"""
+    cur.execute('''SELECT M.mdp_util FROM MotHacher M, utilisateurs U WHERE M.mid = U.uid AND M.mid = (%s)''', uid)
     mdp = cur.fetchone()
     connection.close()
     if secrets.compare_digest(password, mdp[0]):
@@ -71,13 +70,12 @@ def inscription():
     connection = util.connection_database()
     cur = connection.cursor()
     cur.execute('CALL CreerCompte("'+email+'", "'+prenom+'", "'+nom+'", "'+adresse+'", "'+ville+'", "'+codePostal+'", "'+province+'", "'+pays+'", "'+telephone+'", "'+entrepot+'", "'+password+'")')
-    cur.execute('SELECT M.mid FROM mothacher M ORDER BY M.mid DESC LIMIT 1')
+    cur.execute('SELECT M.mid FROM MotHacher M ORDER BY M.mid DESC LIMIT 1')
     id = cur.fetchone()
     global GlobalUser
     GlobalUser = id[0]
     connection.commit()
     connection.close()
-    print('Le compte à '+prenom+' est créé')
     return index()
   except Exception as e:
     return str(e)
