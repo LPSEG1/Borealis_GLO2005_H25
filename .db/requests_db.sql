@@ -326,7 +326,7 @@ END //
 DELIMITER ;
 
 
-DELIMITER //
+DELIMITER // #Ajouter si non dispo
 CREATE PROCEDURE CreerLivraison (
   IN incid int,
   IN inprov char(2),
