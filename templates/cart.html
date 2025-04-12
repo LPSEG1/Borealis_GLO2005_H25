@@ -30,6 +30,7 @@
             <option value="all">Tous categories</option>
             <option value="Aliment">Aliment</option>
             <option value="Automobile">Automobile</option>
+            <option value="Cosmétiques">Cosmétiques</option>
             <option value="Électronique">Électronique</option>
             <option value="Jouet">Jouet</option>
             <option value="Maison">Maison</option>
@@ -99,7 +100,7 @@
         <p class="product-vendor">{{item[2]}}</p>
         <p class="product-price">{{item[3]}}$</p>
         <div class="product-cart-quantity">
-          <form action="{{url_for('updateQuantity', user=6, product=item[0])}}" method="POST" id="updateQuantity" class="cart-updateQte">
+          <form action="{{url_for('updateQuantity', user=GlobalUser, product=item[0])}}" method="POST" id="updateQuantity" class="cart-updateQte">
           <div class="cart-quantity-select">
             <select name="quantity">
                 {% for i in range(0, item[6])%}

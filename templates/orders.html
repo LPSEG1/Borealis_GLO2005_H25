@@ -31,6 +31,7 @@
             <option value="all">Tous categories</option>
             <option value="Aliment">Aliment</option>
             <option value="Automobile">Automobile</option>
+            <option value="Cosmétiques">Cosmétiques</option>
             <option value="Électronique">Électronique</option>
             <option value="Jouet">Jouet</option>
             <option value="Maison">Maison</option>
@@ -58,8 +59,8 @@
     </div>
     <nav class="nav-links">
       {% if connected %}
-        <a href="{{url_for('account')}}" class="nav-link">COMPTE</a>
-        <a href="{{url_for('orders', user=1)}}" class="nav-link">COMMANDES</a>
+        <a href="{{url_for('account', user=GlobalUser)}}" class="nav-link">COMPTE</a>
+        <a href="{{url_for('orders', user=GlobalUser)}}" class="nav-link">COMMANDES</a>
       {% else %}
         <a href="{{url_for('connect')}}" class="nav-link">CONNEXION</a>
       {% endif %}
