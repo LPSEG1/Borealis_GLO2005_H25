@@ -2,6 +2,8 @@ DROP PROCEDURE IF EXISTS ChercherProduit;
 DROP PROCEDURE IF EXISTS ChercherProduitNoCategories;
 DROP PROCEDURE IF EXISTS ChangerMdp;
 DROP PROCEDURE IF EXISTS AjouterPanier;
+DROP PROCEDURE IF EXISTS MAJPanier;
+DROP PROCEDURE IF EXISTS EnleverPanier;
 DROP PROCEDURE IF EXISTS AfficherInfosUtilisateur;
 DROP PROCEDURE IF EXISTS VerifierConnexion;
 DROP PROCEDURE IF EXISTS PasserCommande;
@@ -95,7 +97,7 @@ DELIMITER ;
 
 
 DELIMITER //
-CREATE PROCEDURE #Nick
+CREATE PROCEDURE #Original: Nick Modif: L-P
     AjouterPanier(IN util_id int, IN prod_id int, IN qte int)
 BEGIN
     DECLARE newQte int DEFAULT 0;
@@ -108,6 +110,21 @@ BEGIN
 END//
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE #L-P
+    MAJPanier(IN util_id int, IN prod_id int, IN newQte int)
+BEGIN
+      UPDATE panier SET qte = newQte WHERE uid = util_id AND pid = prod_id;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE #L-P
+    EnleverPanier(IN util_id int, IN prod_id int)
+BEGIN
+      DELETE FROM panier WHERE uid = util_id AND pid = prod_id;
+END//
+DELIMITER ;
 
 -- Non utilisé #David
 -- DELIMITER // #Melqui
@@ -221,7 +238,7 @@ BEGIN
 
   # gestion erreur si l'utilisateur n'existe pas
   IF NOT EXISTS (SELECT 1 FROM Utilisateurs WHERE uid = p_uid) THEN
-  SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Utilisateur inexistant.';
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Utilisateur inexistant.';
   END IF;
 
   # récupérer l’adresse du compte utilisateur
@@ -247,6 +264,7 @@ BEGIN
   VALUES (
     nouveau_cid, CURRENT_DATE, p_rue_comm, p_ville_comm, p_code_postal_comm, p_province_comm, p_pays_comm, p_uid
   );
+
 
 END //
 DELIMITER ;
