@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS Commandes;
 DROP TABLE IF EXISTS MotHacher;
 DROP TABLE IF EXISTS Utilisateurs;
 DROP TABLE IF EXISTS Entrepots;
+
 DROP TRIGGER IF EXISTS CalculerTotal;
 DROP TRIGGER IF EXISTS TransformerPanier;
 
@@ -91,7 +92,7 @@ INSERT INTO MotHacher VALUES(19, 'cb5ebdd6d19c006d99a5a12b8db2369c905d19db68ee65
 INSERT INTO MotHacher VALUES(20, '468b4aa0a99527ff9ccd02231a03629d11cfa3b9f003a5c307c69bfb3045dbd8');
 
 
-CREATE TABLE IF NOT EXISTS Produits (pid int PRIMARY KEY, nom_prod varchar(50), prix_prod decimal(5, 2), unite_prod int, categorie_prod enum('Aliment', 'Automobile', 'Électronique', 'Jouet', 'Maison', 'Vêtements', 'Cosmétiques'), description_prod varchar(500), image_prod varchar(200), vedette bool, fid int NOT NULL, FOREIGN KEY (fid) REFERENCES Fournisseurs(fid));
+CREATE TABLE IF NOT EXISTS Produits (pid int PRIMARY KEY, nom_prod varchar(50), prix_prod decimal(5, 2), unite_prod int, categorie_prod enum('Aliment', 'Automobile', 'Cosmétiques', 'Électronique', 'Jouet', 'Maison', 'Vêtements'), description_prod varchar(500), image_prod varchar(200), vedette bool, fid int NOT NULL, FOREIGN KEY (fid) REFERENCES Fournisseurs(fid));
 
 INSERT INTO Produits VALUES (123456, 'Smartphone X', 495.99, 1, 'Aliment', 'A high-quality product designed for everyday use.', NULL, False, 63028);
 INSERT INTO Produits VALUES (654321, 'Gaming Laptop Z', 335.99, 2, 'Automobile', 'Experience the next level of innovation and style.', NULL, False, 71483);
@@ -178,7 +179,7 @@ INSERT INTO Panier VALUES (16, 901890, 3);
 INSERT INTO Panier VALUES (16, 901678, 3);
 
 
-CREATE TABLE IF NOT EXISTS Commandes (cid int PRIMARY KEY, date_comm date, prix_total_comm decimal(6, 2), rue_comm varchar(60), ville_comm varchar(30), code_postal_comm char(6), province_comm enum('AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'), pays_comm varchar(20), uid int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid));
+CREATE TABLE IF NOT EXISTS Commandes (cid int AUTO_INCREMENT PRIMARY KEY, date_comm date, prix_total_comm decimal(6, 2), rue_comm varchar(60), ville_comm varchar(30), code_postal_comm char(6), province_comm enum('AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'), pays_comm varchar(20), uid int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid));
 CREATE TABLE IF NOT EXISTS LigneComms (cid int NOT NULL, pid int NOT NULL, quantite int, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (pid) REFERENCES Produits(pid));
 
 DELIMITER // #Nick
@@ -473,4 +474,6 @@ INSERT INTO DispoProds VALUES (1, 567892, 7);
 INSERT INTO DispoProds VALUES (3, 567901, 6);
 INSERT INTO DispoProds VALUES (2, 567901, 9);
 INSERT INTO DispoProds VALUES (1, 567901, 10);
-INSERT INTO dispoprods (eid, pid, quantite) VALUES (1, 984396, 5), (2, 984396, 5), (3, 984396, 5);
+INSERT INTO DispoProds VALUES (1, 984396, 5);
+INSERT INTO DispoProds VALUES (2, 984396, 5);
+INSERT INTO DispoProds VALUES (3, 984396, 5);

@@ -46,6 +46,7 @@ BEGIN
 END//
 DELIMITER ;
 
+
 DELIMITER //
 CREATE PROCEDURE #Original: Nick | Modifications: L-P
 	ChercherProduitNoCategories(IN keyword varchar(100))
@@ -83,6 +84,7 @@ BEGIN
 END//
 DELIMITER ;
 
+
 DELIMITER //
 CREATE PROCEDURE #Nick #Modifier par David
     ChangerMdp(IN mdp varchar(64), IN id int)
@@ -106,6 +108,7 @@ BEGIN
 END//
 DELIMITER ;
 
+
 -- Non utilisé #David
 -- DELIMITER // #Melqui
 -- CREATE PROCEDURE VerifierConnexion(
@@ -117,6 +120,7 @@ DELIMITER ;
 --    WHERE courriel_util = courriel AND mdp_util = mot_de_passe;
 -- END//
 -- DELIMITER ;
+
 
 DELIMITER // #Melqui
 CREATE PROCEDURE AfficherInfosUtilisateur(
@@ -141,6 +145,7 @@ BEGIN
     WHERE U.uid = id_utilisateur;
 END//
 DELIMITER ;
+
 
 DELIMITER // #Original: Melqui | Modifications: David
 CREATE PROCEDURE CreerCompte (
@@ -196,6 +201,7 @@ BEGIN
 END //
 DELIMITER ;
 
+
 DELIMITER // #Melqui
 CREATE PROCEDURE PasserCommande(
   IN p_uid INT,
@@ -244,8 +250,6 @@ BEGIN
 
 END //
 DELIMITER ;
-
-
 
 
 DELIMITER // #Melqui
@@ -298,3 +302,4 @@ BEGIN
 
 END //
 DELIMITER ;
+
