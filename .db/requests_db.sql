@@ -1,11 +1,11 @@
 DROP PROCEDURE IF EXISTS ChercherProduit;
 DROP PROCEDURE IF EXISTS ChercherProduitNoCategories;
 DROP PROCEDURE IF EXISTS ChangerMdp;
-DROP PROCEDURE IF EXISTS ChangerMdp;
 DROP PROCEDURE IF EXISTS AjouterPanier;
 DROP PROCEDURE IF EXISTS AfficherInfosUtilisateur;
 DROP PROCEDURE IF EXISTS VerifierConnexion;
-DROP PROCEDURE IF EXISTS CreerCompte;
+DROP PROCEDURE IF EXISTS PasserCommande;
+DROP PROCEDURE IF EXISTS MettreAJourUtilisateur;
 
 
 DELIMITER //
@@ -83,10 +83,10 @@ END//
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE #Nick
-    ChangerMdp(IN mdp varchar(30), IN id int)
+CREATE PROCEDURE #Nick #Modifier par David
+    ChangerMdp(IN mdp varchar(64), IN id int)
 BEGIN
-    UPDATE Utilisateurs SET mdp_util = mdp WHERE uid = id;
+    UPDATE MotHacher SET mdp_util = mdp WHERE mid = id;
 END//
 DELIMITER ;
 
@@ -105,17 +105,17 @@ BEGIN
 END//
 DELIMITER ;
 
-
-DELIMITER // #Melqui
-CREATE PROCEDURE VerifierConnexion(
-    IN courriel VARCHAR(100),
-    IN mot_de_passe VARCHAR(30))
-BEGIN
-    SELECT uid
-    FROM Utilisateurs
-    WHERE courriel_util = courriel AND mdp_util = mot_de_passe;
-END//
-DELIMITER ;
+-- Non utilisé #David
+-- DELIMITER // #Melqui
+-- CREATE PROCEDURE VerifierConnexion(
+--    IN courriel VARCHAR(100),
+--    IN mot_de_passe VARCHAR(30))
+-- BEGIN
+--    SELECT uid
+--    FROM Utilisateurs
+--    WHERE courriel_util = courriel AND mdp_util = mot_de_passe;
+-- END//
+-- DELIMITER ;
 
 DELIMITER // #Melqui
 CREATE PROCEDURE AfficherInfosUtilisateur(
