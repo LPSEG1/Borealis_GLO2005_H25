@@ -216,211 +216,6 @@ UPDATE produits t SET t.nom_prod = 'Moule à gâteau voûté à bord étroit', t
 UPDATE produits t SET t.nom_prod = 'Poêle en fonte émaillée 12 pouces', t.prix_prod = 69.99, t.categorie_prod = 'Maison', t.description_prod = 'La poêle en fonte émaillée bleu atlantique de PADERNO est un joyau culinaire, faite en fonte épaisse pour distribuer uniformément la chaleur et en assurer la conservation optimale. Sa forme unique permet de verser de façon contrôlée et offre une plus grande capacité, tandis que la poignée auxiliaire permet de la soulever facilement, ce qui la rend pratique et élégante dans n’importe quelle cuisine. ', t.image_prod = 'product345679.webp' WHERE t.pid = 345679;
 
 
-CREATE TABLE IF NOT EXISTS Panier (uid int NOT NULL, pid int NOT NULL, qte int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid), FOREIGN KEY (pid) REFERENCES Produits(pid));
-
-INSERT INTO Panier VALUES (14, 567678, 1);
-INSERT INTO Panier VALUES (2, 345123, 2);
-INSERT INTO Panier VALUES (2, 678901, 1);
-INSERT INTO Panier VALUES (17, 654321, 3);
-INSERT INTO Panier VALUES (18, 901456, 2);
-INSERT INTO Panier VALUES (11, 123456, 1);
-INSERT INTO Panier VALUES (12, 123901, 3);
-INSERT INTO Panier VALUES (1, 123789, 3);
-INSERT INTO Panier VALUES (15, 678931, 2);
-INSERT INTO Panier VALUES (6, 987654, 1);
-INSERT INTO Panier VALUES (6, 893446, 3);
-INSERT INTO Panier VALUES (9, 456567, 2);
-INSERT INTO Panier VALUES (19, 234345, 2);
-INSERT INTO Panier VALUES (19, 678123, 1);
-INSERT INTO Panier VALUES (10, 567892, 3);
-INSERT INTO Panier VALUES (20, 345679, 3);
-INSERT INTO Panier VALUES (20, 789678, 2);
-INSERT INTO Panier VALUES (13, 345901, 1);
-INSERT INTO Panier VALUES (5, 890456, 2);
-INSERT INTO Panier VALUES (5, 890123, 3);
-INSERT INTO Panier VALUES (7, 678345, 1);
-INSERT INTO Panier VALUES (4, 123234, 2);
-INSERT INTO Panier VALUES (4, 567901, 1);
-INSERT INTO Panier VALUES (3, 901238, 3);
-INSERT INTO Panier VALUES (8, 345456, 2);
-INSERT INTO Panier VALUES (12, 456789, 1);
-INSERT INTO Panier VALUES (16, 901890, 3);
-INSERT INTO Panier VALUES (16, 901678, 3);
-
-
-CREATE TABLE IF NOT EXISTS Commandes (cid int AUTO_INCREMENT PRIMARY KEY, date_comm date, prix_total_comm decimal(6, 2), rue_comm varchar(60), ville_comm varchar(30), code_postal_comm char(6), province_comm enum('AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'), pays_comm varchar(20), uid int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid));
-CREATE TABLE IF NOT EXISTS LigneComms (cid int NOT NULL, pid int NOT NULL, quantite int, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (pid) REFERENCES Produits(pid));
-
-DELIMITER // #Nick
-CREATE TRIGGER CalculerTotal BEFORE INSERT ON Commandes FOR EACH ROW
-BEGIN
-    DECLARE pid_p INT;
-    DECLARE qte_p INT;
-    DECLARE total DECIMAL(6, 2) DEFAULT 0;
-    DECLARE lect_comp BOOL DEFAULT FALSE;
-
-    DECLARE curs CURSOR FOR SELECT P.pid, P.qte FROM Panier P WHERE P.uid = NEW.uid;
-
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
-
-    OPEN curs;
-    lect: LOOP
-        FETCH curs INTO pid_p, qte_p;
-        IF lect_comp THEN
-            LEAVE lect;
-        END IF;
-        SET total := total + ((SELECT P.prix_prod FROM Produits P WHERE P.pid = pid_p) * qte_p);
-    END LOOP lect;
-	  CLOSE curs;
-    SET NEW.prix_total_comm = total;
-END//
-DELIMITER ;
-
-DELIMITER // #Nick
-CREATE TRIGGER TransformerPanier AFTER INSERT ON Commandes FOR EACH ROW
-BEGIN
-    DECLARE pid_p INT;
-    DECLARE qte_p INT;
-    DECLARE lect_comp BOOL DEFAULT FALSE;
-
-    DECLARE curs CURSOR FOR SELECT P.pid, P.qte FROM Panier P WHERE P.uid = NEW.uid;
-
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
-
-    OPEN curs;
-    lect: LOOP
-        FETCH curs INTO pid_p, qte_p;
-        IF lect_comp THEN
-            LEAVE lect;
-        END IF;
-        INSERT INTO LigneComms VALUES (NEW.cid, pid_p, qte_p);
-    END LOOP lect;
-	  CLOSE curs;
-    DELETE FROM Panier P WHERE NEW.uid = P.uid;
-END//
-DELIMITER ;
-
-INSERT INTO Commandes VALUES (1, '2025-01-16', NULL, '24 Queen St', 'Calgary', 'S8T9V1', 'QC', 'Canada', 14);
-INSERT INTO Commandes VALUES (2, '2025-01-17', NULL, '5637 Maple Ave', 'Edmonton', 'X2Y3A4', 'QC', 'Canada', 2);
-INSERT INTO Commandes VALUES (3, '2025-01-18', NULL, '2409 Elm St', 'Ottawa', 'B5C6D7', 'QC', 'Canada', 17);
-INSERT INTO Commandes VALUES (4, '2025-01-19', NULL, '546 Cedar Rd', 'Winnipeg', 'E8F9G1', 'QC', 'Canada', 18);
-INSERT INTO Commandes VALUES (5, '2025-01-20', NULL, '234 Pine Dr', 'Quebec City', 'H2J3K4', 'QC', 'Canada', 11);
-INSERT INTO Commandes VALUES (6, '2025-01-21', NULL, '901 Oak Blvd', 'Halifax', 'L5M6N7', 'QC', 'Canada', 1);
-INSERT INTO Commandes VALUES (7, '2025-01-22', NULL, '234 Birch Ln', 'Victoria', 'P8R9S1', 'QC', 'Canada', 15);
-INSERT INTO Commandes VALUES (8, '2025-01-25', NULL, '17 Spruce Ct', 'Saskatoon', 'T2V3X4', 'QC', 'Canada', 6);
-INSERT INTO Commandes VALUES (9, '2025-01-26', NULL, '23 Willow Way', 'Regina', 'Y5A6B7', 'QC', 'Canada', 9);
-INSERT INTO Commandes VALUES (10, '2025-01-27', NULL, '80 Chestnut St', 'St John', 'C8D9E1', 'QC', 'Canada', 19);
-INSERT INTO Commandes VALUES (11, '2025-01-29', NULL, '21 River Rd', 'Charlottetown', 'F2G3H4', 'QC', 'Canada', 10);
-INSERT INTO Commandes VALUES (12, '2025-01-30', NULL, '24 Sunset Ave', 'Fredericton', 'J5K6L7', 'QC', 'Canada', 20);
-INSERT INTO Commandes VALUES (13, '2025-02-01', NULL, '56 Highland Dr', 'Whitehorse', 'M8N9P1', 'QC', 'Canada', 13);
-INSERT INTO Commandes VALUES (14, '2025-02-02', NULL, '34 Lakeshore Rd', 'Yellowknife', 'R2S3T4', 'QC', 'Canada', 5);
-INSERT INTO Commandes VALUES (15, '2025-02-02', NULL, '94 Victoria St', 'Iqaluit', 'V5X6Y7', 'QC', 'Canada', 7);
-INSERT INTO Commandes VALUES (16, '2025-02-04', NULL, '129 Church St', 'Mississauga', 'A8B9C1', 'QC', 'Canada', 4);
-INSERT INTO Commandes VALUES (17, '2025-02-06', NULL, '1 Front St', 'Brampton', 'D2E3F4', 'QC', 'Canada', 3);
-INSERT INTO Commandes VALUES (18, '2025-02-08', NULL, '23 Bay St', 'Hamilton', 'G5H6J7', 'QC', 'Canada', 8);
-INSERT INTO Commandes VALUES (19, '2025-02-11', NULL, '61 Water St', 'Kitchener', 'K8L9M1', 'QC', 'Canada', 12);
-INSERT INTO Commandes VALUES (20, '2025-02-14', NULL, '700 Park Ave', 'London', 'N2P3R4', 'QC', 'Canada', 16);
-
-
-#PART 2
-INSERT INTO Panier VALUES (11, 678234, 2);
-INSERT INTO Panier VALUES (20, 234123, 1);
-INSERT INTO Panier VALUES (15, 345012, 3);
-INSERT INTO Panier VALUES (14, 456012, 2);
-INSERT INTO Panier VALUES (7, 234567, 2);
-INSERT INTO Panier VALUES (8, 123567, 1);
-INSERT INTO Panier VALUES (13, 789890, 3);
-INSERT INTO Panier VALUES (13, 234678, 1);
-INSERT INTO Panier VALUES (2, 890567, 2);
-INSERT INTO Panier VALUES (4, 567123, 3);
-INSERT INTO Panier VALUES (6, 729015, 1);
-INSERT INTO Panier VALUES (6, 901234, 2);
-
-INSERT INTO Commandes VALUES (21, '2025-02-16', NULL, '32 Mountain Rd', 'Markham', 'S5T6V7', 'QC', 'Canada', 11);
-INSERT INTO Commandes VALUES (22, '2025-02-26', NULL, '44 Valley View Dr', 'Vaughan', 'X8Y9A1', 'QC', 'Canada', 20);
-INSERT INTO Commandes VALUES (23, '2025-03-02', NULL, '1122 College St', 'Surrey', 'B2C3D4', 'QC', 'Canada', 15);
-INSERT INTO Commandes VALUES (24, '2025-03-03', NULL, '9021 University Ave', 'Burnaby', 'E5F6G7', 'QC', 'Canada', 14);
-INSERT INTO Commandes VALUES (25, '2025-03-08', NULL, '11 Railway Ave', 'Richmond', 'H8J9K1', 'QC', 'Canada', 7);
-INSERT INTO Commandes VALUES (26, '2025-03-10', NULL, '80 Harbour St', 'Abbotsford', 'L2M3N4', 'QC', 'Canada', 8);
-INSERT INTO Commandes VALUES (27, '2025-03-11', NULL, '32 Meadow Ln', 'Kelowna', 'P5R6S7', 'QC', 'Canada', 13);INSERT INTO Commandes VALUES (28, '2025-03-12', NULL, '74 Glenwood Dr', 'Kamloops', 'T8V9X1', 'QC', 'Canada', 2);
-INSERT INTO Commandes VALUES (29, '2025-03-14', NULL, '999 Country Club Rd', 'Nanaimo', 'Y2A3B4', 'QC', 'Canada', 4);
-INSERT INTO Commandes VALUES (30, '2025-03-15', NULL, '542 College St', 'Guelph', 'C5D6E7', 'QC', 'Canada', 6);
-
-UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 17;
-UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 22;
-UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 29;
-UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 28;
-UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 25;
-UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 18;
-UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 16;
-UPDATE commandes t SET t.province_comm = 'SK' WHERE t.cid = 9;
-UPDATE commandes t SET t.province_comm = 'NS' WHERE t.cid = 6;
-UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 3;
-UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 30;
-UPDATE commandes t SET t.province_comm = 'NT' WHERE t.cid = 14;
-UPDATE commandes t SET t.province_comm = 'AB' WHERE t.cid = 2;
-UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 7;
-UPDATE commandes t SET t.province_comm = 'AB' WHERE t.cid = 1;
-UPDATE commandes t SET t.province_comm = 'YT' WHERE t.cid = 13;
-UPDATE commandes t SET t.province_comm = 'MB' WHERE t.cid = 4;
-UPDATE commandes t SET t.province_comm = 'SK' WHERE t.cid = 8;
-UPDATE commandes t SET t.province_comm = 'NU' WHERE t.cid = 15;
-UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 26;
-UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 23;
-UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 27;
-UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 20;
-UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 19;
-UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 21;
-UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 24;
-UPDATE commandes t SET t.province_comm = 'NL' WHERE t.cid = 10;
-UPDATE commandes t SET t.province_comm = 'PE' WHERE t.cid = 11;
-UPDATE commandes t SET t.province_comm = 'NB' WHERE t.cid = 12;
-
-
-CREATE TABLE IF NOT EXISTS Livraisons (lid int PRIMARY KEY, date_livr date, transporteur_livr enum('Intelcom', 'Poste Canada', 'Purolator'), cid int NOT NULL, eid int NOT NULL, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
-
-INSERT INTO Livraisons VALUES (1, '2025-01-19', 'Intelcom', 1, 1);
-INSERT INTO Livraisons VALUES (2, '2025-01-20', 'Poste Canada', 2, 2);
-INSERT INTO Livraisons VALUES (3, '2025-01-21', 'Purolator', 2, 1);
-INSERT INTO Livraisons VALUES (4, '2025-01-22', 'Intelcom', 3, 3);
-INSERT INTO Livraisons VALUES (5, '2025-01-22', 'Intelcom', 4, 2);
-INSERT INTO Livraisons VALUES (6, '2025-01-23', 'Poste Canada', 5, 1);
-INSERT INTO Livraisons VALUES (7, '2025-01-23', 'Purolator', 5, 2);
-INSERT INTO Livraisons VALUES (8, '2025-01-24', 'Poste Canada', 6, 3);
-INSERT INTO Livraisons VALUES (9, '2025-01-28', 'Intelcom', 7, 1);
-INSERT INTO Livraisons VALUES (10, '2025-01-28', 'Poste Canada', 8, 3);
-INSERT INTO Livraisons VALUES (11, '2025-01-29', 'Purolator', 8, 2);
-INSERT INTO Livraisons VALUES (12, '2025-01-30', 'Purolator', 9, 1);
-INSERT INTO Livraisons VALUES (13, '2025-02-01', 'Intelcom', 10, 3);
-INSERT INTO Livraisons VALUES (14, '2025-02-01', 'Poste Canada', 10, 2);
-INSERT INTO Livraisons VALUES (15, '2025-02-03', 'Purolator', 11, 1);
-INSERT INTO Livraisons VALUES (16, '2025-02-05', 'Intelcom', 12, 2);
-INSERT INTO Livraisons VALUES (17, '2025-02-05', 'Intelcom', 12, 3);
-INSERT INTO Livraisons VALUES (18, '2025-02-06', 'Poste Canada', 13, 2);
-INSERT INTO Livraisons VALUES (19, '2025-02-08', 'Purolator', 14, 2);
-INSERT INTO Livraisons VALUES (20, '2025-02-10', 'Poste Canada', 14, 1);
-INSERT INTO Livraisons VALUES (21, '2025-02-16', 'Intelcom', 15, 2);
-INSERT INTO Livraisons VALUES (22, '2025-02-17', 'Poste Canada', 16, 1);
-INSERT INTO Livraisons VALUES (23, '2025-02-20', 'Purolator', 16, 3);
-INSERT INTO Livraisons VALUES (24, '2025-03-01', 'Purolator', 17, 2);
-INSERT INTO Livraisons VALUES (25, '2025-03-06', 'Intelcom', 18, 1);
-INSERT INTO Livraisons VALUES (26, '2025-03-06', 'Poste Canada', 19, 2);
-INSERT INTO Livraisons VALUES (27, '2025-03-12', 'Purolator', 20, 2);
-INSERT INTO Livraisons VALUES (28, '2025-03-13', 'Intelcom', 20, 3);
-INSERT INTO Livraisons VALUES (29, '2025-03-14', 'Intelcom', 21, 1);
-INSERT INTO Livraisons VALUES (30, '2025-03-16', 'Poste Canada', 22, 1);
-INSERT INTO Livraisons VALUES (31, '2025-03-19', 'Purolator', 22, 2);
-INSERT INTO Livraisons VALUES (32, '2025-03-18', 'Poste Canada', 23, 3);
-INSERT INTO Livraisons VALUES (33, '2025-03-20', 'Intelcom', 24, 2);
-INSERT INTO Livraisons VALUES (34, '2025-03-22', 'Poste Canada', 25, 1);
-INSERT INTO Livraisons VALUES (35, '2025-03-24', 'Purolator', 26, 2);
-INSERT INTO Livraisons VALUES (36, '2025-03-25', 'Purolator', 26, 1);
-INSERT INTO Livraisons VALUES (37, '2025-03-27', 'Intelcom', 27, 2);
-INSERT INTO Livraisons VALUES (38, '2025-03-27', 'Poste Canada', 28, 1);
-INSERT INTO Livraisons VALUES (39, '2025-03-28', 'Purolator', 29, 3);
-INSERT INTO Livraisons VALUES (40, '2025-03-29', 'Poste Canada', 30, 2);
-
-
 CREATE TABLE IF NOT EXISTS DispoProds (eid int NOT NULL, pid int NOT NULL, quantite int, FOREIGN KEY (pid) REFERENCES Produits(pid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
 
 INSERT INTO DispoProds VALUES (3, 543210, 5);
@@ -576,3 +371,166 @@ INSERT INTO DispoProds VALUES (1, 567901, 10);
 INSERT INTO DispoProds VALUES (1, 984396, 5);
 INSERT INTO DispoProds VALUES (2, 984396, 5);
 INSERT INTO DispoProds VALUES (3, 984396, 5);
+
+
+CREATE TABLE IF NOT EXISTS Panier (uid int NOT NULL, pid int NOT NULL, qte int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid), FOREIGN KEY (pid) REFERENCES Produits(pid));
+
+INSERT INTO Panier VALUES (14, 567678, 1);
+INSERT INTO Panier VALUES (2, 345123, 2);
+INSERT INTO Panier VALUES (2, 678901, 1);
+INSERT INTO Panier VALUES (17, 654321, 3);
+INSERT INTO Panier VALUES (18, 901456, 2);
+INSERT INTO Panier VALUES (11, 123456, 1);
+INSERT INTO Panier VALUES (12, 123901, 3);
+INSERT INTO Panier VALUES (1, 123789, 3);
+INSERT INTO Panier VALUES (15, 678931, 2);
+INSERT INTO Panier VALUES (6, 987654, 1);
+INSERT INTO Panier VALUES (6, 893446, 3);
+INSERT INTO Panier VALUES (9, 456567, 2);
+INSERT INTO Panier VALUES (19, 234345, 2);
+INSERT INTO Panier VALUES (19, 678123, 1);
+INSERT INTO Panier VALUES (10, 567892, 3);
+INSERT INTO Panier VALUES (20, 345679, 3);
+INSERT INTO Panier VALUES (20, 789678, 2);
+INSERT INTO Panier VALUES (13, 345901, 1);
+INSERT INTO Panier VALUES (5, 890456, 2);
+INSERT INTO Panier VALUES (5, 890123, 3);
+INSERT INTO Panier VALUES (7, 678345, 1);
+INSERT INTO Panier VALUES (4, 123234, 2);
+INSERT INTO Panier VALUES (4, 567901, 1);
+INSERT INTO Panier VALUES (3, 901238, 3);
+INSERT INTO Panier VALUES (8, 345456, 2);
+INSERT INTO Panier VALUES (12, 456789, 1);
+INSERT INTO Panier VALUES (16, 901890, 3);
+INSERT INTO Panier VALUES (16, 901678, 3);
+
+
+CREATE TABLE IF NOT EXISTS Commandes (cid int AUTO_INCREMENT PRIMARY KEY, date_comm date, prix_total_comm decimal(6, 2), rue_comm varchar(60), ville_comm varchar(30), code_postal_comm char(6), province_comm enum('AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'), pays_comm varchar(20), uid int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid));
+CREATE TABLE IF NOT EXISTS LigneComms (cid int NOT NULL, pid int NOT NULL, quantite int, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (pid) REFERENCES Produits(pid));
+CREATE TABLE IF NOT EXISTS Livraisons (lid int AUTO_INCREMENT PRIMARY KEY, date_livr date, transporteur_livr enum('Intelcom', 'Poste Canada', 'Purolator'), cid int NOT NULL, eid int NOT NULL, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
+
+DELIMITER // #Nick
+CREATE TRIGGER CalculerTotal BEFORE INSERT ON Commandes FOR EACH ROW
+BEGIN
+    DECLARE pid_p INT;
+    DECLARE qte_p INT;
+    DECLARE total DECIMAL(6, 2) DEFAULT 0;
+    DECLARE lect_comp BOOL DEFAULT FALSE;
+
+    DECLARE curs CURSOR FOR SELECT P.pid, P.qte FROM Panier P WHERE P.uid = NEW.uid;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
+
+    OPEN curs;
+    lect: LOOP
+        FETCH curs INTO pid_p, qte_p;
+        IF lect_comp THEN
+            LEAVE lect;
+        END IF;
+        SET total := total + ((SELECT P.prix_prod FROM Produits P WHERE P.pid = pid_p) * qte_p);
+    END LOOP lect;
+	  CLOSE curs;
+    SET NEW.prix_total_comm = total;
+END//
+DELIMITER ;
+
+DELIMITER // #Nick
+CREATE TRIGGER TransformerPanier AFTER INSERT ON Commandes FOR EACH ROW
+BEGIN
+    DECLARE pid_p INT;
+    DECLARE qte_p INT;
+    DECLARE lect_comp BOOL DEFAULT FALSE;
+
+    DECLARE curs CURSOR FOR SELECT P.pid, P.qte FROM Panier P WHERE P.uid = NEW.uid;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
+
+    OPEN curs;
+    lect: LOOP
+        FETCH curs INTO pid_p, qte_p;
+        IF lect_comp THEN
+            LEAVE lect;
+        END IF;
+        INSERT INTO LigneComms VALUES (NEW.cid, pid_p, qte_p);
+    END LOOP lect;
+	  CLOSE curs;
+    DELETE FROM Panier P WHERE NEW.uid = P.uid;
+    CALL CreerLivraison (NEW.cid, NEW.province_comm, NEW.date_comm);
+END//
+DELIMITER ;
+
+INSERT INTO Commandes VALUES (1, '2025-01-16', NULL, '24 Queen St', 'Calgary', 'S8T9V1', 'QC', 'Canada', 14);
+INSERT INTO Commandes VALUES (2, '2025-01-17', NULL, '5637 Maple Ave', 'Edmonton', 'X2Y3A4', 'QC', 'Canada', 2);
+INSERT INTO Commandes VALUES (3, '2025-01-18', NULL, '2409 Elm St', 'Ottawa', 'B5C6D7', 'QC', 'Canada', 17);
+INSERT INTO Commandes VALUES (4, '2025-01-19', NULL, '546 Cedar Rd', 'Winnipeg', 'E8F9G1', 'QC', 'Canada', 18);
+INSERT INTO Commandes VALUES (5, '2025-01-20', NULL, '234 Pine Dr', 'Quebec City', 'H2J3K4', 'QC', 'Canada', 11);
+INSERT INTO Commandes VALUES (6, '2025-01-21', NULL, '901 Oak Blvd', 'Halifax', 'L5M6N7', 'QC', 'Canada', 1);
+INSERT INTO Commandes VALUES (7, '2025-01-22', NULL, '234 Birch Ln', 'Victoria', 'P8R9S1', 'QC', 'Canada', 15);
+INSERT INTO Commandes VALUES (8, '2025-01-25', NULL, '17 Spruce Ct', 'Saskatoon', 'T2V3X4', 'QC', 'Canada', 6);
+INSERT INTO Commandes VALUES (9, '2025-01-26', NULL, '23 Willow Way', 'Regina', 'Y5A6B7', 'QC', 'Canada', 9);
+INSERT INTO Commandes VALUES (10, '2025-01-27', NULL, '80 Chestnut St', 'St John', 'C8D9E1', 'QC', 'Canada', 19);
+INSERT INTO Commandes VALUES (11, '2025-01-29', NULL, '21 River Rd', 'Charlottetown', 'F2G3H4', 'QC', 'Canada', 10);
+INSERT INTO Commandes VALUES (12, '2025-01-30', NULL, '24 Sunset Ave', 'Fredericton', 'J5K6L7', 'QC', 'Canada', 20);
+INSERT INTO Commandes VALUES (13, '2025-02-01', NULL, '56 Highland Dr', 'Whitehorse', 'M8N9P1', 'QC', 'Canada', 13);
+INSERT INTO Commandes VALUES (14, '2025-02-02', NULL, '34 Lakeshore Rd', 'Yellowknife', 'R2S3T4', 'QC', 'Canada', 5);
+INSERT INTO Commandes VALUES (15, '2025-02-02', NULL, '94 Victoria St', 'Iqaluit', 'V5X6Y7', 'QC', 'Canada', 7);
+INSERT INTO Commandes VALUES (16, '2025-02-04', NULL, '129 Church St', 'Mississauga', 'A8B9C1', 'QC', 'Canada', 4);
+INSERT INTO Commandes VALUES (17, '2025-02-06', NULL, '1 Front St', 'Brampton', 'D2E3F4', 'QC', 'Canada', 3);
+INSERT INTO Commandes VALUES (18, '2025-02-08', NULL, '23 Bay St', 'Hamilton', 'G5H6J7', 'QC', 'Canada', 8);
+INSERT INTO Commandes VALUES (19, '2025-02-11', NULL, '61 Water St', 'Kitchener', 'K8L9M1', 'QC', 'Canada', 12);
+INSERT INTO Commandes VALUES (20, '2025-02-14', NULL, '700 Park Ave', 'London', 'N2P3R4', 'QC', 'Canada', 16);
+
+
+#PART 2
+INSERT INTO Panier VALUES (11, 678234, 2);
+INSERT INTO Panier VALUES (20, 234123, 1);
+INSERT INTO Panier VALUES (15, 345012, 3);
+INSERT INTO Panier VALUES (14, 456012, 2);
+INSERT INTO Panier VALUES (7, 234567, 2);
+INSERT INTO Panier VALUES (8, 123567, 1);
+INSERT INTO Panier VALUES (13, 789890, 3);
+INSERT INTO Panier VALUES (13, 234678, 1);
+INSERT INTO Panier VALUES (2, 890567, 2);
+INSERT INTO Panier VALUES (4, 567123, 3);
+INSERT INTO Panier VALUES (6, 729015, 1);
+INSERT INTO Panier VALUES (6, 901234, 2);
+
+INSERT INTO Commandes VALUES (21, '2025-02-16', NULL, '32 Mountain Rd', 'Markham', 'S5T6V7', 'QC', 'Canada', 11);
+INSERT INTO Commandes VALUES (22, '2025-02-26', NULL, '44 Valley View Dr', 'Vaughan', 'X8Y9A1', 'QC', 'Canada', 20);
+INSERT INTO Commandes VALUES (23, '2025-03-02', NULL, '1122 College St', 'Surrey', 'B2C3D4', 'QC', 'Canada', 15);
+INSERT INTO Commandes VALUES (24, '2025-03-03', NULL, '9021 University Ave', 'Burnaby', 'E5F6G7', 'QC', 'Canada', 14);
+INSERT INTO Commandes VALUES (25, '2025-03-08', NULL, '11 Railway Ave', 'Richmond', 'H8J9K1', 'QC', 'Canada', 7);
+INSERT INTO Commandes VALUES (26, '2025-03-10', NULL, '80 Harbour St', 'Abbotsford', 'L2M3N4', 'QC', 'Canada', 8);
+INSERT INTO Commandes VALUES (27, '2025-03-11', NULL, '32 Meadow Ln', 'Kelowna', 'P5R6S7', 'QC', 'Canada', 13);INSERT INTO Commandes VALUES (28, '2025-03-12', NULL, '74 Glenwood Dr', 'Kamloops', 'T8V9X1', 'QC', 'Canada', 2);
+INSERT INTO Commandes VALUES (29, '2025-03-14', NULL, '999 Country Club Rd', 'Nanaimo', 'Y2A3B4', 'QC', 'Canada', 4);
+INSERT INTO Commandes VALUES (30, '2025-03-15', NULL, '542 College St', 'Guelph', 'C5D6E7', 'QC', 'Canada', 6);
+
+UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 17;
+UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 22;
+UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 29;
+UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 28;
+UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 25;
+UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 18;
+UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 16;
+UPDATE commandes t SET t.province_comm = 'SK' WHERE t.cid = 9;
+UPDATE commandes t SET t.province_comm = 'NS' WHERE t.cid = 6;
+UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 3;
+UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 30;
+UPDATE commandes t SET t.province_comm = 'NT' WHERE t.cid = 14;
+UPDATE commandes t SET t.province_comm = 'AB' WHERE t.cid = 2;
+UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 7;
+UPDATE commandes t SET t.province_comm = 'AB' WHERE t.cid = 1;
+UPDATE commandes t SET t.province_comm = 'YT' WHERE t.cid = 13;
+UPDATE commandes t SET t.province_comm = 'MB' WHERE t.cid = 4;
+UPDATE commandes t SET t.province_comm = 'SK' WHERE t.cid = 8;
+UPDATE commandes t SET t.province_comm = 'NU' WHERE t.cid = 15;
+UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 26;
+UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 23;
+UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 27;
+UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 20;
+UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 19;
+UPDATE commandes t SET t.province_comm = 'ON' WHERE t.cid = 21;
+UPDATE commandes t SET t.province_comm = 'BC' WHERE t.cid = 24;
+UPDATE commandes t SET t.province_comm = 'NL' WHERE t.cid = 10;
+UPDATE commandes t SET t.province_comm = 'PE' WHERE t.cid = 11;
+UPDATE commandes t SET t.province_comm = 'NB' WHERE t.cid = 12;

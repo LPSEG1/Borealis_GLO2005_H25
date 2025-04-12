@@ -9,6 +9,7 @@ DROP PROCEDURE IF EXISTS VerifierConnexion;
 DROP PROCEDURE IF EXISTS PasserCommande;
 DROP PROCEDURE IF EXISTS MettreAJourUtilisateur;
 DROP PROCEDURE IF EXISTS CreerCompte;
+DROP PROCEDURE IF EXISTS CreerLivraison;
 
 
 DELIMITER //
@@ -110,6 +111,7 @@ BEGIN
 END//
 DELIMITER ;
 
+
 DELIMITER //
 CREATE PROCEDURE #L-P
     MAJPanier(IN util_id int, IN prod_id int, IN newQte int)
@@ -118,6 +120,7 @@ BEGIN
 END//
 DELIMITER ;
 
+
 DELIMITER //
 CREATE PROCEDURE #L-P
     EnleverPanier(IN util_id int, IN prod_id int)
@@ -125,6 +128,7 @@ BEGIN
       DELETE FROM panier WHERE uid = util_id AND pid = prod_id;
 END//
 DELIMITER ;
+
 
 -- Non utilisé #David
 -- DELIMITER // #Melqui
@@ -321,3 +325,62 @@ BEGIN
 END //
 DELIMITER ;
 
+
+DELIMITER //
+CREATE PROCEDURE CreerLivraison (
+  IN incid int,
+  IN inprov char(2),
+  IN indate date
+  )
+BEGIN
+    DECLARE lc_cid int;
+    DECLARE lc_pid int;
+    DECLARE lc_qte int;
+    DECLARE dp_qte int;
+    DECLARE prov_eid int;
+    DECLARE transpo_id int;
+    DECLARE transpo char(12);
+    DECLARE lect_comp bool DEFAULT FALSE;
+
+    DECLARE curs CURSOR FOR SELECT LC.cid, LC.pid, LC.quantite FROM lignecomms LC WHERE LC.cid = incid;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
+
+    SET transpo_id := (SELECT FLOOR(1 + (RAND() * 3)));
+
+    IF inprov IN ('QC', 'PE', 'NS', 'NB', 'NL') THEN
+      SET prov_eid := 3;
+    END IF;
+    IF inprov IN ('BC', 'AB', 'YT', 'NT') THEN
+      SET prov_eid := 2;
+    END IF;
+    IF inprov IN ('ON', 'MB', 'SK', 'NU') THEN
+      SET prov_eid := 1;
+    END IF;
+
+    IF transpo_id = 1 THEN
+      SET transpo := 'Intelcom';
+    END IF;
+    IF transpo_id = 2 THEN
+      SET transpo := 'Poste Canada';
+    END IF;
+    IF transpo_id = 3 THEN
+      SET transpo := 'Purolator';
+    END IF;
+
+    OPEN curs;
+    lect: LOOP
+        FETCH curs INTO lc_cid, lc_pid, lc_qte;
+        IF lect_comp THEN
+            LEAVE lect;
+        END IF;
+        SET dp_qte := (SELECT DP.quantite FROM dispoprods DP WHERE DP.quantite = lc_pid AND DP.eid = prov_eid);
+        IF dp_qte - lc_qte >= 0 THEN
+          UPDATE dispoprods SET quantite = (dp_qte - lc_qte) WHERE pid = lc_pid AND eid = prov_eid;
+        END IF;
+    END LOOP lect;
+	  CLOSE curs;
+    INSERT INTO livraisons (date_livr, transporteur_livr, cid, eid) VALUES (DATE_ADD(indate, INTERVAL 5 DAY), transpo,
+                                                                                incid, prov_eid);
+END //
+DELIMITER ;
