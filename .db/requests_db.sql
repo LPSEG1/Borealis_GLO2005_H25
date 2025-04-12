@@ -4,6 +4,7 @@ DROP PROCEDURE IF EXISTS ChangerMdp;
 DROP PROCEDURE IF EXISTS AjouterPanier;
 DROP PROCEDURE IF EXISTS MAJPanier;
 DROP PROCEDURE IF EXISTS EnleverPanier;
+DROP FUNCTION IF EXISTS AfficherTotal;
 DROP PROCEDURE IF EXISTS AfficherInfosUtilisateur;
 DROP PROCEDURE IF EXISTS VerifierConnexion;
 DROP PROCEDURE IF EXISTS PasserCommande;
@@ -129,6 +130,28 @@ BEGIN
 END//
 DELIMITER ;
 
+DELIMITER // #Nick
+CREATE FUNCTION AfficherTotal (util_id int) RETURNS DECIMAL(6, 2) DETERMINISTIC
+BEGIN
+    DECLARE pid_p INT;
+    DECLARE qte_p INT;
+    DECLARE total DECIMAL(6, 2) DEFAULT 0;
+    DECLARE lect_comp BOOL DEFAULT FALSE;
+    DECLARE curs CURSOR FOR SELECT P.pid, P.qte FROM Panier P WHERE P.uid = util_id;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
+
+    OPEN curs;
+    lect: LOOP
+        FETCH curs INTO pid_p, qte_p;
+        IF lect_comp THEN
+            LEAVE lect;
+        END IF;
+        SET total := total + ((SELECT P.prix_prod FROM Produits P WHERE P.pid = pid_p) * qte_p);
+    END LOOP lect;
+	  CLOSE curs;
+    RETURN total;
+END//
+DELIMITER ;
 
 -- Non utilisé #David
 -- DELIMITER // #Melqui

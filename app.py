@@ -80,7 +80,7 @@ def inscription():
   except Exception as e:
     return str(e)
 
-@app.route('/account/<user>')
+@app.route('/account/<user>', methods=['GET', 'POST'])
 def account(user):
   try:
     connection = util.connection_database()
@@ -109,6 +109,7 @@ def accountChangePersonal(user):
     account = cur.fetchone()
     connection.close()
     return render_template('account.html', account=account, message=message, connected=VarGlobal, user=GlobalUser)
+
   except Exception as e:
     return str(e)
 
@@ -130,8 +131,10 @@ def accountChangeDelivery(user):
     account = cur.fetchone()
     connection.close()
     return render_template('account.html', account=account, message=message, connected=VarGlobal, user=GlobalUser)
+
   except Exception as e:
     return str(e)
+
 @app.route('/search', methods=['POST'])
 def search():
   try:
@@ -166,9 +169,38 @@ def item(itemPage):
     return str(e)
 
 
-@app.route('/cart/<user>')
+@app.route('/cart/<user>', methods=['GET', 'POST'])
 def cart(user):
-    return render_template('cart.html', connected=VarGlobal, user=GlobalUser)
+  try:
+    connection = util.connection_database()
+    cur = connection.cursor()
+    cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.prix_prod, P.image_prod, C.qte, P.unite_prod FROM Produits P INNER JOIN panier C ON P.pid = C.pid INNER JOIN fournisseurs F ON P.fid = F.fid WHERE C.uid = '+user+'')
+    items = cur.fetchall()
+    cur.execute('SELECT AfficherTotal(' + user + ')')
+    price = cur.fetchone()
+    connection.close()
+    return render_template('cart.html', items=items, price=price, connected=VarGlobal, user=GlobalUser)
+  except Exception as e:
+    return str(e)
+
+@app.route('/updateQuantity/<user>/<product>', methods=['POST'])
+def updateQuantity(user,product):
+  try:
+    GlobalUser=user
+    newQte = request.form.get('quantity')
+
+    connection = util.connection_database()
+    cur = connection.cursor()
+    cur.execute('UPDATE panier SET qte = '+newQte+' WHERE uid = '+user+' AND pid = '+product+'')
+    connection.commit()
+    cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.prix_prod, P.image_prod, C.qte, P.unite_prod FROM Produits P INNER JOIN panier C ON P.pid = C.pid INNER JOIN fournisseurs F ON P.fid = F.fid WHERE C.uid = ' + user + '')
+    items = cur.fetchall()
+    cur.execute('SELECT AfficherTotal('+user+')')
+    price = cur.fetchone()
+    connection.close()
+    return render_template('cart.html', items=items, price=price, connected=VarGlobal, user=GlobalUser)
+  except Exception as e:
+    return str(e)
 
 @app.route('/checkout/<user>')
 def checkout(user):

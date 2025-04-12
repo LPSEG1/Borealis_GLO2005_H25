@@ -957,11 +957,25 @@ header {
   font-size: 24px;
 }
 
+.cart-updateQte
+{
+  display: flex;
+}
+
 .product-cart-quantity {
   display: flex;
-  gap: 5px;
+  gap: 50px;
   float: right;
   margin-top: -25px;
+}
+
+.update-btn {
+  height: 25px;
+  color: #fff;
+  background-color: #113f55;
+  border: none;
+  cursor: pointer;
+  transition: 250ms;
 }
 
 .delete-btn {
