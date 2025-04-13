@@ -11,6 +11,8 @@ DROP PROCEDURE IF EXISTS PasserCommande;
 DROP PROCEDURE IF EXISTS MettreAJourUtilisateur;
 DROP PROCEDURE IF EXISTS CreerCompte;
 DROP PROCEDURE IF EXISTS CreerLivraison;
+DROP PROCEDURE IF EXISTS AfficherInfosProduit;
+DROP PROCEDURE IF EXISTS RemplirInfosCommande;
 
 
 DELIMITER //
@@ -464,9 +466,8 @@ BEGIN
       ville VARCHAR(30),
         code_postal CHAR(6),
         province CHAR(2),
-        pays VARCHAR(20),
         telephone BIGINT,
-      entrepot_rue VARCHAR(60),
+        entrepot_rue VARCHAR(60),
         entrepot_ville VARCHAR(30),
         entrepot_province CHAR(2)
     );
@@ -480,10 +481,9 @@ BEGIN
         U.ville_util,
         U.code_postal_util,
         U.province_util,
-      U.pays_util,
         U.telephone_util,
         E.rue_entre,
-      E.ville_entre,
+        E.ville_entre,
         E.province_entre
     FROM Utilisateurs U
     JOIN Entrepots E ON U.eid_util = E.eid
@@ -493,5 +493,3 @@ BEGIN
     SELECT * FROM InfosCommande;
 END //
 DELIMITER ;
-
-
