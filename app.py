@@ -65,11 +65,10 @@ def inscription():
     ville = request.form.get('signup-city')
     province = request.form.get('signup-province')
     password = util.hacher(request.form.get('signup-password'))
-    pays = "Canada"
     entrepot = request.form.get('signup-warehouse')
     connection = util.connection_database()
     cur = connection.cursor()
-    cur.execute('CALL CreerCompte("'+email+'", "'+prenom+'", "'+nom+'", "'+adresse+'", "'+ville+'", "'+codePostal+'", "'+province+'", "'+pays+'", "'+telephone+'", "'+entrepot+'", "'+password+'")')
+    cur.execute('CALL CreerCompte("'+email+'", "'+prenom+'", "'+nom+'", "'+adresse+'", "'+ville+'", "'+codePostal+'", "'+province+'", "'+telephone+'", "'+entrepot+'", "'+password+'")')
     cur.execute('SELECT M.mid FROM MotHacher M ORDER BY M.mid DESC LIMIT 1')
     id = cur.fetchone()
     global GlobalUser
