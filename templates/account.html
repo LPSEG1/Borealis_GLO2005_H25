@@ -119,7 +119,7 @@
           <input type="email" id="account-email" name="account-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}${6,100}" value="{{account[1]}}"/>
       </div>
       <div class="info-input">
-       <label>Telephone: </label><input type="tel" id="account-phone" name="account-phone" pattern="[0-9\-\(\) ]{10,14}" value="{{account[4]}}">
+       <label>Telephone: </label><input type="tel" id="account-phone" name="account-phone" placeholder="sans espace, -, ()" pattern="[0-9]{10}" value="{{account[4]}}">
       </div>
       <!-- <div class="info-input">
         <a href="">Change password</a>
@@ -139,7 +139,7 @@
         <label>Rue: </label><input type="text" id="account-street" name="account-street" pattern="[a-zA-Z0-9 \-]{1,60}" value="{{account[5]}}">
       </div>
       <div class="info-input">
-        <label>Code postal: </label><input type="text" id="account-post" name="account-post" pattern="[a-zA-Z0-9]{6}" value="{{account[6]}}">
+        <label>Code postal: </label><input type="text" id="account-post" name="account-post" placeholder="sans espace" pattern="[a-zA-Z0-9]{6}" value="{{account[6]}}">
       </div>
       <div class="info-input">
         <label>Ville: </label><input type="text" id="account-city" name="account-city" pattern="[a-zA-Z \-]{1,30}" value="{{account[7]}}">
