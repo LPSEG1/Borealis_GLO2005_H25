@@ -11,9 +11,36 @@ DROP TABLE IF EXISTS Entrepots;
 
 DROP TRIGGER IF EXISTS CalculerTotal;
 DROP TRIGGER IF EXISTS TransformerPanier;
+DROP TRIGGER IF EXISTS VerifierCourriel;
+DROP TRIGGER IF EXISTS VerifierFournisseur;
 
 
 CREATE TABLE IF NOT EXISTS Fournisseurs (fid int PRIMARY KEY, nom_four varchar(30));
+
+DELIMITER // #Nick
+CREATE TRIGGER VerifierFournisseur BEFORE INSERT ON Fournisseurs FOR EACH ROW
+BEGIN
+    DECLARE lect_comp BOOL DEFAULT FALSE;
+    DECLARE nom char(30);
+
+    DECLARE curs CURSOR FOR SELECT F.nom_four FROM Fournisseurs F;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
+
+    OPEN curs;
+    lect: LOOP
+        FETCH curs INTO nom;
+        IF lect_comp THEN
+            LEAVE lect;
+        END IF;
+        IF NEW.nom_four = nom THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Fournisseur existe deja';
+        END IF;
+    END LOOP lect;
+	  CLOSE curs;
+END//
+DELIMITER ;
 
 INSERT INTO Fournisseurs VALUES (48291, 'HP');
 INSERT INTO Fournisseurs VALUES (17536, 'LG');
@@ -45,6 +72,31 @@ INSERT INTO Entrepots VALUES (3, '78 King St', 'Montreal', 'C3C3C3', 'QC');
 
 
 CREATE TABLE IF NOT EXISTS Utilisateurs (uid int NOT NULL AUTO_INCREMENT PRIMARY KEY, courriel_util varchar(100) NOT NULL UNIQUE, prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30), code_postal_util char(6), province_util enum('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'), telephone_util bigint, eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid));
+
+DELIMITER // #Nick
+CREATE TRIGGER VerifierCourriel BEFORE INSERT ON Utilisateurs FOR EACH ROW
+BEGIN
+    DECLARE lect_comp BOOL DEFAULT FALSE;
+    DECLARE courriel char(100);
+
+    DECLARE curs CURSOR FOR SELECT U.courriel_util FROM Utilisateurs U;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
+
+    OPEN curs;
+    lect: LOOP
+        FETCH curs INTO courriel;
+        IF lect_comp THEN
+            LEAVE lect;
+        END IF;
+        IF NEW.courriel_util = courriel THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Courriel deja utilise';
+        END IF;
+    END LOOP lect;
+	  CLOSE curs;
+END//
+DELIMITER ;
 
 INSERT INTO Utilisateurs VALUES (1, 'john.doe@gmail.com', 'john', 'doe', '142 Heritage Dr', 'Waterloo', 'E4E4E4', 'ON', 2041234567, 2);
 INSERT INTO Utilisateurs VALUES (2, 'sarah_92@yahoo.com', 'sarah', 'doe', '9875 Stonebridge Ln', 'Thunder Bay', 'G5G5G5', 'ON', 2049876543, 1);

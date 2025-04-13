@@ -463,7 +463,7 @@ BEGIN
         prenom VARCHAR(30),
         nom VARCHAR(30),
         rue VARCHAR(60),
-      ville VARCHAR(30),
+        ville VARCHAR(30),
         code_postal CHAR(6),
         province CHAR(2),
         telephone BIGINT,
