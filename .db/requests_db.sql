@@ -200,7 +200,6 @@ CREATE PROCEDURE CreerCompte (
     IN ville VARCHAR(30),
     IN code_postal CHAR(6),
     IN province ENUM('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'),
-    IN pays VARCHAR(20),
     IN telephone BIGINT,
     IN entrepot_id INT,
     IN mdp VARCHAR(64)
@@ -220,7 +219,6 @@ BEGIN
             ville_util,
             code_postal_util,
             province_util,
-            pays_util,
             telephone_util,
             eid_util
         )
@@ -232,7 +230,6 @@ BEGIN
             ville,
             code_postal,
             province,
-            pays,
             telephone,
             entrepot_id
         );
@@ -252,8 +249,7 @@ CREATE PROCEDURE PasserCommande(
   IN p_rue_comm VARCHAR(60),
   IN p_ville_comm VARCHAR(30),
   IN p_code_postal_comm CHAR(6),
-  IN p_province_comm ENUM('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'),
-  IN p_pays_comm VARCHAR(20)
+  IN p_province_comm ENUM('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT')
 )
 BEGIN
   DECLARE nouveau_cid INT;
@@ -261,7 +257,6 @@ BEGIN
   DECLARE ville_client VARCHAR(30);
   DECLARE code_postal_client CHAR(6);
   DECLARE province_client ENUM('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT');
-  DECLARE pays_client VARCHAR(20);
 
   # gestion erreur si l'utilisateur n'existe pas
   IF NOT EXISTS (SELECT 1 FROM Utilisateurs WHERE uid = p_uid) THEN
@@ -269,8 +264,8 @@ BEGIN
   END IF;
 
   # récupérer l’adresse du compte utilisateur
-  SELECT rue_util, ville_util, code_postal_util, province_util, pays_util
-  INTO rue_client, ville_client, code_postal_client, province_client, pays_client
+  SELECT rue_util, ville_util, code_postal_util, province_util
+  INTO rue_client, ville_client, code_postal_client, province_client
   FROM Utilisateurs
   WHERE uid = p_uid;
 
@@ -279,17 +274,16 @@ BEGIN
   SET p_ville_comm = IFNULL(p_ville_comm, ville_client);
   SET p_code_postal_comm = IFNULL(p_code_postal_comm, code_postal_client);
   SET p_province_comm = IFNULL(p_province_comm, province_client);
-  SET p_pays_comm = IFNULL(p_pays_comm, pays_client);
 
   # générer un nouveau cid automatiquement
   SELECT IFNULL(MAX(cid), 0) + 1 INTO nouveau_cid FROM Commandes;
 
   # insértion de la commande
   INSERT INTO Commandes (
-    cid, date_comm, rue_comm, ville_comm, code_postal_comm, province_comm, pays_comm, uid
+    cid, date_comm, rue_comm, ville_comm, code_postal_comm, province_comm, uid
   )
   VALUES (
-    nouveau_cid, CURRENT_DATE, p_rue_comm, p_ville_comm, p_code_postal_comm, p_province_comm, p_pays_comm, p_uid
+    nouveau_cid, CURRENT_DATE, p_rue_comm, p_ville_comm, p_code_postal_comm, p_province_comm, p_uid
   );
 
 
@@ -353,9 +347,8 @@ DELIMITER // #Ajouter si non dispo
 CREATE PROCEDURE CreerLivraison (
   IN incid int,
   IN inprov char(2),
-  IN indate date
-  )
-BEGIN
+  IN indate date)
+  BEGIN
     DECLARE lc_cid int;
     DECLARE lc_pid int;
     DECLARE lc_qte int;
@@ -370,6 +363,15 @@ BEGIN
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
 
     SET transpo_id := (SELECT FLOOR(1 + (RAND() * 3)));
+    IF transpo_id = 1 THEN
+      SET transpo := 'Intelcom';
+    END IF;
+    IF transpo_id = 2 THEN
+      SET transpo := 'Poste Canada';
+    END IF;
+    IF transpo_id = 3 THEN
+      SET transpo := 'Purolator';
+    END IF;
 
     IF inprov IN ('QC', 'PE', 'NS', 'NB', 'NL') THEN
       SET prov_eid := 3;
@@ -381,23 +383,13 @@ BEGIN
       SET prov_eid := 1;
     END IF;
 
-    IF transpo_id = 1 THEN
-      SET transpo := 'Intelcom';
-    END IF;
-    IF transpo_id = 2 THEN
-      SET transpo := 'Poste Canada';
-    END IF;
-    IF transpo_id = 3 THEN
-      SET transpo := 'Purolator';
-    END IF;
-
     OPEN curs;
     lect: LOOP
         FETCH curs INTO lc_cid, lc_pid, lc_qte;
         IF lect_comp THEN
             LEAVE lect;
         END IF;
-        SET dp_qte := (SELECT DP.quantite FROM dispoprods DP WHERE DP.quantite = lc_pid AND DP.eid = prov_eid);
+        SET dp_qte := (SELECT DP.quantite FROM dispoprods DP WHERE DP.pid = lc_pid AND DP.eid = prov_eid);
         IF dp_qte - lc_qte >= 0 THEN
           UPDATE dispoprods SET quantite = (dp_qte - lc_qte) WHERE pid = lc_pid AND eid = prov_eid;
         END IF;

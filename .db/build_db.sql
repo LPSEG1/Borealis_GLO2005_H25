@@ -37,35 +37,35 @@ INSERT INTO Fournisseurs VALUES (74185, 'Adidas');
 INSERT INTO Fournisseurs VALUES (20369, 'Puma');
 
 
-CREATE TABLE IF NOT EXISTS Entrepots (eid int PRIMARY KEY, rue_entre varchar(60), ville_entre varchar(30), code_postal_entre char(6), province_entre enum('BC', 'ON', 'QC'), pays_entre varchar(20));
+CREATE TABLE IF NOT EXISTS Entrepots (eid int PRIMARY KEY, rue_entre varchar(60), ville_entre varchar(30), code_postal_entre char(6), province_entre enum('BC', 'ON', 'QC'));
 
-INSERT INTO Entrepots VALUES (1, '7607 Main St', 'Toronto', 'A1A1A1', 'ON', 'Canada');
-INSERT INTO Entrepots VALUES (2, '64 Broadway', 'Vancouver', 'B2B2B2', 'BC', 'Canada');
-INSERT INTO Entrepots VALUES (3, '78 King St', 'Montreal', 'C3C3C3', 'QC', 'Canada');
+INSERT INTO Entrepots VALUES (1, '7607 Main St', 'Toronto', 'A1A1A1', 'ON');
+INSERT INTO Entrepots VALUES (2, '64 Broadway', 'Vancouver', 'B2B2B2', 'BC');
+INSERT INTO Entrepots VALUES (3, '78 King St', 'Montreal', 'C3C3C3', 'QC');
 
 
-CREATE TABLE IF NOT EXISTS Utilisateurs (uid int NOT NULL AUTO_INCREMENT PRIMARY KEY, courriel_util varchar(100) NOT NULL UNIQUE, prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30), code_postal_util char(6), province_util enum('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'), pays_util varchar(20), telephone_util bigint, eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid));
+CREATE TABLE IF NOT EXISTS Utilisateurs (uid int NOT NULL AUTO_INCREMENT PRIMARY KEY, courriel_util varchar(100) NOT NULL UNIQUE, prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30), code_postal_util char(6), province_util enum('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'), telephone_util bigint, eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid));
 
-INSERT INTO Utilisateurs VALUES (1, 'john.doe@gmail.com', 'john', 'doe', '142 Heritage Dr', 'Waterloo', 'E4E4E4', 'ON', 'Canada', 2041234567, 2);
-INSERT INTO Utilisateurs VALUES (2, 'sarah_92@yahoo.com', 'sarah', 'doe', '9875 Stonebridge Ln', 'Thunder Bay', 'G5G5G5', 'ON', 'Canada', 2049876543, 1);
-INSERT INTO Utilisateurs VALUES (3, 'michael123@hotmail.com', 'michael', 'doe', '9074 Horizon Blvd', 'Barrie', 'H6H6H6', 'ON', 'Canada', 3062345678, 2);
-INSERT INTO Utilisateurs VALUES (4, 'emma.watson@outlook.com', 'emma', 'watson', '15 Silver Birch Ave', 'Sudbury', 'J7J7J7', 'ON', 'Canada', 3068765432, 2);
-INSERT INTO Utilisateurs VALUES (5, 'david.smith@icloud.com', 'david', 'smith', '2987 Windermere Rd', 'Laval', 'K8K8K8', 'QC', 'Canada', 4033456789, 2);
-INSERT INTO Utilisateurs VALUES (6, 'charlie_brown@aol.com', 'charlie', 'brown', '2310 Blueberry Ln', 'Sherbrooke', 'L9L9L9', 'QC', 'Canada', 4037654321, 2);
-INSERT INTO Utilisateurs VALUES (7, 'olivia.jones@gmail.com', 'olivia', 'jones', '2097 Redwood Dr', 'Trois-Rivières', 'M1M1M1', 'QC', 'Canada', 4164567890, 3);
-INSERT INTO Utilisateurs VALUES (8, 'lucas_miller@yahoo.ca', 'lucas', 'miller', '76 Sycamore St', 'Saguenay', 'N2N2N2', 'QC', 'Canada', 4166543210, 1);
-INSERT INTO Utilisateurs VALUES (9, 'sophia_wilson@hotmail.com', 'sophia', 'wilson', '54 Ashwood Ave', 'Gatineau', 'P3P3P3', 'QC', 'Canada', 4185678901, 1);
-INSERT INTO Utilisateurs VALUES (10, 'liam.anderson@protonmail.com', 'liam', 'anderson', '1-87 Juniper St', 'Saint John', 'R4R4R4', 'NB', 'Canada', 4185432109, 1);
-INSERT INTO Utilisateurs VALUES (11, 'noah_thomas@live.com', 'noah', 'thomas', '78A Magnolia Ct', 'Moncton', 'S5S5S5', 'NB', 'Canada', 5146789012, 2);
-INSERT INTO Utilisateurs VALUES (12, 'isabella.moore@ymail.com', 'isabella', 'moore', '3456 Firwood Dr', 'Drummondville', 'T6T6T6', 'QC', 'Canada', 5144321098, 1);
-INSERT INTO Utilisateurs VALUES (13, 'ethan.harris@gmail.com', 'ethan', 'harris', '876 Evergreen Blvd', 'Granby', 'V7V7V7', 'QC', 'Canada', 6047890123, 1);
-INSERT INTO Utilisateurs VALUES (14, 'ava_clark@yahoo.com', 'ava', 'clark', '8001 Orchard Ln', 'Belleville', 'X8X8X8', 'ON', 'Canada', 6043210987, 3);
-INSERT INTO Utilisateurs VALUES (15, 'james_walker@outlook.com', 'james', 'walker', '743 Meadowbrook Rd', 'Chilliwack', 'Y9Y9Y9', 'BC', 'Canada', 6138901234, 3);
-INSERT INTO Utilisateurs VALUES (16, 'mia.rodriguez@hotmail.com', 'mia', 'rodriguez', '124 Foxglove Dr', 'Red Deer', 'A2B3C4', 'AB', 'Canada', 6132109876, 1);
-INSERT INTO Utilisateurs VALUES (17, 'benjamin_hall@icloud.com', 'benjamin', 'hall', '3256 Crimson Maple Rd', 'Lethbridge', 'D5E6F7', 'AB', 'Canada', 9029012345, 2);
-INSERT INTO Utilisateurs VALUES (18, 'amelia.young@gmail.com', 'amelia', 'young', '12 Summit Ave', 'Medicine Hat', 'G8H9J1', 'AB', 'Canada', 9021098765, 2);
-INSERT INTO Utilisateurs VALUES (19, 'alexander.king@yahoo.ca', 'alexander', 'king', '4 Starview Ln', 'Prince George', 'K2L3M4', 'BC', 'Canada', 4036783456, 1);
-INSERT INTO Utilisateurs VALUES (20, 'charlotte.scott@live.com', 'charlotte', 'scott', '27 Northgate Dr', 'Sault Ste. Marie', 'N5P6R7', 'ON', 'Canada', 4169876543, 2);
+INSERT INTO Utilisateurs VALUES (1, 'john.doe@gmail.com', 'john', 'doe', '142 Heritage Dr', 'Waterloo', 'E4E4E4', 'ON', 2041234567, 2);
+INSERT INTO Utilisateurs VALUES (2, 'sarah_92@yahoo.com', 'sarah', 'doe', '9875 Stonebridge Ln', 'Thunder Bay', 'G5G5G5', 'ON', 2049876543, 1);
+INSERT INTO Utilisateurs VALUES (3, 'michael123@hotmail.com', 'michael', 'doe', '9074 Horizon Blvd', 'Barrie', 'H6H6H6', 'ON', 3062345678, 2);
+INSERT INTO Utilisateurs VALUES (4, 'emma.watson@outlook.com', 'emma', 'watson', '15 Silver Birch Ave', 'Sudbury', 'J7J7J7', 'ON', 3068765432, 2);
+INSERT INTO Utilisateurs VALUES (5, 'david.smith@icloud.com', 'david', 'smith', '2987 Windermere Rd', 'Laval', 'K8K8K8', 'QC', 4033456789, 2);
+INSERT INTO Utilisateurs VALUES (6, 'charlie_brown@aol.com', 'charlie', 'brown', '2310 Blueberry Ln', 'Sherbrooke', 'L9L9L9', 'QC', 4037654321, 2);
+INSERT INTO Utilisateurs VALUES (7, 'olivia.jones@gmail.com', 'olivia', 'jones', '2097 Redwood Dr', 'Trois-Rivières', 'M1M1M1', 'QC', 4164567890, 3);
+INSERT INTO Utilisateurs VALUES (8, 'lucas_miller@yahoo.ca', 'lucas', 'miller', '76 Sycamore St', 'Saguenay', 'N2N2N2', 'QC', 4166543210, 1);
+INSERT INTO Utilisateurs VALUES (9, 'sophia_wilson@hotmail.com', 'sophia', 'wilson', '54 Ashwood Ave', 'Gatineau', 'P3P3P3', 'QC', 4185678901, 1);
+INSERT INTO Utilisateurs VALUES (10, 'liam.anderson@protonmail.com', 'liam', 'anderson', '1-87 Juniper St', 'Saint John', 'R4R4R4', 'NB', 4185432109, 1);
+INSERT INTO Utilisateurs VALUES (11, 'noah_thomas@live.com', 'noah', 'thomas', '78A Magnolia Ct', 'Moncton', 'S5S5S5', 'NB', 5146789012, 2);
+INSERT INTO Utilisateurs VALUES (12, 'isabella.moore@ymail.com', 'isabella', 'moore', '3456 Firwood Dr', 'Drummondville', 'T6T6T6', 'QC', 5144321098, 1);
+INSERT INTO Utilisateurs VALUES (13, 'ethan.harris@gmail.com', 'ethan', 'harris', '876 Evergreen Blvd', 'Granby', 'V7V7V7', 'QC', 6047890123, 1);
+INSERT INTO Utilisateurs VALUES (14, 'ava_clark@yahoo.com', 'ava', 'clark', '8001 Orchard Ln', 'Belleville', 'X8X8X8', 'ON', 6043210987, 3);
+INSERT INTO Utilisateurs VALUES (15, 'james_walker@outlook.com', 'james', 'walker', '743 Meadowbrook Rd', 'Chilliwack', 'Y9Y9Y9', 'BC', 6138901234, 3);
+INSERT INTO Utilisateurs VALUES (16, 'mia.rodriguez@hotmail.com', 'mia', 'rodriguez', '124 Foxglove Dr', 'Red Deer', 'A2B3C4', 'AB', 6132109876, 1);
+INSERT INTO Utilisateurs VALUES (17, 'benjamin_hall@icloud.com', 'benjamin', 'hall', '3256 Crimson Maple Rd', 'Lethbridge', 'D5E6F7', 'AB', 9029012345, 2);
+INSERT INTO Utilisateurs VALUES (18, 'amelia.young@gmail.com', 'amelia', 'young', '12 Summit Ave', 'Medicine Hat', 'G8H9J1', 'AB', 9021098765, 2);
+INSERT INTO Utilisateurs VALUES (19, 'alexander.king@yahoo.ca', 'alexander', 'king', '4 Starview Ln', 'Prince George', 'K2L3M4', 'BC', 4036783456, 1);
+INSERT INTO Utilisateurs VALUES (20, 'charlotte.scott@live.com', 'charlotte', 'scott', '27 Northgate Dr', 'Sault Ste. Marie', 'N5P6R7', 'ON', 4169876543, 2);
 
 
 CREATE TABLE IF NOT EXISTS MotHacher(mid int PRIMARY KEY, mdp_util varchar(64) NOT NULL, FOREIGN KEY(mid) REFERENCES Utilisateurs(uid));
@@ -244,7 +244,7 @@ INSERT INTO DispoProds VALUES (2, 678234, 10);
 INSERT INTO DispoProds VALUES (1, 678234, 13);
 INSERT INTO DispoProds VALUES (3, 123234, 14);
 INSERT INTO DispoProds VALUES (2, 123234, 15);
-INSERT INTO DispoProds VALUES (1, 123234, 2);
+INSERT INTO DispoProds VALUES (1, 123234, 4);
 INSERT INTO DispoProds VALUES (3, 789890, 6);
 INSERT INTO DispoProds VALUES (2, 789890, 15);
 INSERT INTO DispoProds VALUES (1, 789890, 1);
@@ -252,7 +252,7 @@ INSERT INTO DispoProds VALUES (3, 901890, 5);
 INSERT INTO DispoProds VALUES (2, 901890, 8);
 INSERT INTO DispoProds VALUES (1, 901890, 4);
 INSERT INTO DispoProds VALUES (3, 456012, 3);
-INSERT INTO DispoProds VALUES (2, 456012, 0);
+INSERT INTO DispoProds VALUES (2, 456012, 2);
 INSERT INTO DispoProds VALUES (1, 456012, 5);
 INSERT INTO DispoProds VALUES (3, 234345, 6);
 INSERT INTO DispoProds VALUES (2, 234345, 14);
@@ -311,9 +311,9 @@ INSERT INTO DispoProds VALUES (1, 729015, 13);
 INSERT INTO DispoProds VALUES (3, 890123, 8);
 INSERT INTO DispoProds VALUES (2, 890123, 7);
 INSERT INTO DispoProds VALUES (1, 890123, 4);
-INSERT INTO DispoProds VALUES (3, 901238, 1);
+INSERT INTO DispoProds VALUES (3, 901238, 4);
 INSERT INTO DispoProds VALUES (2, 901238, 13);
-INSERT INTO DispoProds VALUES (1, 901238, 1);
+INSERT INTO DispoProds VALUES (1, 901238, 4);
 INSERT INTO DispoProds VALUES (3, 123456, 5);
 INSERT INTO DispoProds VALUES (2, 123456, 6);
 INSERT INTO DispoProds VALUES (1, 123456, 9);
@@ -405,21 +405,32 @@ INSERT INTO Panier VALUES (16, 901890, 3);
 INSERT INTO Panier VALUES (16, 901678, 3);
 
 
-CREATE TABLE IF NOT EXISTS Commandes (cid int AUTO_INCREMENT PRIMARY KEY, date_comm date, prix_total_comm decimal(6, 2), rue_comm varchar(60), ville_comm varchar(30), code_postal_comm char(6), province_comm enum('AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'), pays_comm varchar(20), uid int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid));
+CREATE TABLE IF NOT EXISTS Commandes (cid int AUTO_INCREMENT PRIMARY KEY, date_comm date, prix_total_comm decimal(6, 2), rue_comm varchar(60), ville_comm varchar(30), code_postal_comm char(6), province_comm enum('AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'), uid int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid));
 CREATE TABLE IF NOT EXISTS LigneComms (cid int NOT NULL, pid int NOT NULL, quantite int, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (pid) REFERENCES Produits(pid));
 CREATE TABLE IF NOT EXISTS Livraisons (lid int AUTO_INCREMENT PRIMARY KEY, date_livr date, transporteur_livr enum('Intelcom', 'Poste Canada', 'Purolator'), cid int NOT NULL, eid int NOT NULL, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
 
 DELIMITER // #Nick
-CREATE TRIGGER CalculerTotal BEFORE INSERT ON Commandes FOR EACH ROW
+CREATE TRIGGER CheckCommande BEFORE INSERT ON Commandes FOR EACH ROW
 BEGIN
+    DECLARE total DECIMAL(6, 2) DEFAULT 0;
+    DECLARE prov_eid int;
     DECLARE pid_p INT;
     DECLARE qte_p INT;
-    DECLARE total DECIMAL(6, 2) DEFAULT 0;
     DECLARE lect_comp BOOL DEFAULT FALSE;
 
     DECLARE curs CURSOR FOR SELECT P.pid, P.qte FROM Panier P WHERE P.uid = NEW.uid;
 
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
+
+    IF NEW.province_comm IN ('QC', 'PE', 'NS', 'NB', 'NL') THEN
+      SET prov_eid := 3;
+    END IF;
+    IF NEW.province_comm IN ('BC', 'AB', 'YT', 'NT') THEN
+      SET prov_eid := 2;
+    END IF;
+    IF NEW.province_comm IN ('ON', 'MB', 'SK', 'NU') THEN
+      SET prov_eid := 1;
+    END IF;
 
     OPEN curs;
     lect: LOOP
@@ -427,9 +438,14 @@ BEGIN
         IF lect_comp THEN
             LEAVE lect;
         END IF;
-        SET total := total + ((SELECT P.prix_prod FROM Produits P WHERE P.pid = pid_p) * qte_p);
+        IF ((SELECT DP.quantite FROM DispoProds DP WHERE prov_eid = DP.eid AND pid_p = DP.pid) - qte_p) < 0 THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Article en rupture de stock';
+        END IF;
     END LOOP lect;
 	  CLOSE curs;
+
+    SET total := (SELECT AfficherTotal (NEW.uid));
     SET NEW.prix_total_comm = total;
 END//
 DELIMITER ;
@@ -459,26 +475,26 @@ BEGIN
 END//
 DELIMITER ;
 
-INSERT INTO Commandes VALUES (1, '2025-01-16', NULL, '24 Queen St', 'Calgary', 'S8T9V1', 'AB', 'Canada', 14);
-INSERT INTO Commandes VALUES (2, '2025-01-17', NULL, '5637 Maple Ave', 'Edmonton', 'X2Y3A4', 'AB', 'Canada', 2);
-INSERT INTO Commandes VALUES (3, '2025-01-18', NULL, '2409 Elm St', 'Ottawa', 'B5C6D7', 'ON', 'Canada', 17);
-INSERT INTO Commandes VALUES (4, '2025-01-19', NULL, '546 Cedar Rd', 'Winnipeg', 'E8F9G1', 'MB', 'Canada', 18);
-INSERT INTO Commandes VALUES (5, '2025-01-20', NULL, '234 Pine Dr', 'Quebec City', 'H2J3K4', 'QC', 'Canada', 11);
-INSERT INTO Commandes VALUES (6, '2025-01-21', NULL, '901 Oak Blvd', 'Halifax', 'L5M6N7', 'NS', 'Canada', 1);
-INSERT INTO Commandes VALUES (7, '2025-01-22', NULL, '234 Birch Ln', 'Victoria', 'P8R9S1', 'BC', 'Canada', 15);
-INSERT INTO Commandes VALUES (8, '2025-01-25', NULL, '17 Spruce Ct', 'Saskatoon', 'T2V3X4', 'SK', 'Canada', 6);
-INSERT INTO Commandes VALUES (9, '2025-01-26', NULL, '23 Willow Way', 'Regina', 'Y5A6B7', 'SK', 'Canada', 9);
-INSERT INTO Commandes VALUES (10, '2025-01-27', NULL, '80 Chestnut St', 'St John', 'C8D9E1', 'NL', 'Canada', 19);
-INSERT INTO Commandes VALUES (11, '2025-01-29', NULL, '21 River Rd', 'Charlottetown', 'F2G3H4', 'PE', 'Canada', 10);
-INSERT INTO Commandes VALUES (12, '2025-01-30', NULL, '24 Sunset Ave', 'Fredericton', 'J5K6L7', 'NB', 'Canada', 20);
-INSERT INTO Commandes VALUES (13, '2025-02-01', NULL, '56 Highland Dr', 'Whitehorse', 'M8N9P1', 'YT', 'Canada', 13);
-INSERT INTO Commandes VALUES (14, '2025-02-02', NULL, '34 Lakeshore Rd', 'Yellowknife', 'R2S3T4', 'NT', 'Canada', 5);
-INSERT INTO Commandes VALUES (15, '2025-02-02', NULL, '94 Victoria St', 'Iqaluit', 'V5X6Y7', 'NU', 'Canada', 7);
-INSERT INTO Commandes VALUES (16, '2025-02-04', NULL, '129 Church St', 'Mississauga', 'A8B9C1', 'ON', 'Canada', 4);
-INSERT INTO Commandes VALUES (17, '2025-02-06', NULL, '1 Front St', 'Brampton', 'D2E3F4', 'ON', 'Canada', 3);
-INSERT INTO Commandes VALUES (18, '2025-02-08', NULL, '23 Bay St', 'Hamilton', 'G5H6J7', 'ON', 'Canada', 8);
-INSERT INTO Commandes VALUES (19, '2025-02-11', NULL, '61 Water St', 'Kitchener', 'K8L9M1', 'ON', 'Canada', 12);
-INSERT INTO Commandes VALUES (20, '2025-02-14', NULL, '700 Park Ave', 'London', 'N2P3R4', 'ON', 'Canada', 16);
+INSERT INTO Commandes VALUES (1, '2025-01-16', NULL, '24 Queen St', 'Calgary', 'S8T9V1', 'AB', 14);
+INSERT INTO Commandes VALUES (2, '2025-01-17', NULL, '5637 Maple Ave', 'Edmonton', 'X2Y3A4', 'AB', 2);
+INSERT INTO Commandes VALUES (3, '2025-01-18', NULL, '2409 Elm St', 'Ottawa', 'B5C6D7', 'ON', 17);
+INSERT INTO Commandes VALUES (4, '2025-01-19', NULL, '546 Cedar Rd', 'Winnipeg', 'E8F9G1', 'MB', 18);
+INSERT INTO Commandes VALUES (5, '2025-01-20', NULL, '234 Pine Dr', 'Quebec City', 'H2J3K4', 'QC', 11);
+INSERT INTO Commandes VALUES (6, '2025-01-21', NULL, '901 Oak Blvd', 'Halifax', 'L5M6N7', 'NS', 1);
+INSERT INTO Commandes VALUES (7, '2025-01-22', NULL, '234 Birch Ln', 'Victoria', 'P8R9S1', 'BC', 15);
+INSERT INTO Commandes VALUES (8, '2025-01-25', NULL, '17 Spruce Ct', 'Saskatoon', 'T2V3X4', 'SK', 6);
+INSERT INTO Commandes VALUES (9, '2025-01-26', NULL, '23 Willow Way', 'Regina', 'Y5A6B7', 'SK', 9);
+INSERT INTO Commandes VALUES (10, '2025-01-27', NULL, '80 Chestnut St', 'St John', 'C8D9E1', 'NL', 19);
+INSERT INTO Commandes VALUES (11, '2025-01-29', NULL, '21 River Rd', 'Charlottetown', 'F2G3H4', 'PE', 10);
+INSERT INTO Commandes VALUES (12, '2025-01-30', NULL, '24 Sunset Ave', 'Fredericton', 'J5K6L7', 'NB', 20);
+INSERT INTO Commandes VALUES (13, '2025-02-01', NULL, '56 Highland Dr', 'Whitehorse', 'M8N9P1', 'YT', 13);
+INSERT INTO Commandes VALUES (14, '2025-02-02', NULL, '34 Lakeshore Rd', 'Yellowknife', 'R2S3T4', 'NT', 5);
+INSERT INTO Commandes VALUES (15, '2025-02-02', NULL, '94 Victoria St', 'Iqaluit', 'V5X6Y7', 'NU', 7);
+INSERT INTO Commandes VALUES (16, '2025-02-04', NULL, '129 Church St', 'Mississauga', 'A8B9C1', 'ON', 4);
+INSERT INTO Commandes VALUES (17, '2025-02-06', NULL, '1 Front St', 'Brampton', 'D2E3F4', 'ON', 3);
+INSERT INTO Commandes VALUES (18, '2025-02-08', NULL, '23 Bay St', 'Hamilton', 'G5H6J7', 'ON', 8);
+INSERT INTO Commandes VALUES (19, '2025-02-11', NULL, '61 Water St', 'Kitchener', 'K8L9M1', 'ON', 12);
+INSERT INTO Commandes VALUES (20, '2025-02-14', NULL, '700 Park Ave', 'London', 'N2P3R4', 'ON', 16);
 
 
 #PART 2
@@ -495,13 +511,30 @@ INSERT INTO Panier VALUES (4, 567123, 3);
 INSERT INTO Panier VALUES (6, 729015, 1);
 INSERT INTO Panier VALUES (6, 901234, 2);
 
-INSERT INTO Commandes VALUES (21, '2025-02-16', NULL, '32 Mountain Rd', 'Markham', 'S5T6V7', 'ON', 'Canada', 11);
-INSERT INTO Commandes VALUES (22, '2025-02-26', NULL, '44 Valley View Dr', 'Vaughan', 'X8Y9A1', 'ON', 'Canada', 20);
-INSERT INTO Commandes VALUES (23, '2025-03-02', NULL, '1122 College St', 'Surrey', 'B2C3D4', 'BC', 'Canada', 15);
-INSERT INTO Commandes VALUES (24, '2025-03-03', NULL, '9021 University Ave', 'Burnaby', 'E5F6G7', 'BC', 'Canada', 14);
-INSERT INTO Commandes VALUES (25, '2025-03-08', NULL, '11 Railway Ave', 'Richmond', 'H8J9K1', 'BC', 'Canada', 7);
-INSERT INTO Commandes VALUES (26, '2025-03-10', NULL, '80 Harbour St', 'Abbotsford', 'L2M3N4', 'BC', 'Canada', 8);
-INSERT INTO Commandes VALUES (27, '2025-03-11', NULL, '32 Meadow Ln', 'Kelowna', 'P5R6S7', 'BC', 'Canada', 13);
-INSERT INTO Commandes VALUES (28, '2025-03-12', NULL, '74 Glenwood Dr', 'Kamloops', 'T8V9X1', 'BC', 'Canada', 2);
-INSERT INTO Commandes VALUES (29, '2025-03-14', NULL, '999 Country Club Rd', 'Nanaimo', 'Y2A3B4', 'BC', 'Canada', 4);
-INSERT INTO Commandes VALUES (30, '2025-03-15', NULL, '542 College St', 'Guelph', 'C5D6E7', 'ON', 'Canada', 6);
+INSERT INTO Commandes VALUES (21, '2025-02-16', NULL, '32 Mountain Rd', 'Markham', 'S5T6V7', 'ON', 11);
+INSERT INTO Commandes VALUES (22, '2025-02-26', NULL, '44 Valley View Dr', 'Vaughan', 'X8Y9A1', 'ON', 20);
+INSERT INTO Commandes VALUES (23, '2025-03-02', NULL, '1122 College St', 'Surrey', 'B2C3D4', 'BC', 15);
+INSERT INTO Commandes VALUES (24, '2025-03-03', NULL, '9021 University Ave', 'Burnaby', 'E5F6G7', 'BC', 14);
+INSERT INTO Commandes VALUES (25, '2025-03-08', NULL, '11 Railway Ave', 'Richmond', 'H8J9K1', 'BC', 7);
+INSERT INTO Commandes VALUES (26, '2025-03-10', NULL, '80 Harbour St', 'Abbotsford', 'L2M3N4', 'BC', 8);
+INSERT INTO Commandes VALUES (27, '2025-03-11', NULL, '32 Meadow Ln', 'Kelowna', 'P5R6S7', 'BC', 13);
+INSERT INTO Commandes VALUES (28, '2025-03-12', NULL, '74 Glenwood Dr', 'Kamloops', 'T8V9X1', 'BC', 2);
+INSERT INTO Commandes VALUES (29, '2025-03-14', NULL, '999 Country Club Rd', 'Nanaimo', 'Y2A3B4', 'BC', 4);
+INSERT INTO Commandes VALUES (30, '2025-03-15', NULL, '542 College St', 'Guelph', 'C5D6E7', 'ON', 6);
+
+
+CREATE TABLE IF NOT EXISTS Pays (province enum('AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'), pays varchar(20));
+
+INSERT INTO Pays VALUES ('AB', 'Canada');
+INSERT INTO Pays VALUES ('BC', 'Canada');
+INSERT INTO Pays VALUES ('MB', 'Canada');
+INSERT INTO Pays VALUES ('NB', 'Canada');
+INSERT INTO Pays VALUES ('NL', 'Canada');
+INSERT INTO Pays VALUES ('NT', 'Canada');
+INSERT INTO Pays VALUES ('NS', 'Canada');
+INSERT INTO Pays VALUES ('NU', 'Canada');
+INSERT INTO Pays VALUES ('ON', 'Canada');
+INSERT INTO Pays VALUES ('PE', 'Canada');
+INSERT INTO Pays VALUES ('QC', 'Canada');
+INSERT INTO Pays VALUES ('SK', 'Canada');
+INSERT INTO Pays VALUES ('YT', 'Canada');
