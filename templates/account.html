@@ -110,13 +110,13 @@
     <form action="{{url_for('accountChangePersonal', user=account[0])}}" method="POST" id="accountChangePersonal">
       <div class="info-input">
         <label>Prenom:</label>
-          <input type="text" id="account-name" name="account-name" pattern="[a-zA-Z\- ]{1,}" value="{{account[2]}}"/>
+          <input type="text" id="account-name" name="account-name" pattern="[a-zA-Z\- ]{1,30}" value="{{account[2]}}"/>
         <label>Nom:</label>
-          <input type="text" id="account-surname" name="account-surname" pattern="[a-zA-Z\- ]{1,}" value="{{account[3]}}"/>
+          <input type="text" id="account-surname" name="account-surname" pattern="[a-zA-Z\- ]{1,30}" value="{{account[3]}}"/>
       </div>
       <div class="info-input">
         <label>Courriel:</label>
-          <input type="email" id="account-email" name="account-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" value="{{account[1]}}"/>
+          <input type="email" id="account-email" name="account-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}${6,100}" value="{{account[1]}}"/>
       </div>
       <div class="info-input">
        <label>Telephone: </label><input type="tel" id="account-phone" name="account-phone" pattern="[0-9\-\(\) ]{10,14}" value="{{account[4]}}">
@@ -136,13 +136,13 @@
     <h1 class="info-title">INFORMATION LIVRAISON</h1>
     <form action="{{url_for('accountChangeDelivery', user=account[0])}}" method="POST" id="accountChangeDelivery">
       <div class="info-input">
-        <label>Rue: </label><input type="text" id="account-street" name="account-street" pattern="[a-zA-Z0-9 \-]{1,}" value="{{account[5]}}">
+        <label>Rue: </label><input type="text" id="account-street" name="account-street" pattern="[a-zA-Z0-9 \-]{1,60}" value="{{account[5]}}">
       </div>
       <div class="info-input">
         <label>Code postal: </label><input type="text" id="account-post" name="account-post" pattern="[a-zA-Z0-9]{6}" value="{{account[6]}}">
       </div>
       <div class="info-input">
-        <label>Ville: </label><input type="text" id="account-city" name="account-city" pattern="[a-zA-Z \-]{1,}" value="{{account[7]}}">
+        <label>Ville: </label><input type="text" id="account-city" name="account-city" pattern="[a-zA-Z \-]{1,30}" value="{{account[7]}}">
       </div>
       <div class="info-input">
         <label for="account-province">Province: <select id="account-province" name="account-province" required>
