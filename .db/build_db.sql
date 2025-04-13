@@ -686,20 +686,3 @@ INSERT INTO Panier VALUES (8, 345456, 2);
 INSERT INTO Panier VALUES (12, 456789, 1);
 INSERT INTO Panier VALUES (16, 901890, 3);
 INSERT INTO Panier VALUES (16, 901678, 3);
-
-
-CREATE TABLE IF NOT EXISTS Pays (province enum('AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'), pays varchar(20));
-
-INSERT INTO Pays VALUES ('AB', 'Canada');
-INSERT INTO Pays VALUES ('BC', 'Canada');
-INSERT INTO Pays VALUES ('MB', 'Canada');
-INSERT INTO Pays VALUES ('NB', 'Canada');
-INSERT INTO Pays VALUES ('NL', 'Canada');
-INSERT INTO Pays VALUES ('NT', 'Canada');
-INSERT INTO Pays VALUES ('NS', 'Canada');
-INSERT INTO Pays VALUES ('NU', 'Canada');
-INSERT INTO Pays VALUES ('ON', 'Canada');
-INSERT INTO Pays VALUES ('PE', 'Canada');
-INSERT INTO Pays VALUES ('QC', 'Canada');
-INSERT INTO Pays VALUES ('SK', 'Canada');
-INSERT INTO Pays VALUES ('YT', 'Canada');
