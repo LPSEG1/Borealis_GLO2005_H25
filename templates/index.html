@@ -64,6 +64,7 @@
         <a href="{{url_for('connect')}}" class="nav-link">CONNEXION</a>
       {% endif %}
       <div class="cart-container">
+        <button onclick="window.location.href='{{url_for('cart', user=GlobalUser)}}'" class="cart-button">
         <svg
           class="cart-icon"
           width="31"
@@ -80,13 +81,16 @@
             stroke-linejoin="round"
           />
         </svg>
-        <span class="cart-text">PANIER</span>
+        </button>
       </div>
       <!-- <button class="language-button">EN</button> -->
     </nav>
   </div>
 </header>
 <main class="main-content">
+    {% if message %}
+      <h3 style="color: red;">{{ message }}</h3>
+    {% endif %}
   <section class="welcome-section">
     <h1 class="welcome-text">
       Bienvenue à Borealis!<br />

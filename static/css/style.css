@@ -164,18 +164,39 @@ header {
   color: #0fc28d;
 }
 
+.nav-cart-link {
+  color: #fff;
+  text-decoration: none;
+  transition: 250ms;
+}
+
+.nav-cart-link:hover {
+  background-color: #0fc28d;
+}
+
 .cart-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   cursor: pointer;
   color: #fff;
   transition: 250ms;
+  margin-top: auto;
 }
 
 .cart-container:hover {
   color: #0fc28d;
 }
+
+.cart-button {
+  background-color: #1a1a1a;
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  transition: 250ms;
+}
+
+.cart-button:hover {
+  background-color: #0fc28d;
+}
+
 
 .language-button {
   background: none;

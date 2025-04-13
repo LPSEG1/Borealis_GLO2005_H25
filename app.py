@@ -1,6 +1,6 @@
 from selectors import SelectSelector
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import pymysql
 import pymysql.cursors
 import util
@@ -82,32 +82,38 @@ def inscription():
 @app.route('/account/<user>', methods=['GET', 'POST'])
 def account(user):
   try:
-    connection = util.connection_database()
-    cur = connection.cursor()
-    cur.execute('CALL AfficherInfosUtilisateur('+user+')')
-    account = cur.fetchone()
-    connection.close()
-    return render_template('account.html', account=account, connected=VarGlobal, GlobalUser=GlobalUser)
+    if not VarGlobal:
+      return redirect(url_for('index'))
+    else:
+      connection = util.connection_database()
+      cur = connection.cursor()
+      cur.execute('CALL AfficherInfosUtilisateur('+user+')')
+      account = cur.fetchone()
+      connection.close()
+      return render_template('account.html', account=account, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
 @app.route('/accountChangePersonal/<user>', methods=['POST'])
 def accountChangePersonal(user):
   try:
-    newName = request.form.get('account-name')
-    newSurname = request.form.get('account-surname')
-    newEmail = request.form.get('account-email')
-    newPhone = request.form.get('account-phone')
+    if not VarGlobal:
+      return redirect(url_for('index'))
+    else:
+      newName = request.form.get('account-name')
+      newSurname = request.form.get('account-surname')
+      newEmail = request.form.get('account-email')
+      newPhone = request.form.get('account-phone')
 
-    connection = util.connection_database()
-    cur = connection.cursor()
-    cur.execute('UPDATE utilisateurs SET courriel_util = "'+newEmail+'", prenom_util = "'+newName+'", nom_util = "'+newSurname+'", telephone_util = "'+newPhone+'" WHERE uid = '+user+'')
-    connection.commit()
-    message = "Modification réussi."
-    cur.execute('CALL AfficherInfosUtilisateur(' + user + ')')
-    account = cur.fetchone()
-    connection.close()
-    return render_template('account.html', account=account, message=message, connected=VarGlobal, GlobalUser=GlobalUser)
+      connection = util.connection_database()
+      cur = connection.cursor()
+      cur.execute('UPDATE utilisateurs SET courriel_util = "'+newEmail+'", prenom_util = "'+newName+'", nom_util = "'+newSurname+'", telephone_util = "'+newPhone+'" WHERE uid = '+user+'')
+      connection.commit()
+      message = "Modification réussi."
+      cur.execute('CALL AfficherInfosUtilisateur(' + user + ')')
+      account = cur.fetchone()
+      connection.close()
+      return render_template('account.html', account=account, message=message, connected=VarGlobal, GlobalUser=GlobalUser)
 
   except Exception as e:
     return str(e)
@@ -115,21 +121,24 @@ def accountChangePersonal(user):
 @app.route('/accountChangeDelivery/<user>', methods=['POST'])
 def accountChangeDelivery(user):
   try:
-    newStreet = request.form.get('account-street')
-    newPost = request.form.get('account-post')
-    newCity = request.form.get('account-city')
-    newProvince = request.form.get('account-province')
-    newWarehouse = request.form.get('account-warehouse')
+    if not VarGlobal:
+      return redirect(url_for('index'))
+    else:
+      newStreet = request.form.get('account-street')
+      newPost = request.form.get('account-post')
+      newCity = request.form.get('account-city')
+      newProvince = request.form.get('account-province')
+      newWarehouse = request.form.get('account-warehouse')
 
-    connection = util.connection_database()
-    cur = connection.cursor()
-    cur.execute('UPDATE utilisateurs SET rue_util = "'+newStreet+'", ville_util = "'+newCity+'", code_postal_util = "'+newPost+'", province_util = "'+newProvince+'", eid_util = '+ newWarehouse+' WHERE uid = '+user+'')
-    connection.commit()
-    message = "Modification réussi."
-    cur.execute('CALL AfficherInfosUtilisateur(' + user + ')')
-    account = cur.fetchone()
-    connection.close()
-    return render_template('account.html', account=account, message=message, connected=VarGlobal, GlobalUser=GlobalUser)
+      connection = util.connection_database()
+      cur = connection.cursor()
+      cur.execute('UPDATE utilisateurs SET rue_util = "'+newStreet+'", ville_util = "'+newCity+'", code_postal_util = "'+newPost+'", province_util = "'+newProvince+'", eid_util = '+ newWarehouse+' WHERE uid = '+user+'')
+      connection.commit()
+      message = "Modification réussi."
+      cur.execute('CALL AfficherInfosUtilisateur(' + user + ')')
+      account = cur.fetchone()
+      connection.close()
+      return render_template('account.html', account=account, message=message, connected=VarGlobal, GlobalUser=GlobalUser)
 
   except Exception as e:
     return str(e)
@@ -171,57 +180,69 @@ def item(itemPage):
 @app.route('/cart/<user>', methods=['GET', 'POST'])
 def cart(user):
   try:
-    connection = util.connection_database()
-    cur = connection.cursor()
-    cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.prix_prod, P.image_prod, C.qte, P.unite_prod FROM Produits P INNER JOIN panier C ON P.pid = C.pid INNER JOIN fournisseurs F ON P.fid = F.fid WHERE C.uid = '+user+'')
-    items = cur.fetchall()
-    cur.execute('SELECT AfficherTotal(' + user + ')')
-    price = cur.fetchone()
-    connection.close()
-    return render_template('cart.html', items=items, price=price, connected=VarGlobal, GlobalUser=GlobalUser)
+    if not VarGlobal:
+      return redirect(url_for('index'))
+    else:
+      connection = util.connection_database()
+      cur = connection.cursor()
+      cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.prix_prod, P.image_prod, C.qte, P.unite_prod FROM Produits P INNER JOIN panier C ON P.pid = C.pid INNER JOIN fournisseurs F ON P.fid = F.fid WHERE C.uid = '+user+'')
+      items = cur.fetchall()
+      cur.execute('SELECT AfficherTotal(' + user + ')')
+      price = cur.fetchone()
+      connection.close()
+      return render_template('cart.html', items=items, price=price, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
 @app.route('/updateQuantity/<user>/<product>', methods=['POST'])
 def updateQuantity(user,product):
   try:
-    GlobalUser=user
-    newQte = request.form.get('quantity')
+    if not VarGlobal:
+      return redirect(url_for('index'))
+    else:
+      GlobalUser=user
+      newQte = request.form.get('quantity')
 
-    connection = util.connection_database()
-    cur = connection.cursor()
-    cur.execute('UPDATE panier SET qte = '+newQte+' WHERE uid = '+user+' AND pid = '+product+'')
-    connection.commit()
-    cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.prix_prod, P.image_prod, C.qte, P.unite_prod FROM Produits P INNER JOIN panier C ON P.pid = C.pid INNER JOIN fournisseurs F ON P.fid = F.fid WHERE C.uid = ' + user + '')
-    items = cur.fetchall()
-    cur.execute('SELECT AfficherTotal('+user+')')
-    price = cur.fetchone()
-    connection.close()
-    return render_template('cart.html', items=items, price=price, connected=VarGlobal, GlobalUser=GlobalUser)
+      connection = util.connection_database()
+      cur = connection.cursor()
+      cur.execute('UPDATE panier SET qte = '+newQte+' WHERE uid = '+user+' AND pid = '+product+'')
+      connection.commit()
+      cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.prix_prod, P.image_prod, C.qte, P.unite_prod FROM Produits P INNER JOIN panier C ON P.pid = C.pid INNER JOIN fournisseurs F ON P.fid = F.fid WHERE C.uid = ' + user + '')
+      items = cur.fetchall()
+      cur.execute('SELECT AfficherTotal('+user+')')
+      price = cur.fetchone()
+      connection.close()
+      return render_template('cart.html', items=items, price=price, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
 @app.route('/deleteItemCart/<user>/<product>', methods=['GET', 'POST'])
 def deleteItemCart(user,product):
   try:
-    GlobalUser=user
+    if not VarGlobal:
+      return redirect(url_for('index'))
+    else:
+      GlobalUser=user
 
-    connection = util.connection_database()
-    cur = connection.cursor()
-    cur.execute('CALL EnleverPanier('+user+','+product+')')
-    connection.commit()
-    cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.prix_prod, P.image_prod, C.qte, P.unite_prod FROM Produits P INNER JOIN panier C ON P.pid = C.pid INNER JOIN fournisseurs F ON P.fid = F.fid WHERE C.uid = ' + user + '')
-    items = cur.fetchall()
-    cur.execute('SELECT AfficherTotal('+user+')')
-    price = cur.fetchone()
-    connection.close()
-    return render_template('cart.html', items=items, price=price, connected=VarGlobal, GlobalUser=GlobalUser)
+      connection = util.connection_database()
+      cur = connection.cursor()
+      cur.execute('CALL EnleverPanier('+user+','+product+')')
+      connection.commit()
+      cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.prix_prod, P.image_prod, C.qte, P.unite_prod FROM Produits P INNER JOIN panier C ON P.pid = C.pid INNER JOIN fournisseurs F ON P.fid = F.fid WHERE C.uid = ' + user + '')
+      items = cur.fetchall()
+      cur.execute('SELECT AfficherTotal('+user+')')
+      price = cur.fetchone()
+      connection.close()
+      return render_template('cart.html', items=items, price=price, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
 @app.route('/checkout/<user>')
 def checkout(user):
-    return render_template('checkout.html', connected=VarGlobal, GlobalUser=GlobalUser)
+    if not VarGlobal:
+      return redirect(url_for('index'))
+    else:
+      return render_template('checkout.html', connected=VarGlobal, GlobalUser=GlobalUser)
 
 @app.route('/orders/<user>')
 def orders(user):
@@ -244,7 +265,7 @@ def orders(user):
 def page_not_found(e):
     error_title = "Not Found"
     error_msg = "That page doesn't exist"
-    return render_template('404.html', connected=VarGlobal, GlobalUser=GlobalUser,
+    return render_template('404.html', connected=VarGlobal, user=GlobalUser,
                            error_title=error_title,error_msg=error_msg), 404
 
 if __name__ == '__main__':
