@@ -71,7 +71,7 @@ INSERT INTO Entrepots VALUES (2, '64 Broadway', 'Vancouver', 'B2B2B2', 'BC');
 INSERT INTO Entrepots VALUES (3, '78 King St', 'Montreal', 'C3C3C3', 'QC');
 
 
-CREATE TABLE IF NOT EXISTS Utilisateurs (uid int NOT NULL AUTO_INCREMENT PRIMARY KEY, courriel_util varchar(100) NOT NULL UNIQUE, prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30), code_postal_util char(6), province_util enum('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'), telephone_util bigint, eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid));
+CREATE TABLE IF NOT EXISTS Utilisateurs (uid int NOT NULL AUTO_INCREMENT PRIMARY KEY, courriel_util varchar(100) NOT NULL UNIQUE, prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30), code_postal_util char(6), province_util enum('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'), telephone_util bigint, eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid), INDEX (courriel_util) );
 
 DELIMITER // #Nick
 CREATE TRIGGER VerifierCourriel BEFORE INSERT ON Utilisateurs FOR EACH ROW
@@ -119,7 +119,6 @@ INSERT INTO Utilisateurs VALUES (18, 'amelia.young@gmail.com', 'amelia', 'young'
 INSERT INTO Utilisateurs VALUES (19, 'alexander.king@yahoo.ca', 'alexander', 'king', '4 Starview Ln', 'Prince George', 'K2L3M4', 'BC', 4036783456, 1);
 INSERT INTO Utilisateurs VALUES (20, 'charlotte.scott@live.com', 'charlotte', 'scott', '27 Northgate Dr', 'Sault Ste. Marie', 'N5P6R7', 'ON', 4169876543, 2);
 
-
 CREATE TABLE IF NOT EXISTS MotHacher(mid int PRIMARY KEY, mdp_util varchar(64) NOT NULL, FOREIGN KEY(mid) REFERENCES Utilisateurs(uid));
 
 INSERT INTO MotHacher VALUES(1, 'bfd0597f58625059e71350c28691ffb623cffe52d4d40284e315e2b8dd71a3f1');
@@ -144,7 +143,7 @@ INSERT INTO MotHacher VALUES(19, 'cb5ebdd6d19c006d99a5a12b8db2369c905d19db68ee65
 INSERT INTO MotHacher VALUES(20, '468b4aa0a99527ff9ccd02231a03629d11cfa3b9f003a5c307c69bfb3045dbd8');
 
 
-CREATE TABLE IF NOT EXISTS Produits (pid int PRIMARY KEY, nom_prod varchar(50), prix_prod decimal(5, 2), unite_prod int, categorie_prod enum('Aliment', 'Automobile', 'Cosmétiques', 'Électronique', 'Jouet', 'Maison', 'Vêtements'), description_prod varchar(500), image_prod varchar(200), vedette bool, fid int NOT NULL, FOREIGN KEY (fid) REFERENCES Fournisseurs(fid));
+CREATE TABLE IF NOT EXISTS Produits (pid int PRIMARY KEY, nom_prod varchar(50), prix_prod decimal(5, 2), unite_prod int, categorie_prod enum('Aliment', 'Automobile', 'Cosmétiques', 'Électronique', 'Jouet', 'Maison', 'Vêtements'), description_prod varchar(500), image_prod varchar(200), vedette bool, fid int NOT NULL, FOREIGN KEY (fid) REFERENCES Fournisseurs(fid), INDEX (vedette));
 
 INSERT INTO Produits VALUES (123456, 'Smartphone X', 495.99, 1, 'Aliment', 'A high-quality product designed for everyday use.', NULL, False, 63028);
 INSERT INTO Produits VALUES (654321, 'Gaming Laptop Z', 335.99, 2, 'Automobile', 'Experience the next level of innovation and style.', NULL, False, 71483);
@@ -196,7 +195,8 @@ INSERT INTO Produits VALUES (234678, 'WiFi Mesh System', 231.99, 6, 'Automobile'
 INSERT INTO Produits VALUES (567901, 'Smart Plug', 990.99, 12, 'Vêtements', 'Designed for those who appreciate quality and style.', NULL, False, 93842);
 INSERT INTO Produits VALUES (901238, 'Touchscreen Monitor', 852.99, 1, 'Jouet', 'A timeless product with modern capabilities.', NULL, False, 58631);
 INSERT INTO Produits VALUES (345456, 'Noise Reduction Earplugs', 125.99, 6, 'Électronique', 'Experience the perfect blend of form and function.', NULL, False, 37219);
-INSERT INTO produits VALUES (984396, 'Shampooing & Revitalisant 2 en 1 pine mint', 13.99, 15, 'Cosmétiques', 'Notre tout nouveau Shampooing & Revitalisant 2 en 1 100 % naturel est un mélange parfait des meilleurs ingrédients de la nature pour vous offrir une expérience de soins capillaires extraordinaire. Comme une promenade au cœur de la forêt boréale canadienne. Une combinaison de pin frais, de gaulthérie et de menthe rafraîchissante.', 'product984396.webp', False, 17536);
+INSERT INTO Produits VALUES (984396, 'Shampooing & Revitalisant 2 en 1 pine mint', 13.99, 15, 'Cosmétiques', 'Notre tout nouveau Shampooing & Revitalisant 2 en 1 100 % naturel est un mélange parfait des meilleurs ingrédients de la nature pour vous offrir une expérience de soins capillaires extraordinaire. Comme une promenade au cœur de la forêt boréale canadienne. Une combinaison de pin frais, de gaulthérie et de menthe rafraîchissante.', 'product984396.webp', False, 17536);
+
 UPDATE fournisseurs t SET t.nom_four = 'CANADUINO' WHERE t.fid = 26057;
 UPDATE produits t SET t.nom_prod = 'Kit d\'automate programmable DIY', t.prix_prod = 79.90, t.description_prod = 'Le CANADUINO MEGA2560 PLC-300 V2 représente la prochaine évolution de notre kit d\'automates programmables DIY à succès, offrant des capacités de connectivité et de communication améliorées tout en conservant les caractéristiques d\'E/S robustes de son prédécesseur.', t.image_prod = 'product123234.webp' WHERE t.pid = 123234;
 UPDATE produits t SET t.nom_prod = 'Anneau de 16 LED', t.prix_prod = 3.90, t.categorie_prod = 'Électronique', t.description_prod = 'L\'anneau à 16 LEDs avec 16 LEDs RGB WS2812B entièrement adressables dans un grand boîtier SMD 5050 (5×5 mm). Contrôlable par une connexion série à fil unique à partir d\'un microcontrôleur.', t.image_prod = 'product901890.webp' WHERE t.pid = 901890;
