@@ -20,7 +20,7 @@ def index():
     cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod FROM Fournisseurs F INNER JOIN Produits P ON F.fid = P.fid WHERE P.vedette = 1')
     items = cur.fetchall()
     util.connection_database().close()
-    return render_template('Index.html', items=items, connected=VarGlobal, user=GlobalUser)
+    return render_template('Index.html', items=items, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
@@ -49,7 +49,7 @@ def connection():
       return index()
     else:
       message = "Mauvais mot de passe."
-      return render_template('connect.html', message=message, connected=VarGlobal, user=GlobalUser)
+      return render_template('connect.html', message=message, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
@@ -87,7 +87,7 @@ def account(user):
     cur.execute('CALL AfficherInfosUtilisateur('+user+')')
     account = cur.fetchone()
     connection.close()
-    return render_template('account.html', account=account, connected=VarGlobal, user=GlobalUser)
+    return render_template('account.html', account=account, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
@@ -107,7 +107,7 @@ def accountChangePersonal(user):
     cur.execute('CALL AfficherInfosUtilisateur(' + user + ')')
     account = cur.fetchone()
     connection.close()
-    return render_template('account.html', account=account, message=message, connected=VarGlobal, user=GlobalUser)
+    return render_template('account.html', account=account, message=message, connected=VarGlobal, GlobalUser=GlobalUser)
 
   except Exception as e:
     return str(e)
@@ -129,7 +129,7 @@ def accountChangeDelivery(user):
     cur.execute('CALL AfficherInfosUtilisateur(' + user + ')')
     account = cur.fetchone()
     connection.close()
-    return render_template('account.html', account=account, message=message, connected=VarGlobal, user=GlobalUser)
+    return render_template('account.html', account=account, message=message, connected=VarGlobal, GlobalUser=GlobalUser)
 
   except Exception as e:
     return str(e)
@@ -149,7 +149,7 @@ def search():
     items = cur.fetchall()
     connection.close()
 
-    return render_template('search.html', nbrItems = len(items), term=searchTerm, items=items, connected=VarGlobal, user=GlobalUser)
+    return render_template('search.html', nbrItems = len(items), term=searchTerm, items=items, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
@@ -163,7 +163,7 @@ def item(itemPage):
     cur.execute('SELECT D.quantite, E.ville_entre FROM Dispoprods D INNER JOIN Entrepots E ON D.eid = E.eid WHERE D.pid = ' + itemPage + ' ORDER BY D.quantite DESC')
     dispos = cur.fetchall()
     connection.close()
-    return render_template('item.html', item=item, dispos=dispos, connected=VarGlobal, user=GlobalUser)
+    return render_template('item.html', item=item, dispos=dispos, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
@@ -178,7 +178,7 @@ def cart(user):
     cur.execute('SELECT AfficherTotal(' + user + ')')
     price = cur.fetchone()
     connection.close()
-    return render_template('cart.html', items=items, price=price, connected=VarGlobal, user=GlobalUser)
+    return render_template('cart.html', items=items, price=price, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
@@ -197,7 +197,7 @@ def updateQuantity(user,product):
     cur.execute('SELECT AfficherTotal('+user+')')
     price = cur.fetchone()
     connection.close()
-    return render_template('cart.html', items=items, price=price, connected=VarGlobal, user=GlobalUser)
+    return render_template('cart.html', items=items, price=price, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
@@ -215,13 +215,13 @@ def deleteItemCart(user,product):
     cur.execute('SELECT AfficherTotal('+user+')')
     price = cur.fetchone()
     connection.close()
-    return render_template('cart.html', items=items, price=price, connected=VarGlobal, user=GlobalUser)
+    return render_template('cart.html', items=items, price=price, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
 @app.route('/checkout/<user>')
 def checkout(user):
-    return render_template('checkout.html', connected=VarGlobal, user=GlobalUser)
+    return render_template('checkout.html', connected=VarGlobal, GlobalUser=GlobalUser)
 
 @app.route('/orders/<user>')
 def orders(user):
@@ -236,7 +236,7 @@ def orders(user):
     images = cur.fetchall()
     connection.close()
     deliveryNbr = 0
-    return render_template('orders.html', orders=orders, deliveries=deliveries, images=images, deliveryNbr=deliveryNbr, connected=VarGlobal, user=GlobalUser)
+    return render_template('orders.html', orders=orders, deliveries=deliveries, images=images, deliveryNbr=deliveryNbr, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
