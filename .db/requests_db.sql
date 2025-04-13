@@ -13,6 +13,7 @@ DROP PROCEDURE IF EXISTS CreerCompte;
 DROP PROCEDURE IF EXISTS CreerLivraison;
 DROP PROCEDURE IF EXISTS AfficherInfosProduit;
 DROP PROCEDURE IF EXISTS RemplirInfosCommande;
+DROP PROCEDURE IF EXISTS TrouverUidParEmail;
 
 
 DELIMITER //
@@ -176,16 +177,16 @@ BEGIN
       U.uid AS userID,
       U.courriel_util AS courriel,
       U.prenom_util AS prenom,
-        U.nom_util AS nom,
-        U.telephone_util AS telephone,
-       U.rue_util AS adresse,
-        U.code_postal_util AS code_postal,
-        U.ville_util AS ville,
+      U.nom_util AS nom,
+      U.telephone_util AS telephone,
+      U.rue_util AS adresse,
+      U.code_postal_util AS code_postal,
+      U.ville_util AS ville,
       U.province_util AS province,
       U.eid_util AS entrepot_favoris,
       E.rue_entre AS adresse_entrepot,
-        E.ville_entre AS ville_entrepot,
-        E.province_entre AS province_entrepot
+      E.ville_entre AS ville_entrepot,
+      E.province_entre AS province_entrepot
     FROM Utilisateurs U
     JOIN Entrepots E ON U.eid_util = E.eid
     WHERE U.uid = id_utilisateur;

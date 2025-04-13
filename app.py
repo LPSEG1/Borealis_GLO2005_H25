@@ -35,7 +35,7 @@ def connection():
     password = util.hacher(request.form.get('signin-password'))
     connection = util.connection_database()
     cur = connection.cursor()
-    cur.execute('''SELECT U.uid FROM utilisateurs U where U.courriel_util = (%s)''', email)
+    cur.execute('CALL TrouverUidParEmail("'+email+'")')
     utilId = cur.fetchone()
     uid = utilId[0]
     cur.execute('''SELECT M.mdp_util FROM MotHacher M, utilisateurs U WHERE M.mid = U.uid AND M.mid = (%s)''', uid)
