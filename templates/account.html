@@ -136,7 +136,7 @@
     <h1 class="info-title">INFORMATION LIVRAISON</h1>
     <form action="{{url_for('accountChangeDelivery', user=account[0])}}" method="POST" id="accountChangeDelivery">
       <div class="info-input">
-        <label>Rue: </label><input type="text" id="account-street" name="account-street" pattern="[a-zA-Z0-9 \-]{1,60}" value="{{account[5]}}">
+        <label>Rue: </label><input type="text" id="account-street" name="account-street" pattern="[a-zA-Z0-9\- \']{1,60}" value="{{account[5]}}">
       </div>
       <div class="info-input">
         <label>Code postal: </label><input type="text" id="account-post" name="account-post" placeholder="sans espace" pattern="[a-zA-Z0-9]{6}" value="{{account[6]}}">
