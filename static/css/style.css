@@ -822,6 +822,11 @@ header {
   font-weight: 700;
 }
 
+.erreur {
+  color: #D30000;
+  font-weight: 700;
+}
+
 .account-info {
   display: none;
   background-color: #D9D9D9;

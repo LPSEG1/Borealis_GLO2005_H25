@@ -48,8 +48,8 @@ def connection():
       GlobalUser = uid
       return index()
     else:
-      print("Mauvais mot de passe") # à modifier pour le montrer à l'utilisateur donc sur la page html
-      return render_template('connect.html', connected=VarGlobal, user=GlobalUser)
+      message = "Mauvais mot de passe."
+      return render_template('connect.html', message=message, connected=VarGlobal, user=GlobalUser)
   except Exception as e:
     return str(e)
 
