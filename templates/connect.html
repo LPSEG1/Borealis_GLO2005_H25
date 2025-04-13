@@ -24,7 +24,7 @@
         <label>Nom: </label><input type="text" id="signup-surname" name="signup-surname" pattern="[a-zA-Z\- ]{1,30}">
       </div>
       <div class="signup-email">
-        <label>Courriel: </label><input type="email" id="signup-email" name="signup-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$">
+        <label>Courriel: </label><input type="email" id="signup-email" name="signup-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}${6,100}">
       </div>
       <div class="signup-phone">
         <label>Téléphone: </label><input type="text" id="signup-phone" name="signup-phone" pattern="[0-9\-\(\) ]{10,14}">
@@ -72,7 +72,7 @@
     <h3>CONNEXION</h3>
     <form action="{{url_for('connection')}}" method= "POST">
       <div class="signin-email">
-        <label>Courriel: </label><input type="email" id="signin-email" name="signin-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$">
+        <label>Courriel: </label><input type="email" id="signin-email" name="signin-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}${6,100}">
       </div>
       <div class="signin-password">
         <label>Mot de passe: </label><input type="password" id="signin-password" name="signin-password" pattern="[a-zA-Z0-9!@#$%^*_|]{5,30}">
