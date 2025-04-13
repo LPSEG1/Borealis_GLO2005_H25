@@ -244,7 +244,7 @@ def orders(user):
 def page_not_found(e):
     error_title = "Not Found"
     error_msg = "That page doesn't exist"
-    return render_template('404.html', connected=VarGlobal, user=GlobalUser,
+    return render_template('404.html', connected=VarGlobal, GlobalUser=GlobalUser,
                            error_title=error_title,error_msg=error_msg), 404
 
 if __name__ == '__main__':
