@@ -1,6 +1,7 @@
 DROP PROCEDURE IF EXISTS ChercherProduit;
 DROP PROCEDURE IF EXISTS ChercherProduitNoCategories;
 DROP PROCEDURE IF EXISTS ChangerMdp;
+DROP PROCEDURE IF EXISTS AfficherItem;
 DROP PROCEDURE IF EXISTS AjouterPanier;
 DROP PROCEDURE IF EXISTS MAJPanier;
 DROP PROCEDURE IF EXISTS EnleverPanier;
@@ -100,6 +101,13 @@ BEGIN
 END//
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE #L-P
+    AfficherItem(IN util_id int, IN prod_id int)
+BEGIN
+      SELECT P.pid, P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod, D.quantite FROM Fournisseurs F INNER JOIN Produits P ON F.fid = P.fid INNER JOIN dispoprods D ON P.pid = D.pid WHERE P.pid = prod_id AND D.eid =(SELECT eid_util FROM utilisateurs WHERE uid = util_id);
+END//
+DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE #Original: Nick Modif: L-P
@@ -123,7 +131,6 @@ BEGIN
       UPDATE panier SET qte = newQte WHERE uid = util_id AND pid = prod_id;
 END//
 DELIMITER ;
-
 
 DELIMITER //
 CREATE PROCEDURE #L-P

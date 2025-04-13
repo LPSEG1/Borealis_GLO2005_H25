@@ -111,8 +111,8 @@
         <p class="product-price">{{item[4]}}$</p>
       </div>
       <div class="product-buttons">
-        <button class="details-btn" onclick="window.location.href='{{url_for('item', itemPage=item[0])}}'">DÉTAILS</button>
-        <button class="buy-btn" onclick="window.location.href='{{url_for('orders', user=GlobalUser)}}'">AJOUTER AU PANIER</button>
+        <button class="details-btn" onclick="window.location.href='{{url_for('item', user=GlobalUser, itemPage=item[0])}}'">DÉTAILS</button>
+        <button class="buy-btn" onclick="window.location.href='{{url_for('addCart', user=GlobalUser, product=item[0], quantity=1)}}'">AJOUTER AU PANIER</button>
       </div>
     </article>
     {% endfor %}

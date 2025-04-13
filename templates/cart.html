@@ -102,14 +102,8 @@
         <p class="product-price">{{item[3]}}$</p>
         <div class="product-cart-quantity">
           <form action="{{url_for('updateQuantity', user=GlobalUser, product=item[0])}}" method="POST" id="updateQuantity" class="cart-updateQte">
-          <div class="cart-quantity-select">
-            <select name="quantity">
-                {% for i in range(0, item[6])%}
-                  <option {% if item[5] == i+1 %} selected {% endif %} value="{{ i+1 }}">{{ i+1 }}</option>
-                {% endfor %}
-            </select>
-          </div>
-          <button type="submit" form='updateQuantity' class="update-btn" aria-label="Update">MAJ</button>
+            <input type="number" id="itemQuantity" name="itemQuantity" placeholder="{{ item[5] }}" max="{{ item[6] }}">
+            <button type="submit" form='updateQuantity' class="update-btn" aria-label="Update">MAJ</button>
           </form>
           <button onclick="window.location.href='{{url_for('deleteItemCart', user=GlobalUser, product=item[0])}}'" class="delete-btn">SUPPRIMER</button>
         </div>

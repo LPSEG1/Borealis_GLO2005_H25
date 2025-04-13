@@ -121,19 +121,12 @@
           <p>{{disponible[1]}} <span class="available-nbr">{{disponible[0]}}</span></p>
         {% endfor %}
       </div>
-      <form>
+      <form action="{{url_for('addCart', user=GlobalUser, product=item[0], quantity=0)}}" method="POST" id="addQuantity" class="cart-updateQte">
         <div class="quantity-selector">
           <span>Quantité: </span>
-          <div class="quantity-select">
-            <select class="quantity-text">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-            </select>
-          </div>
+          <input type="number" id="itemAdd" name="itemAdd" placeholder="1" max="{{ item[6] }}">
         </div>
-        <button class="buy-btn">AJOUTER AU PANIER</button>
+        <button type="submit" form="addQuantity" class="buy-btn">AJOUTER AU PANIER</button>
       </form>
     </aside>
   </article>

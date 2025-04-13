@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 VarGlobal = False
 GlobalUser = 0
-
+int = GlobalUser
 @app.route('/')
 def index():
   global VarGlobal
@@ -106,10 +106,8 @@ def accountChangePersonal(user):
       cur.execute('UPDATE utilisateurs SET courriel_util = "'+newEmail+'", prenom_util = "'+newName+'", nom_util = "'+newSurname+'", telephone_util = "'+newPhone+'" WHERE uid = '+user+'')
       connection.commit()
       message = "Modification réussi."
-      cur.execute('CALL AfficherInfosUtilisateur(' + user + ')')
-      account = cur.fetchone()
       connection.close()
-      return render_template('account.html', account=account, message=message, connected=VarGlobal, GlobalUser=GlobalUser)
+      return redirect(url_for('account', user=user))
 
   except Exception as e:
     return str(e)
@@ -131,10 +129,8 @@ def accountChangeDelivery(user):
       cur.execute('UPDATE utilisateurs SET rue_util = "'+newStreet+'", ville_util = "'+newCity+'", code_postal_util = "'+newPost+'", province_util = "'+newProvince+'", eid_util = '+ newWarehouse+' WHERE uid = '+user+'')
       connection.commit()
       message = "Modification réussi."
-      cur.execute('CALL AfficherInfosUtilisateur(' + user + ')')
-      account = cur.fetchone()
       connection.close()
-      return render_template('account.html', account=account, message=message, connected=VarGlobal, GlobalUser=GlobalUser)
+      return redirect(url_for('account', user=user))
 
   except Exception as e:
     return str(e)
@@ -158,17 +154,18 @@ def search():
   except Exception as e:
     return str(e)
 
-@app.route('/item/<itemPage>', methods=['GET', 'POST'])
-def item(itemPage):
+@app.route('/item/<user>/<itemPage>', methods=['GET', 'POST'])
+def item(user, itemPage):
   try:
-    connection = util.connection_database()
-    cur = connection.cursor()
-    cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod FROM Fournisseurs F INNER JOIN Produits P ON F.fid = P.fid WHERE P.pid = '+itemPage+'')
-    item = cur.fetchone()
-    cur.execute('SELECT D.quantite, E.ville_entre FROM Dispoprods D INNER JOIN Entrepots E ON D.eid = E.eid WHERE D.pid = ' + itemPage + ' ORDER BY D.quantite DESC')
-    dispos = cur.fetchall()
-    connection.close()
-    return render_template('item.html', item=item, dispos=dispos, connected=VarGlobal, GlobalUser=GlobalUser)
+    if not VarGlobal:
+      return redirect(url_for('index'))
+    else:
+      connection = util.connection_database()
+      cur = connection.cursor()
+      cur.execute('CALL AfficherItem(' + user + ',' + itemPage + ')')
+      item = cur.fetchone()
+      connection.close()
+      return render_template('item.html', item=item, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
@@ -181,7 +178,7 @@ def cart(user):
     else:
       connection = util.connection_database()
       cur = connection.cursor()
-      cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.prix_prod, P.image_prod, C.qte, P.unite_prod FROM Produits P INNER JOIN panier C ON P.pid = C.pid INNER JOIN fournisseurs F ON P.fid = F.fid WHERE C.uid = '+user+'')
+      cur.execute('SELECT DISTINCT P.pid, P.nom_prod, F.nom_four, P.prix_prod, P.image_prod, C.qte, D.quantite FROM Produits P INNER JOIN panier C ON P.pid = C.pid INNER JOIN fournisseurs F ON P.fid = F.fid INNER JOIN dispoprods D ON P.pid = D.pid WHERE C.uid = '+user+' AND D.eid = (SELECT eid_util FROM utilisateurs WHERE uid = C.uid)')
       items = cur.fetchall()
       cur.execute('SELECT AfficherTotal(' + user + ')')
       price = cur.fetchone()
@@ -190,25 +187,40 @@ def cart(user):
   except Exception as e:
     return str(e)
 
-@app.route('/updateQuantity/<user>/<product>', methods=['POST'])
-def updateQuantity(user,product):
+@app.route('/addCart/<user>/<product>/<quantity>', methods=['GET', 'POST'])
+def addCart(user, product, quantity):
   try:
     if not VarGlobal:
       return redirect(url_for('index'))
     else:
-      GlobalUser=user
-      newQte = request.form.get('quantity')
-
       connection = util.connection_database()
       cur = connection.cursor()
-      cur.execute('UPDATE panier SET qte = '+newQte+' WHERE uid = '+user+' AND pid = '+product+'')
-      connection.commit()
-      cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.prix_prod, P.image_prod, C.qte, P.unite_prod FROM Produits P INNER JOIN panier C ON P.pid = C.pid INNER JOIN fournisseurs F ON P.fid = F.fid WHERE C.uid = ' + user + '')
-      items = cur.fetchall()
-      cur.execute('SELECT AfficherTotal('+user+')')
-      price = cur.fetchone()
-      connection.close()
-      return render_template('cart.html', items=items, price=price, connected=VarGlobal, GlobalUser=GlobalUser)
+      cur.execute('SELECT qte FROM panier WHERE uid = '+user+' AND pid = '+product+'')
+      panier = cur.fetchone()
+      if panier is None:
+        cur.execute('CALL AjouterPanier('+user+','+product+','+quantity+')')
+        connection.commit()
+        connection.close()
+        return redirect(url_for('cart', user=user))
+      else:
+        cur.execute('CALL MAJPanier(' + user + ',' + product + ',' + quantity + ')')
+        connection.commit()
+
+        return redirect(url_for('cart', user=user))
+  except Exception as e:
+    return str(e)
+
+@app.route('/updateQuantity/<user>/<product>', methods=['POST'])
+def updateQuantity(user,product):
+  try:
+    ##Ne fonctionne pas encore
+    newQte = request.form.get('itemQuantity')
+    connection = util.connection_database()
+    cur = connection.cursor()
+    cur.execute('CALL MAJPanier('+user+','+product+','+newQte+')')
+    connection.commit()
+    connection.close()
+    return redirect(url_for('cart', user=user))
   except Exception as e:
     return str(e)
 
@@ -224,22 +236,25 @@ def deleteItemCart(user,product):
       cur = connection.cursor()
       cur.execute('CALL EnleverPanier('+user+','+product+')')
       connection.commit()
-      cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.prix_prod, P.image_prod, C.qte, P.unite_prod FROM Produits P INNER JOIN panier C ON P.pid = C.pid INNER JOIN fournisseurs F ON P.fid = F.fid WHERE C.uid = ' + user + '')
-      items = cur.fetchall()
-      cur.execute('SELECT AfficherTotal('+user+')')
-      price = cur.fetchone()
       connection.close()
-      return render_template('cart.html', items=items, price=price, connected=VarGlobal, GlobalUser=GlobalUser)
+      return redirect(url_for('cart', user=user))
+
   except Exception as e:
     return str(e)
 
 @app.route('/checkout/<user>')
 def checkout(user):
+  try:
     if not VarGlobal:
       return redirect(url_for('index'))
     else:
-      return render_template('checkout.html', connected=VarGlobal, GlobalUser=GlobalUser)
-
+      connection = util.connection_database()
+      cur = connection.cursor()
+      cur.execute('CALL AfficherInfosUtilisateur(' + user + ')')
+      account = cur.fetchone()
+      return render_template('checkout.html', account=account, connected=VarGlobal, GlobalUser=GlobalUser)
+  except Exception as e:
+    return str(e)
 @app.route('/orders/<user>')
 def orders(user):
   try:

@@ -95,53 +95,20 @@
     <section class="checkout-shipping-info">
      <h1>INFORMATION LIVRAISON</h1>
       <div class="checkout-inputs">
-        <label for="shipping-name">Prénom: <input id="shipping-name" type="text" name="shipping-name" pattern="[a-zA-Z\- ]{1,30}" required></label>
-        <label for="shipping-surname">Nom: <input id="shipping-surname" type="text" name="shipping-surname" pattern="[a-zA-Z\- ]{1,30}" required></label>
+        <label for="shipping-name">Prénom: <input id="shipping-name" type="text" name="shipping-name" pattern="[a-zA-Z\- ]{1,30}" required value="{{ account[2] }}"></label>
+        <label for="shipping-surname">Nom: <input id="shipping-surname" type="text" name="shipping-surname" pattern="[a-zA-Z\- ]{1,30}" required value="{{ account[3] }}"></label>
       </div>
       <div class="checkout-inputs">
-        <label for="shipping-road">Rue: <input id="shipping-road" type="text" name="shipping-road" pattern="[a-zA-Z0-9 \-]{1,60}" required></label>
+        <label for="shipping-road">Rue: <input id="shipping-road" type="text" name="shipping-road" pattern="[a-zA-Z0-9 \-]{1,60}" required value="{{ account[5] }}"></label>
       </div>
       <div class="checkout-inputs">
-        <label for="shipping-post">Code postal: <input id="shipping-post" type="text" name="shipping-post" pattern="[a-zA-Z0-9]{6}" required></label>
+        <label for="shipping-post">Code postal: <input id="shipping-post" type="text" name="shipping-post" pattern="[a-zA-Z0-9]{6}" required value="{{ account[6] }}"></label>
       </div>
       <div class="checkout-inputs">
-        <label for="shipping-city">Ville: <input id="shipping-city" type="text" name="shipping-city" pattern="[a-zA-Z \-]{1,30}" required></label>
+        <label for="shipping-city">Ville: <input id="shipping-city" type="text" name="shipping-city" pattern="[a-zA-Z \-]{1,30}" required value="{{ account[7] }}"></label>
       </div>
       <div class="checkout-inputs">
         <label for="shipping-province">Province: <select id="shipping-province" name="shipping-province" required>
-          <option value="AB" {% if account[8] == "AB"%} selected {% endif %}>Alberta</option>
-          <option value="BC" {% if account[8] == "BC"%} selected {% endif %}>Colombie-Britannique</option>
-          <option value="PE" {% if account[8] == "PE"%} selected {% endif %}>Île-du-Prince-Édouard</option>
-          <option value="MB" {% if account[8] == "MB"%} selected {% endif %}>Manitoba</option>
-          <option value="NB" {% if account[8] == "NB"%} selected {% endif %}>Nouveau-Brunswick</option>
-          <option value="NS" {% if account[8] == "NS"%} selected {% endif %}>Nouvelle-Écosse</option>
-          <option value="NU" {% if account[8] == "NU"%} selected {% endif %}>Nunavut</option>
-          <option value="ON" {% if account[8] == "ON"%} selected {% endif %}>Ontario</option>
-          <option value="QC" {% if account[8] == "QC"%} selected {% endif %}>Québec</option>
-          <option value="SK" {% if account[8] == "SK"%} selected {% endif %}>Saskatchewan</option>
-          <option value="NL" {% if account[8] == "NL"%} selected {% endif %}>Terre-Neuve-et-Labrador</option>
-          <option value="NT" {% if account[8] == "NT"%} selected {% endif %}>Territoires du Nord-Ouest</option>
-          <option value="YT" {% if account[8] == "YT"%} selected {% endif %}>Yukon</option>
-        </select></label>
-      </div>
-    </section>
-    <section class="checkout-billing-info">
-    <h1>INFORMATION FACTURE</h1>
-      <div class="checkout-inputs">
-          <label for="billing-name">Prénom: <input id="billing-name" type="text" name="billing-name" pattern="[a-zA-Z\- ]{1,30}" required></label>
-          <label for="billing-surname">Nom: <input id="billing-surname" type="text" name="billing-surname" pattern="[a-zA-Z\- ]{1,30}" required></label>
-      </div>
-      <div class="checkout-inputs">
-        <label for="billing-road">Rue: <input id="billing-road" type="text" name="billing-road" pattern="[a-zA-Z0-9 \-]{1,60}" required></label>
-      </div>
-      <div class="checkout-inputs">
-        <label for="billing-post">Code postal: <input id="billing-post" type="text" name="billing-post" pattern="[a-zA-Z0-9]{6}" placeholder="Postal Code" required></label>
-      </div>
-      <div class="checkout-inputs">
-        <label for="billing-city">Ville: <input id="billing-city" type="text" name="billing-city" pattern="[a-zA-Z\- ]{1,30}" placeholder="City" required></label>
-      </div>
-      <div class="checkout-inputs">
-        <label for="billing-province">Province: <select id="billing-province" name="billing-province" required>
           <option value="AB" {% if account[8] == "AB"%} selected {% endif %}>Alberta</option>
           <option value="BC" {% if account[8] == "BC"%} selected {% endif %}>Colombie-Britannique</option>
           <option value="PE" {% if account[8] == "PE"%} selected {% endif %}>Île-du-Prince-Édouard</option>
