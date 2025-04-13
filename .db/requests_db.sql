@@ -407,3 +407,42 @@ BEGIN
                                                                                 incid, prov_eid);
 END //
 DELIMITER ;
+
+
+DELIMITER //  #Melqui
+CREATE PROCEDURE AfficherInfosProduit(
+    IN p_pid INT
+)
+BEGIN
+    DECLARE prod_existe INT;
+    DECLARE total_stock INT;
+
+    #vérifier si le produit existe
+    SELECT COUNT(*) INTO prod_existe FROM Produits WHERE pid = p_pid;
+    IF prod_existe = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Produit inexistant.';
+    END IF;
+
+    #calcul le stock total dans tous les entrepôts (dispoprods)
+    SELECT SUM(quantite) INTO total_stock
+    FROM dispoprods
+    WHERE pid = p_pid;
+
+    #affichage des infos produit avec son fournisseur et le total de stock
+    SELECT
+        P.nom_prod,
+        F.nom_four,
+        P.description_prod,
+        P.prix_prod,
+        P.image_prod,
+        P.categorie_prod,
+        COALESCE(total_stock, 0) AS stock_total,
+        P.unite_produit_MTL,
+        P.unite_produit_TOR,
+        P.unite_produit_VAN
+    FROM Produits P
+    JOIN Fournisseurs F ON P.fid = F.fid
+    WHERE P.pid = p_pid;
+END //
+DELIMITER ;
+
