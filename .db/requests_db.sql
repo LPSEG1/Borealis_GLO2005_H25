@@ -446,3 +446,60 @@ BEGIN
 END //
 DELIMITER ;
 
+DELIMITER // #melqui
+CREATE PROCEDURE RemplirInfosCommande(
+    IN p_uid INT
+)
+BEGIN
+    #variables de vérification
+    DECLARE util_existe INT;
+
+    # vérifier que l'utilisateur existe
+    SELECT COUNT(*) INTO util_existe
+    FROM Utilisateurs
+    WHERE uid = p_uid;
+
+    IF util_existe = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Utilisateur inexistant.';
+    END IF;
+
+    # créer la table temporaire pour contenir les infos d'expédition
+    DROP TEMPORARY TABLE IF EXISTS InfosCommande;
+    CREATE TEMPORARY TABLE InfosCommande (
+        prenom VARCHAR(30),
+        nom VARCHAR(30),
+        rue VARCHAR(60),
+      ville VARCHAR(30),
+        code_postal CHAR(6),
+        province CHAR(2),
+        pays VARCHAR(20),
+        telephone BIGINT,
+      entrepot_rue VARCHAR(60),
+        entrepot_ville VARCHAR(30),
+        entrepot_province CHAR(2)
+    );
+
+    #insérer les infos dans la table temporaire
+    INSERT INTO InfosCommande
+    SELECT
+        U.prenom_util,
+        U.nom_util,
+        U.rue_util,
+        U.ville_util,
+        U.code_postal_util,
+        U.province_util,
+      U.pays_util,
+        U.telephone_util,
+        E.rue_entre,
+      E.ville_entre,
+        E.province_entre
+    FROM Utilisateurs U
+    JOIN Entrepots E ON U.eid_util = E.eid
+    WHERE U.uid = p_uid;
+
+    # retourner les données
+    SELECT * FROM InfosCommande;
+END //
+DELIMITER ;
+
+
