@@ -493,3 +493,27 @@ BEGIN
     SELECT * FROM InfosCommande;
 END //
 DELIMITER ;
+
+DELIMITER // #Melqui
+CREATE PROCEDURE TrouverUidParEmail(
+    IN p_email VARCHAR(100)
+)
+BEGIN
+    DECLARE uid_result INT;
+
+    # vérifie si l'email existe
+    IF NOT EXISTS (SELECT 1 FROM Utilisateurs WHERE courriel_util = p_email)
+      THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Courriel introuvable.';
+    END IF;
+
+    # récupère le UID associé à l'email
+    SELECT uid INTO uid_result
+    FROM Utilisateurs
+    WHERE courriel_util = p_email;
+
+    # retourne le UID
+    SELECT uid_result AS uid;
+END //
+DELIMITER ;
+
