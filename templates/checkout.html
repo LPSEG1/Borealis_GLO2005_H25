@@ -24,7 +24,7 @@
         placeholder="Recherche"
         class="search-input"
         aria-label="Search products"
-        pattern="[a-zA-Z0-9\-]{1,}"
+        pattern="[a-zA-Z0-9\- ]{1,50}"
         name="search"
         />
         <div class="category-button">
@@ -94,17 +94,17 @@
     <section class="checkout-shipping-info">
      <h1>INFORMATION LIVRAISON</h1>
       <div class="checkout-inputs">
-        <label for="shipping-name">Prénom: <input id="shipping-name" type="text" name="shipping-name" pattern="[a-zA-Z\- ]{1,}" required></label>
-        <label for="shipping-surname">Nom: <input id="shipping-surname" type="text" name="shipping-surname" pattern="[a-zA-Z\- ]{1,}" required></label>
+        <label for="shipping-name">Prénom: <input id="shipping-name" type="text" name="shipping-name" pattern="[a-zA-Z\- ]{1,30}" required></label>
+        <label for="shipping-surname">Nom: <input id="shipping-surname" type="text" name="shipping-surname" pattern="[a-zA-Z\- ]{1,30}" required></label>
       </div>
       <div class="checkout-inputs">
-        <label for="shipping-road">Rue: <input id="shipping-road" type="text" name="shipping-road" pattern="[a-zA-Z0-9 \-]{1,}" required></label>
+        <label for="shipping-road">Rue: <input id="shipping-road" type="text" name="shipping-road" pattern="[a-zA-Z0-9 \-]{1,60}" required></label>
       </div>
       <div class="checkout-inputs">
         <label for="shipping-post">Code postal: <input id="shipping-post" type="text" name="shipping-post" pattern="[a-zA-Z0-9]{6}" required></label>
       </div>
       <div class="checkout-inputs">
-        <label for="shipping-city">Ville: <input id="shipping-city" type="text" name="shipping-city" pattern="[a-zA-Z \-]{1,}" required></label>
+        <label for="shipping-city">Ville: <input id="shipping-city" type="text" name="shipping-city" pattern="[a-zA-Z \-]{1,30}" required></label>
       </div>
       <div class="checkout-inputs">
         <label for="shipping-province">Province: <select id="shipping-province" name="shipping-province" required>
@@ -127,17 +127,17 @@
     <section class="checkout-billing-info">
     <h1>INFORMATION FACTURE</h1>
       <div class="checkout-inputs">
-          <label for="billing-name">Prénom: <input id="billing-name" type="text" name="billing-name" pattern="[a-zA-Z\- ]{1,}" required></label>
-          <label for="billing-surname">Nom: <input id="billing-surname" type="text" name="billing-surname" pattern="[a-zA-Z\- ]{1,}" required></label>
+          <label for="billing-name">Prénom: <input id="billing-name" type="text" name="billing-name" pattern="[a-zA-Z\- ]{1,30}" required></label>
+          <label for="billing-surname">Nom: <input id="billing-surname" type="text" name="billing-surname" pattern="[a-zA-Z\- ]{1,30}" required></label>
       </div>
       <div class="checkout-inputs">
-        <label for="billing-road">Rue: <input id="billing-road" type="text" name="billing-road" pattern="[a-zA-Z0-9 \-]{1,}" required></label>
+        <label for="billing-road">Rue: <input id="billing-road" type="text" name="billing-road" pattern="[a-zA-Z0-9 \-]{1,60}" required></label>
       </div>
       <div class="checkout-inputs">
-        <label for="billing-post">Code postal: <input id="billing-post" type="text" name="billing-post" placeholder="Postal Code" required></label>
+        <label for="billing-post">Code postal: <input id="billing-post" type="text" name="billing-post" pattern="[a-zA-Z0-9]{6}" placeholder="Postal Code" required></label>
       </div>
       <div class="checkout-inputs">
-        <label for="billing-city">Ville: <input id="billing-city" type="text" name="billing-city" placeholder="City" required></label>
+        <label for="billing-city">Ville: <input id="billing-city" type="text" name="billing-city" pattern="[a-zA-Z\- ]{1,30}" placeholder="City" required></label>
       </div>
       <div class="checkout-inputs">
         <label for="billing-province">Province: <select id="billing-province" name="billing-province" required>
@@ -160,7 +160,7 @@
     <section class="checkout-payment-info">
       <h1>INFORMATION PAIEMENT</h1>
       <div class="checkout-inputs">
-          <label for="payment-name">Nom du titulaire: <input id="payment-name" type="text" name="payment-name" placeholder="Name" required></label>
+          <label for="payment-name">Nom du titulaire: <input id="payment-name" type="text" name="payment-name" pattern="[a-zA-Z\- ]{1,30}" placeholder="Name" required></label>
       </div>
       <div class="checkout-inputs">
         <label for="payment-card">Numéro: <input id="payment-card" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" name="payment-card" placeholder="XXXX XXXX XXXX XXXX" required></label>
