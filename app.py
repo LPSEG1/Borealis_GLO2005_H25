@@ -330,5 +330,4 @@ def page_not_found(e):
                            error_title=error_title,error_msg=error_msg), 404
 
 if __name__ == '__main__':
-  util.appliquer_migrations()  # appliquer les modifications de la BD
   app.run()
