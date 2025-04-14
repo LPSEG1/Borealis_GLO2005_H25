@@ -240,9 +240,7 @@ def instantCart(product, quantity):
 @app.route('/updateQte/<product>', methods=['POST'])
 def updateQte(product):
   try:
-    print('itemQte'+product+'')
-    newQte = request.form.get('itemQte'+product+'')
-    print(newQte)
+    newQte = request.form.get('itemQte')
     print('MAJPanier('+str(GlobalUser)+','+product+','+newQte+')')
 
     connection = util.connection_database()
