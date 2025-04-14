@@ -986,13 +986,15 @@ header {
 .cart-updateQte
 {
   display: flex;
+  gap: 5px;
+  align-items: center;
 }
 
 .product-cart-quantity {
   display: flex;
   gap: 50px;
   float: right;
-  margin-top: -25px;
+  margin-top: -40px;
 }
 
 .update-btn {

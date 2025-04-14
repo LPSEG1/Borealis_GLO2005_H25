@@ -100,9 +100,11 @@
         <h2 class="product-title">{{item[1]}}</h2>
         <p class="product-vendor">{{item[2]}}</p>
         <p class="product-price">{{item[3]}}$</p>
+        <p>Quantité courante: {{ item[5] }}</p>
         <div class="product-cart-quantity">
           <form action="{{url_for('updateQuantity', user=GlobalUser, product=item[0])}}" method="POST" id="updateQuantity" class="cart-updateQte">
-            <input type="number" id="itemQte" name="itemQte" placeholder="{{ item[5] }}" min="1" max="{{ item[6] }}">
+            <label for="itemQte">Mettre à jour la quantité: </label>
+            <input type="number" id="itemQte" name="itemQte" min="1" max="{{ item[6] }}">
             <button type="submit" form='updateQuantity' class="update-btn" aria-label="Update">MAJ</button>
           </form>
           <button onclick="window.location.href='{{url_for('deleteItemCart', user=GlobalUser, product=item[0])}}'" class="delete-btn">SUPPRIMER</button>

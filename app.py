@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 VarGlobal = False
 GlobalUser = 0
-int = GlobalUser
+
 @app.route('/')
 def index():
   global VarGlobal
@@ -154,18 +154,20 @@ def search():
   except Exception as e:
     return str(e)
 
-@app.route('/item/<user>/<itemPage>', methods=['GET', 'POST'])
-def item(user, itemPage):
+@app.route('/item/<itemPage>', methods=['GET', 'POST'])
+def item(itemPage):
   try:
     if not VarGlobal:
       return redirect(url_for('index'))
     else:
       connection = util.connection_database()
       cur = connection.cursor()
-      cur.execute('CALL AfficherItem(' + user + ',' + itemPage + ')')
+      cur.execute('CALL AfficherItem(' + str(GlobalUser) + ',' + itemPage + ')')
       item = cur.fetchone()
+      cur.execute('SELECT D.quantite, E.ville_entre FROM dispoprods D INNER JOIN entrepots E ON D.eid = E.eid WHERE pid = ' + itemPage + '')
+      dispos = cur.fetchall()
       connection.close()
-      return render_template('item.html', item=item, connected=VarGlobal, GlobalUser=GlobalUser)
+      return render_template('item.html', item=item, dispos=dispos, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
