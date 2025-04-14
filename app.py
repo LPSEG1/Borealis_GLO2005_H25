@@ -106,8 +106,10 @@ def accountChangePersonal(user):
       cur.execute('UPDATE utilisateurs SET courriel_util = "'+newEmail+'", prenom_util = "'+newName+'", nom_util = "'+newSurname+'", telephone_util = "'+newPhone+'" WHERE uid = '+user+'')
       connection.commit()
       message = "Modification réussi."
+      cur.execute('CALL AfficherInfosUtilisateur(' + user + ')')
+      account = cur.fetchone()
       connection.close()
-      return redirect(url_for('account', user=user))
+      return render_template('account.html', account=account, message=message, connected=VarGlobal, GlobalUser=GlobalUser)
 
   except Exception as e:
     return str(e)
@@ -129,8 +131,10 @@ def accountChangeDelivery(user):
       cur.execute('UPDATE utilisateurs SET rue_util = "'+newStreet+'", ville_util = "'+newCity+'", code_postal_util = "'+newPost+'", province_util = "'+newProvince+'", eid_util = '+ newWarehouse+' WHERE uid = '+user+'')
       connection.commit()
       message = "Modification réussi."
+      cur.execute('CALL AfficherInfosUtilisateur(' + user + ')')
+      account = cur.fetchone()
       connection.close()
-      return redirect(url_for('account', user=user))
+      return render_template('account.html', account=account, message=message, connected=VarGlobal, GlobalUser=GlobalUser)
 
   except Exception as e:
     return str(e)
@@ -209,7 +213,6 @@ def addCart(user, product):
       else:
         cur.execute('CALL MAJPanier(' + user + ',' + product + ',' + quantity + ')')
         connection.commit()
-
         return redirect(url_for('cart', user=user))
   except Exception as e:
     return str(e)
