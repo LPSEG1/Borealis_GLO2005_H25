@@ -242,7 +242,6 @@ def instantCart(product, quantity):
 def updateQuantity(product):
   try:
     newQte = request.form.get('itemQte')
-
     connection = util.connection_database()
     cur = connection.cursor()
     cur.execute('CALL MAJPanier('+str(GlobalUser)+','+product+','+newQte+')')
