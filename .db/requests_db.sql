@@ -1,7 +1,6 @@
 DROP PROCEDURE IF EXISTS ChercherProduit;
 DROP PROCEDURE IF EXISTS ChercherProduitNoCategories;
 DROP PROCEDURE IF EXISTS ChangerMdp;
-DROP PROCEDURE IF EXISTS AfficherItem;
 DROP PROCEDURE IF EXISTS AjouterPanier;
 DROP PROCEDURE IF EXISTS MAJPanier;
 DROP PROCEDURE IF EXISTS EnleverPanier;
@@ -98,14 +97,6 @@ CREATE PROCEDURE #Nick #Modifier par David
     ChangerMdp(IN mdp varchar(64), IN id int)
 BEGIN
     UPDATE MotHacher SET mdp_util = mdp WHERE mid = id;
-END//
-DELIMITER ;
-
-DELIMITER //
-CREATE PROCEDURE #L-P
-    AfficherItem(IN util_id int, IN prod_id int)
-BEGIN
-      SELECT P.pid, P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod, D.quantite FROM Fournisseurs F INNER JOIN Produits P ON F.fid = P.fid INNER JOIN dispoprods D ON P.pid = D.pid WHERE P.pid = prod_id AND D.eid =(SELECT eid_util FROM utilisateurs WHERE uid = util_id);
 END//
 DELIMITER ;
 
@@ -413,11 +404,11 @@ DELIMITER ;
 
 DELIMITER //  #Melqui
 CREATE PROCEDURE AfficherInfosProduit(
+    IN u_uid INT,
     IN p_pid INT
 )
 BEGIN
     DECLARE prod_existe INT;
-    DECLARE total_stock INT;
 
     #vérifier si le produit existe
     SELECT COUNT(*) INTO prod_existe FROM Produits WHERE pid = p_pid;
@@ -425,26 +416,21 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Produit inexistant.';
     END IF;
 
-    #calcul le stock total dans tous les entrepôts (dispoprods)
-    SELECT SUM(quantite) INTO total_stock
-    FROM dispoprods
-    WHERE pid = p_pid;
-
     #affichage des infos produit avec son fournisseur et le total de stock
     SELECT
+        P.pid,
         P.nom_prod,
         F.nom_four,
         P.description_prod,
         P.prix_prod,
         P.image_prod,
         P.categorie_prod,
-        COALESCE(total_stock, 0) AS stock_total,
-        P.unite_produit_MTL,
-        P.unite_produit_TOR,
-        P.unite_produit_VAN
+        D.quantite
     FROM Produits P
-    JOIN Fournisseurs F ON P.fid = F.fid
-    WHERE P.pid = p_pid;
+    INNER JOIN Fournisseurs F ON P.fid = F.fid
+    INNER JOIN dispoprods D ON P.pid = D.pid
+    WHERE P.pid = p_pid
+    AND D.eid = (SELECT eid_util FROM utilisateurs WHERE uid = u_uid);
 END //
 DELIMITER ;
 

@@ -166,7 +166,7 @@ def item(itemPage):
     else:
       connection = util.connection_database()
       cur = connection.cursor()
-      cur.execute('CALL AfficherItem(' + str(GlobalUser) + ',' + itemPage + ')')
+      cur.execute('CALL AfficherInfosProduit(' + str(GlobalUser) + ',' + itemPage + ')')
       item = cur.fetchone()
       cur.execute('SELECT D.quantite, E.ville_entre FROM dispoprods D INNER JOIN entrepots E ON D.eid = E.eid WHERE pid = ' + itemPage + '')
       dispos = cur.fetchall()
