@@ -33,39 +33,28 @@ def hacher(mot_de_passe):
 
 
 def appliquer_migrations():#Melqui
-  """exécute uniquement le fichier requests_db.sql pour MAJ la base de données."""
+  """exécute les commandes SQL du fichier migrations.sql pour MAJ la base de données."""
   try:
     connection = connection_database()
     cursor = connection.cursor()
 
-#    lire le fichier de migrations.sql
-#    with open(".db/migrations.sql", "r", encoding="utf-8") as fichier:
-#      commandes_sql = fichier.read()
-#      commandes = commandes_sql.split(";")
-#    for commande in commandes:
-#      commande = commande.strip()
-#      if commande:
-#        try:
-#          cursor.execute(commande)
-#        except Exception as e:
-#          print(" Attention: Problème avec une commande (ignoré) :", e)
-
-    with open(".db/requests_db.sql", "r", encoding="utf-8") as fichier_requetes:
-      commandes_requetes = fichier_requetes.read()
-      commandes = commandes_requetes.split(";")
-      for commande in commandes:
-        commande = commande.strip()
-        if commande:
-          try:
-            cursor.execute(commande)
-          except Exception as e:
-            print(" Attention: Problème avec une commande de requests_db.sql (ignoré) :", e)
+    # lire le fichier de migrations.sql
+    with open(".db/migrations.sql", "r", encoding="utf-8") as fichier:
+      commandes_sql = fichier.read()
+      commandes = commandes_sql.split(";")
+    for commande in commandes:
+      commande = commande.strip()
+      if commande:
+        try:
+          cursor.execute(commande)
+        except Exception as e:
+          print(" Attention: Problème avec une commande (ignoré) :", e)
 
     connection.commit()
-    print("Done: Procédures et fonctions SQL appliquées avec succès.")
+    print("Done: Migrations appliquées avec succès.")
 
   except Exception as e:
-    print("Erreur pendant l'application des routines SQL :", e)
+    print("Erreur pendant les migrations :", e)
 
   finally:
     if connection:
