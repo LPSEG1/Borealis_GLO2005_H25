@@ -71,7 +71,8 @@ def inscription():
     GlobalUser = id[0]
     connection.commit()
     connection.close()
-    return index()
+    message = "Inscription réussi! Veuillez vous connectez svp"
+    return render_template('connect.html', message=message, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
