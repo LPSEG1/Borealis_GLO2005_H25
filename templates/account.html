@@ -110,17 +110,17 @@
     <h1 class="info-title">INFORMATION GÉNÉRAL</h1>
     <form action="{{url_for('accountChangePersonal')}}" method="POST" id="accountChangePersonal">
       <div class="info-input">
-        <label>Prenom:</label>
+        <label for="account-name">Prenom:</label>
           <input type="text" id="account-name" name="account-name" pattern="[a-zA-Z\- ]{1,30}" value="{{account[2]}}"/>
-        <label>Nom:</label>
+        <label for="account-surname">Nom:</label>
           <input type="text" id="account-surname" name="account-surname" pattern="[a-zA-Z\- ]{1,30}" value="{{account[3]}}"/>
       </div>
       <div class="info-input">
-        <label>Courriel:</label>
+        <label for="account-email">Courriel:</label>
           <input type="email" id="account-email" name="account-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}${6,100}" value="{{account[1]}}"/>
       </div>
       <div class="info-input">
-       <label>Telephone: </label><input type="tel" id="account-phone" name="account-phone" placeholder="sans espace, -, ()" pattern="[0-9]{10}" value="{{account[4]}}">
+       <label for="account-phone">Telephone: </label><input type="tel" id="account-phone" name="account-phone" placeholder="sans espace, -, ()" pattern="[0-9]{10}" value="{{account[4]}}">
       </div>
       <!-- <div class="info-input">
         <a href="">Change password</a>
@@ -137,13 +137,13 @@
     <h1 class="info-title">INFORMATION LIVRAISON</h1>
     <form action="{{url_for('accountChangeDelivery')}}" method="POST" id="accountChangeDelivery">
       <div class="info-input">
-        <label>Rue: </label><input type="text" id="account-street" name="account-street" pattern="[a-zA-Z0-9\- \']{1,60}" value="{{account[5]}}">
+        <label for="account-street">Rue: </label><input type="text" id="account-street" name="account-street" pattern="[a-zA-Z0-9\- \']{1,60}" value="{{account[5]}}">
       </div>
       <div class="info-input">
-        <label>Code postal: </label><input type="text" id="account-post" name="account-post" placeholder="sans espace" pattern="[a-zA-Z0-9]{6}" value="{{account[6]}}">
+        <label for="account-post">Code postal: </label><input type="text" id="account-post" name="account-post" placeholder="sans espace" pattern="[a-zA-Z0-9]{6}" value="{{account[6]}}">
       </div>
       <div class="info-input">
-        <label>Ville: </label><input type="text" id="account-city" name="account-city" pattern="[a-zA-Z \-]{1,30}" value="{{account[7]}}">
+        <label for="account-city">Ville: </label><input type="text" id="account-city" name="account-city" pattern="[a-zA-Z \-]{1,30}" value="{{account[7]}}">
       </div>
       <div class="info-input">
         <label for="account-province">Province: <select id="account-province" name="account-province" required>

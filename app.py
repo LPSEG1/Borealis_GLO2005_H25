@@ -75,7 +75,7 @@ def inscription():
   except Exception as e:
     return str(e)
 
-@app.route('/account/', methods=['GET', 'POST'])
+@app.route('/account', methods=['GET', 'POST'])
 def account():
   try:
     if not VarGlobal:
@@ -90,7 +90,7 @@ def account():
   except Exception as e:
     return str(e)
 
-@app.route('/accountChangePersonal/', methods=['POST'])
+@app.route('/accountChangePersonal', methods=['POST'])
 def accountChangePersonal():
   try:
     if not VarGlobal:
@@ -114,7 +114,7 @@ def accountChangePersonal():
   except Exception as e:
     return str(e)
 
-@app.route('/accountChangeDelivery/', methods=['POST'])
+@app.route('/accountChangeDelivery', methods=['POST'])
 def accountChangeDelivery():
   try:
     if not VarGlobal:
@@ -161,9 +161,6 @@ def search():
 @app.route('/item/<itemPage>', methods=['GET', 'POST'])
 def item(itemPage):
   try:
-    if not VarGlobal:
-      return redirect(url_for('index'))
-    else:
       connection = util.connection_database()
       cur = connection.cursor()
       cur.execute('CALL AfficherInfosProduit(' + str(GlobalUser) + ',' + itemPage + ')')
@@ -176,7 +173,7 @@ def item(itemPage):
     return str(e)
 
 
-@app.route('/cart/', methods=['GET', 'POST'])
+@app.route('/cart', methods=['GET', 'POST'])
 def cart():
   try:
     if not VarGlobal:
@@ -240,10 +237,12 @@ def instantCart(product, quantity):
   except Exception as e:
     return str(e)
 
-@app.route('/updateQuantity/<product>', methods=['POST'])
-def updateQuantity(product):
+@app.route('/updateQte/<product>', methods=['POST'])
+def updateQte(product):
   try:
-    newQte = request.form.get('itemQte')
+    print('itemQte'+product+'')
+    newQte = request.form.get('itemQte'+product+'')
+    print(newQte)
     print('MAJPanier('+str(GlobalUser)+','+product+','+newQte+')')
 
     connection = util.connection_database()
@@ -271,7 +270,7 @@ def deleteItemCart(product):
   except Exception as e:
     return str(e)
 
-@app.route('/checkout/')
+@app.route('/checkout')
 def checkout():
   try:
     if not VarGlobal:
@@ -284,7 +283,29 @@ def checkout():
       return render_template('checkout.html', account=account, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
-@app.route('/orders/')
+
+@app.route('/passOrder', methods=['POST'])
+def passOrder():
+  try:
+    if not VarGlobal:
+      return redirect(url_for('index'))
+    else:
+      shipRoad = request.form.get('shipping-road')
+      shipPost = request.form.get('shipping-post')
+      shipCity = request.form.get('shipping-city')
+      shipProvince = request.form.get('shipping-province')
+
+
+      connection = util.connection_database()
+      cur = connection.cursor()
+      cur.execute('CALL PasserCommande('+str(GlobalUser)+',"'+shipRoad+'","'+shipCity+'","'+shipPost+'","'+shipProvince+'")')
+      connection.commit()
+      connection.close()
+      return redirect(url_for('orders'))
+  except Exception as e:
+    return str(e)
+
+@app.route('/orders')
 def orders():
   try:
     if not VarGlobal:

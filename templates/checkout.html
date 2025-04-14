@@ -91,12 +91,15 @@
 </header>
 <main class="checkout-container main-content">
   <h1 class="checkout-title">PAIEMENT</h1>
-  <form>
+  <form action="{{url_for('passOrder')}}" method="POST" id="passOrder">
     <section class="checkout-shipping-info">
      <h1>INFORMATION LIVRAISON</h1>
       <div class="checkout-inputs">
         <label for="shipping-name">Prénom: <input id="shipping-name" type="text" name="shipping-name" pattern="[a-zA-Z\- ]{1,30}" required value="{{ account[2] }}"></label>
         <label for="shipping-surname">Nom: <input id="shipping-surname" type="text" name="shipping-surname" pattern="[a-zA-Z\- ]{1,30}" required value="{{ account[3] }}"></label>
+      </div>
+      <div class="checkout-inputs">
+        <label for="shipping-phone">Telephone:</label><input type="tel" id="shipping-phone" name="shipping-phone" placeholder="sans espace, -, ()" pattern="[0-9]{10}" value="{{account[4]}}">
       </div>
       <div class="checkout-inputs">
         <label for="shipping-road">Rue: <input id="shipping-road" type="text" name="shipping-road" pattern="[a-zA-Z0-9 \-]{1,60}" required value="{{ account[5] }}"></label>

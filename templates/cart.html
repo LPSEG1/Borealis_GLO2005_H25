@@ -102,10 +102,10 @@
         <p class="product-price">{{item[3]}}$</p>
         <p>Quantité courante: {{ item[5] }}</p>
         <div class="product-cart-quantity">
-          <form action="{{url_for('updateQuantity', product=item[0])}}" method="POST" id="updateQuantity" class="cart-updateQte">
+          <form action="{{url_for('updateQte', product=item[0])}}" method="POST" id="updateQte" class="cart-updateQte">
             <label for="itemQte">Mettre à jour la quantité: </label>
-            <input type="number" id="itemQte" name="itemQte" min="1" max="{{ item[6] }}">
-            <button type="submit" form='updateQuantity' class="update-btn" aria-label="Update">MAJ</button>
+            <input type="number" id="itemQte{{ item[0] }}" name="itemQte" min="1" max="{{ item[6] }}">
+            <button type="submit" form='updateQte' class="update-btn" aria-label="Update">MAJ</button>
           </form>
           <button onclick="window.location.href='{{url_for('deleteItemCart', product=item[0])}}'" class="delete-btn">SUPPRIMER</button>
         </div>
