@@ -71,7 +71,8 @@ def inscription():
     GlobalUser = id[0]
     connection.commit()
     connection.close()
-    return index()
+    message = "Inscription réussi! Veuillez vous connectez svp"
+    return render_template('connect.html', message=message, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
@@ -240,9 +241,7 @@ def instantCart(product, quantity):
 @app.route('/updateQte/<product>', methods=['POST'])
 def updateQte(product):
   try:
-    print('itemQte'+product+'')
-    newQte = request.form.get('itemQte'+product+'')
-    print(newQte)
+    newQte = request.form.get('itemQte')
     print('MAJPanier('+str(GlobalUser)+','+product+','+newQte+')')
 
     connection = util.connection_database()
