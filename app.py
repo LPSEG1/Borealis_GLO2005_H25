@@ -12,10 +12,11 @@ def index():
   global VarGlobal
   global GlobalUser
   try:
+    connection = util.connection_database()
     cur = util.connection_database().cursor()
     cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod FROM Fournisseurs F INNER JOIN Produits P ON F.fid = P.fid WHERE P.vedette = 1')
     items = cur.fetchall()
-    util.connection_database().close()
+    connection.close()
     return render_template('Index.html', items=items, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
@@ -223,26 +224,35 @@ def addCart(product):
   except Exception as e:
     return str(e)
 
-@app.route('/instantCart/<product>/<quantity>', methods=['GET', 'POST'])
-def instantCart(product, quantity):
+@app.route('/instantCart/<product>', methods=['GET', 'POST'])
+def instantCart(product):
   try:
     if not VarGlobal:
       return redirect(url_for('index'))
     else:
       connection = util.connection_database()
       cur = connection.cursor()
+      cur.execute('SELECT D.quantite FROM dispoprods D WHERE D.pid = '+product+' AND D.eid = (SELECT eid_util FROM utilisateurs WHERE uid = '+str(GlobalUser)+')')
+      max = cur.fetchone()
       cur.execute('SELECT qte FROM panier WHERE uid = '+str(GlobalUser)+' AND pid = '+product+'')
       panier = cur.fetchone()
       if panier is None:
-        cur.execute('CALL AjouterPanier('+str(GlobalUser)+','+product+','+quantity+')')
+        cur.execute('CALL AjouterPanier('+str(GlobalUser)+','+product+',1)')
+        connection.commit()
+        connection.close()
+        return redirect(url_for('cart'))
+      elif panier[0] < max[0]:
+        quantity = panier[0] + 1
+        cur.execute('CALL MAJPanier(' +str(GlobalUser)+ ',' + product + ',' + str(quantity) + ')')
         connection.commit()
         connection.close()
         return redirect(url_for('cart'))
       else:
-        cur.execute('CALL MAJPanier(' +str(GlobalUser)+ ',' + product + ',' + quantity + ')')
-        connection.commit()
-
-        return redirect(url_for('cart'))
+        cur.execute('SELECT P.pid, P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod FROM Fournisseurs F INNER JOIN Produits P ON F.fid = P.fid WHERE P.vedette = 1')
+        items = cur.fetchall()
+        connection.close()
+        message = "Limite atteint pour ce produit"
+        return render_template('index.html', items=items, message=message, connected=VarGlobal, GlobalUser=GlobalUser)
   except Exception as e:
     return str(e)
 
@@ -250,6 +260,9 @@ def instantCart(product, quantity):
 def updateQuantity(product):
   try:
     newQte = request.form.get('itemQte')
+    print(newQte)
+    if newQte == "":
+      return redirect(url_for('cart'))
     connection = util.connection_database()
     cur = connection.cursor()
     cur.execute('CALL MAJPanier('+str(GlobalUser)+','+product+','+newQte+')')
