@@ -238,11 +238,10 @@ def instantCart(product, quantity):
   except Exception as e:
     return str(e)
 
-@app.route('/updateQte/<product>', methods=['POST'])
-def updateQte(product):
+@app.route('/updateQuantity/<product>', methods=['POST'])
+def updateQuantity(product):
   try:
     newQte = request.form.get('itemQte')
-    print('MAJPanier('+str(GlobalUser)+','+product+','+newQte+')')
 
     connection = util.connection_database()
     cur = connection.cursor()
