@@ -61,10 +61,7 @@
       {% if connected %}
         <a href="{{url_for('account')}}" class="nav-link">COMPTE</a>
         <a href="{{url_for('orders')}}" class="nav-link">COMMANDES</a>
-      {% else %}
-        <a href="{{url_for('connect')}}" class="nav-link">CONNEXION</a>
-      {% endif %}
-      <div class="cart-container">
+        <div class="cart-container">
         <button onclick="window.location.href='{{url_for('cart')}}'" class="cart-button">
         <svg
           class="cart-icon"
@@ -84,6 +81,9 @@
         </svg>
         </button>
       </div>
+      {% else %}
+        <a href="{{url_for('connect')}}" class="nav-link">CONNEXION</a>
+      {% endif %}
       <!-- <button class="language-button">EN</button> -->
     </nav>
   </div>
