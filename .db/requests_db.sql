@@ -346,10 +346,10 @@ DELIMITER ;
 
 DELIMITER // #Ajouter si non dispo
 CREATE PROCEDURE CreerLivraison (
-  IN incid int,
-  IN ineid int,
-  IN indate date)
-  BEGIN
+    IN incid int,
+    IN ineid int,
+    IN indate date)
+BEGIN
     DECLARE lc_cid int;
     DECLARE lc_pid int;
     DECLARE lc_qte int;
@@ -381,7 +381,7 @@ CREATE PROCEDURE CreerLivraison (
         END IF;
         SET dp_qte := (SELECT DP.quantite FROM dispoprods DP WHERE DP.pid = lc_pid AND DP.eid = ineid);
         IF dp_qte - lc_qte >= 0 THEN
-          UPDATE dispoprods DP SET DP.quantite = (dp_qte - lc_qte) WHERE DP.pid = lc_pid AND DP.eid = ineid;
+            UPDATE dispoprods DP SET DP.quantite = (dp_qte - lc_qte) WHERE DP.pid = lc_pid AND DP.eid = ineid;
         END IF;
     END LOOP lect;
 	  CLOSE curs;
