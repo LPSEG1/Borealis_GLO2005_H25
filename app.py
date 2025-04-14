@@ -31,6 +31,11 @@ def connection():
     password = util.hacher(request.form.get('signin-password'))
     connection = util.connection_database()
     cur = connection.cursor()
+    cur.execute('SELECT courriel_util FROM utilisateurs WHERE courriel_util = "'+email+'"')
+    courriel = cur.fetchone()
+    if courriel is None:
+      message = "Courriel introuvable."
+      return render_template('connect.html', message=message)
     cur.execute('CALL TrouverUidParEmail("'+email+'")')
     utilId = cur.fetchone()
     uid = utilId[0]
