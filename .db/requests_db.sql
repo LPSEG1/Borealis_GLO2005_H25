@@ -347,14 +347,13 @@ DELIMITER ;
 DELIMITER // #Ajouter si non dispo
 CREATE PROCEDURE CreerLivraison (
   IN incid int,
-  IN inprov char(2),
+  IN ineid int,
   IN indate date)
   BEGIN
     DECLARE lc_cid int;
     DECLARE lc_pid int;
     DECLARE lc_qte int;
     DECLARE dp_qte int;
-    DECLARE prov_eid int;
     DECLARE transpo_id int;
     DECLARE transpo char(12);
     DECLARE lect_comp bool DEFAULT FALSE;
@@ -374,30 +373,20 @@ CREATE PROCEDURE CreerLivraison (
       SET transpo := 'Purolator';
     END IF;
 
-    IF inprov IN ('QC', 'PE', 'NS', 'NB', 'NL') THEN
-      SET prov_eid := 3;
-    END IF;
-    IF inprov IN ('BC', 'AB', 'YT', 'NT') THEN
-      SET prov_eid := 2;
-    END IF;
-    IF inprov IN ('ON', 'MB', 'SK', 'NU') THEN
-      SET prov_eid := 1;
-    END IF;
-
     OPEN curs;
     lect: LOOP
         FETCH curs INTO lc_cid, lc_pid, lc_qte;
         IF lect_comp THEN
             LEAVE lect;
         END IF;
-        SET dp_qte := (SELECT DP.quantite FROM dispoprods DP WHERE DP.pid = lc_pid AND DP.eid = prov_eid);
+        SET dp_qte := (SELECT DP.quantite FROM dispoprods DP WHERE DP.pid = lc_pid AND DP.eid = ineid);
         IF dp_qte - lc_qte >= 0 THEN
-          UPDATE dispoprods SET quantite = (dp_qte - lc_qte) WHERE pid = lc_pid AND eid = prov_eid;
+          UPDATE dispoprods DP SET DP.quantite = (dp_qte - lc_qte) WHERE DP.pid = lc_pid AND DP.eid = ineid;
         END IF;
     END LOOP lect;
 	  CLOSE curs;
     INSERT INTO livraisons (date_livr, transporteur_livr, cid, eid) VALUES (DATE_ADD(indate, INTERVAL 5 DAY), transpo,
-                                                                                incid, prov_eid);
+                                                                                incid, ineid);
 END //
 DELIMITER ;
 

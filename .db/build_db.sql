@@ -268,7 +268,7 @@ UPDATE produits t SET t.nom_prod = 'Moule à gâteau voûté à bord étroit', t
 UPDATE produits t SET t.nom_prod = 'Poêle en fonte émaillée 12 pouces', t.prix_prod = 69.99, t.categorie_prod = 'Maison', t.description_prod = 'La poêle en fonte émaillée bleu atlantique de PADERNO est un joyau culinaire, faite en fonte épaisse pour distribuer uniformément la chaleur et en assurer la conservation optimale. Sa forme unique permet de verser de façon contrôlée et offre une plus grande capacité, tandis que la poignée auxiliaire permet de la soulever facilement, ce qui la rend pratique et élégante dans n’importe quelle cuisine. ', t.image_prod = 'product345679.webp' WHERE t.pid = 345679;
 
 
-CREATE TABLE IF NOT EXISTS DispoProds (eid int NOT NULL, pid int NOT NULL, quantite int, FOREIGN KEY (pid) REFERENCES Produits(pid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
+CREATE TABLE IF NOT EXISTS DispoProds (eid int NOT NULL, pid int NOT NULL, quantite int CHECK (quantite >= 0), FOREIGN KEY (pid) REFERENCES Produits(pid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
 
 INSERT INTO DispoProds VALUES (3, 543210, 5);
 INSERT INTO DispoProds VALUES (2, 543210, 1);
@@ -425,7 +425,7 @@ INSERT INTO DispoProds VALUES (2, 984396, 5);
 INSERT INTO DispoProds VALUES (3, 984396, 5);
 
 
-CREATE TABLE IF NOT EXISTS Panier (uid int NOT NULL, pid int NOT NULL, qte int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid), FOREIGN KEY (pid) REFERENCES Produits(pid));
+CREATE TABLE IF NOT EXISTS Panier (uid int NOT NULL, pid int NOT NULL, qte int NOT NULL CHECK (qte >= 0), FOREIGN KEY (uid) REFERENCES Utilisateurs(uid), FOREIGN KEY (pid) REFERENCES Produits(pid));
 
 INSERT INTO Panier VALUES (1, 567123, 1);
 INSERT INTO Panier VALUES (1, 456234, 1);
@@ -481,44 +481,13 @@ INSERT INTO Panier VALUES (16, 901678, 3);
 
 
 CREATE TABLE IF NOT EXISTS Commandes (cid int AUTO_INCREMENT PRIMARY KEY, date_comm date, prix_total_comm decimal(6, 2), rue_comm varchar(60), ville_comm varchar(30), code_postal_comm char(6), province_comm enum('AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'), uid int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid));
-CREATE TABLE IF NOT EXISTS LigneComms (cid int NOT NULL, pid int NOT NULL, quantite int, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (pid) REFERENCES Produits(pid));
+CREATE TABLE IF NOT EXISTS LigneComms (cid int NOT NULL, pid int NOT NULL, quantite int CHECK (quantite >= 0), FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (pid) REFERENCES Produits(pid));
 CREATE TABLE IF NOT EXISTS Livraisons (lid int AUTO_INCREMENT PRIMARY KEY, date_livr date, transporteur_livr enum('Intelcom', 'Poste Canada', 'Purolator'), cid int NOT NULL, eid int NOT NULL, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
 
 DELIMITER // #Nick
 CREATE TRIGGER CheckCommande BEFORE INSERT ON Commandes FOR EACH ROW
 BEGIN
     DECLARE total DECIMAL(6, 2) DEFAULT 0;
-    DECLARE prov_eid int;
-    DECLARE pid_p INT;
-    DECLARE qte_p INT;
-    DECLARE lect_comp BOOL DEFAULT FALSE;
-
-    DECLARE curs CURSOR FOR SELECT P.pid, P.qte FROM Panier P WHERE P.uid = NEW.uid;
-
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
-
-    IF NEW.province_comm IN ('QC', 'PE', 'NS', 'NB', 'NL') THEN
-      SET prov_eid := 3;
-    END IF;
-    IF NEW.province_comm IN ('BC', 'AB', 'YT', 'NT') THEN
-      SET prov_eid := 2;
-    END IF;
-    IF NEW.province_comm IN ('ON', 'MB', 'SK', 'NU') THEN
-      SET prov_eid := 1;
-    END IF;
-
-    OPEN curs;
-    lect: LOOP
-        FETCH curs INTO pid_p, qte_p;
-        IF lect_comp THEN
-            LEAVE lect;
-        END IF;
-        IF ((SELECT DP.quantite FROM DispoProds DP WHERE prov_eid = DP.eid AND pid_p = DP.pid) - qte_p) < 0 THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Article en rupture de stock';
-        END IF;
-    END LOOP lect;
-	  CLOSE curs;
 
     SET total := (SELECT AfficherTotal (NEW.uid));
     SET NEW.prix_total_comm = total;
@@ -530,11 +499,14 @@ CREATE TRIGGER TransformerPanier AFTER INSERT ON Commandes FOR EACH ROW
 BEGIN
     DECLARE pid_p INT;
     DECLARE qte_p INT;
+    DECLARE eid_u INT;
     DECLARE lect_comp BOOL DEFAULT FALSE;
 
     DECLARE curs CURSOR FOR SELECT P.pid, P.qte FROM Panier P WHERE P.uid = NEW.uid;
 
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
+
+    SET eid_u := (SELECT U.eid_util FROM Utilisateurs U WHERE U.uid = NEW.uid);
 
     OPEN curs;
     lect: LOOP
@@ -546,7 +518,7 @@ BEGIN
     END LOOP lect;
 	  CLOSE curs;
     DELETE FROM Panier P WHERE NEW.uid = P.uid;
-    CALL CreerLivraison (NEW.cid, NEW.province_comm, NEW.date_comm);
+    CALL CreerLivraison (NEW.cid, eid_u, NEW.date_comm);
 END//
 DELIMITER ;
 
