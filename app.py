@@ -207,18 +207,19 @@ def addCart(product):
       return redirect(url_for('index'))
     else:
       quantity = request.form.get('itemAdd')
-      print(quantity)
+      if quantity == '':
+        quantity = 1
       connection = util.connection_database()
       cur = connection.cursor()
       cur.execute('SELECT qte FROM panier WHERE uid = '+str(GlobalUser)+' AND pid = '+product+'')
       panier = cur.fetchone()
       if panier is None:
-        cur.execute('CALL AjouterPanier('+str(GlobalUser)+','+product+','+quantity+')')
+        cur.execute('CALL AjouterPanier('+str(GlobalUser)+','+product+','+str(quantity)+')')
         connection.commit()
         connection.close()
         return redirect(url_for('cart'))
       else:
-        cur.execute('CALL MAJPanier(' +str(GlobalUser)+',' + product + ',' + quantity + ')')
+        cur.execute('CALL MAJPanier(' +str(GlobalUser)+',' + product + ',' + str(quantity) + ')')
         connection.commit()
         return redirect(url_for('cart'))
   except Exception as e:
