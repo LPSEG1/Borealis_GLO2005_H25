@@ -162,6 +162,9 @@ def search():
 @app.route('/item/<itemPage>', methods=['GET', 'POST'])
 def item(itemPage):
   try:
+    if not VarGlobal:
+      return redirect(url_for('index'))
+    else:
       connection = util.connection_database()
       cur = connection.cursor()
       cur.execute('CALL AfficherInfosProduit(' + str(GlobalUser) + ',' + itemPage + ')')

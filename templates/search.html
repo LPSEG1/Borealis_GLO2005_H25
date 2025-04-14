@@ -107,8 +107,11 @@
           </p>
           <p class="product-price">{{item[4]}}$</p>
           <div class="product-buttons">
+            {% if connected %}
             <button class="details-btn" onclick="window.location.href='{{url_for('item', itemPage=item[0])}}'">DÉTAILS</button>
+            <button class="buy-btn" onclick="window.location.href='{{url_for('instantCart', product=item[0], quantity=1)}}'">ACHETER</button>
             <!-- <button class="buy-btn">BUY</button> -->
+            {% endif %}
           </div>
         </div>
       </article>
