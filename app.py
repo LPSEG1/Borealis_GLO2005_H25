@@ -187,8 +187,33 @@ def cart(user):
   except Exception as e:
     return str(e)
 
-@app.route('/addCart/<user>/<product>/<quantity>', methods=['GET', 'POST'])
-def addCart(user, product, quantity):
+@app.route('/addCart/<user>/<product>', methods=['GET', 'POST'])
+def addCart(user, product):
+  try:
+    if not VarGlobal:
+      return redirect(url_for('index'))
+    else:
+      quantity = request.form.get('itemAdd')
+      print(quantity)
+      connection = util.connection_database()
+      cur = connection.cursor()
+      cur.execute('SELECT qte FROM panier WHERE uid = '+user+' AND pid = '+product+'')
+      panier = cur.fetchone()
+      if panier is None:
+        cur.execute('CALL AjouterPanier('+user+','+product+','+quantity+')')
+        connection.commit()
+        connection.close()
+        return redirect(url_for('cart', user=user))
+      else:
+        cur.execute('CALL MAJPanier(' + user + ',' + product + ',' + quantity + ')')
+        connection.commit()
+
+        return redirect(url_for('cart', user=user))
+  except Exception as e:
+    return str(e)
+
+@app.route('/instantCart/<user>/<product>/<quantity>', methods=['GET', 'POST'])
+def instantCart(user, product, quantity):
   try:
     if not VarGlobal:
       return redirect(url_for('index'))
@@ -213,8 +238,9 @@ def addCart(user, product, quantity):
 @app.route('/updateQuantity/<user>/<product>', methods=['POST'])
 def updateQuantity(user,product):
   try:
-    ##Ne fonctionne pas encore
-    newQte = request.form.get('itemQuantity')
+    newQte = request.form.get('itemQte')
+    print('MAJPanier('+user+','+product+','+newQte+')')
+
     connection = util.connection_database()
     cur = connection.cursor()
     cur.execute('CALL MAJPanier('+user+','+product+','+newQte+')')

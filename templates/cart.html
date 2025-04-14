@@ -102,7 +102,7 @@
         <p class="product-price">{{item[3]}}$</p>
         <div class="product-cart-quantity">
           <form action="{{url_for('updateQuantity', user=GlobalUser, product=item[0])}}" method="POST" id="updateQuantity" class="cart-updateQte">
-            <input type="number" id="itemQuantity" name="itemQuantity" placeholder="{{ item[5] }}" max="{{ item[6] }}">
+            <input type="number" id="itemQte" name="itemQte" placeholder="{{ item[5] }}" min="1" max="{{ item[6] }}">
             <button type="submit" form='updateQuantity' class="update-btn" aria-label="Update">MAJ</button>
           </form>
           <button onclick="window.location.href='{{url_for('deleteItemCart', user=GlobalUser, product=item[0])}}'" class="delete-btn">SUPPRIMER</button>
