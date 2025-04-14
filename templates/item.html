@@ -59,13 +59,13 @@
     </div>
     <nav class="nav-links">
       {% if connected %}
-        <a href="{{url_for('account', user=GlobalUser)}}" class="nav-link">COMPTE</a>
-        <a href="{{url_for('orders', user=GlobalUser)}}" class="nav-link">COMMANDES</a>
+        <a href="{{url_for('account')}}" class="nav-link">COMPTE</a>
+        <a href="{{url_for('orders')}}" class="nav-link">COMMANDES</a>
       {% else %}
         <a href="{{url_for('connect')}}" class="nav-link">CONNEXION</a>
       {% endif %}
       <div class="cart-container">
-        <button onclick="window.location.href='{{url_for('cart', user=GlobalUser)}}'" class="cart-button">
+        <button onclick="window.location.href='{{url_for('cart')}}'" class="cart-button">
         <svg
           class="cart-icon"
           width="31"
@@ -121,7 +121,7 @@
           <p>{{disponible[1]}} <span class="available-nbr">{{disponible[0]}}</span></p>
         {% endfor %}
       </div>
-      <form action="{{url_for('addCart', user=GlobalUser, product=item[0])}}" method="POST" id="addQuantity" class="cart-updateQte">
+      <form action="{{url_for('addCart', product=item[0])}}" method="POST" id="addQuantity" class="cart-updateQte">
         <div class="quantity-selector">
           <span>Quantité: </span>
           <input type="number" id="itemAdd" name="itemAdd" min="1" max="{{ item[7] }}">

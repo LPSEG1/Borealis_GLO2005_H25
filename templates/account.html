@@ -59,13 +59,13 @@
     </div>
     <nav class="nav-links">
       {% if connected %}
-        <a href="{{url_for('account', user=GlobalUser)}}" class="nav-link">COMPTE</a>
-        <a href="{{url_for('orders', user=GlobalUser)}}" class="nav-link">COMMANDES</a>
+        <a href="{{url_for('account')}}" class="nav-link">COMPTE</a>
+        <a href="{{url_for('orders')}}" class="nav-link">COMMANDES</a>
       {% else %}
         <a href="{{url_for('connect')}}" class="nav-link">CONNEXION</a>
       {% endif %}
       <div class="cart-container">
-        <button onclick="window.location.href='{{url_for('cart', user=GlobalUser)}}'" class="cart-button">
+        <button onclick="window.location.href='{{url_for('cart')}}'" class="cart-button">
         <svg
           class="cart-icon"
           width="31"
@@ -108,7 +108,7 @@
       <h3 class="modifSuccesful">{{ message }}</h3>
     {% endif %}
     <h1 class="info-title">INFORMATION GÉNÉRAL</h1>
-    <form action="{{url_for('accountChangePersonal', user=account[0])}}" method="POST" id="accountChangePersonal">
+    <form action="{{url_for('accountChangePersonal')}}" method="POST" id="accountChangePersonal">
       <div class="info-input">
         <label>Prenom:</label>
           <input type="text" id="account-name" name="account-name" pattern="[a-zA-Z\- ]{1,30}" value="{{account[2]}}"/>
@@ -135,7 +135,7 @@
       <h3 class="modifSuccesful">{{ message }}</h3>
     {% endif %}
     <h1 class="info-title">INFORMATION LIVRAISON</h1>
-    <form action="{{url_for('accountChangeDelivery', user=account[0])}}" method="POST" id="accountChangeDelivery">
+    <form action="{{url_for('accountChangeDelivery')}}" method="POST" id="accountChangeDelivery">
       <div class="info-input">
         <label>Rue: </label><input type="text" id="account-street" name="account-street" pattern="[a-zA-Z0-9\- \']{1,60}" value="{{account[5]}}">
       </div>

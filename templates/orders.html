@@ -59,13 +59,13 @@
     </div>
     <nav class="nav-links">
       {% if connected %}
-        <a href="{{url_for('account', user=GlobalUser)}}" class="nav-link">COMPTE</a>
-        <a href="{{url_for('orders', user=GlobalUser)}}" class="nav-link">COMMANDES</a>
+        <a href="{{url_for('account')}}" class="nav-link">COMPTE</a>
+        <a href="{{url_for('orders')}}" class="nav-link">COMMANDES</a>
       {% else %}
         <a href="{{url_for('connect')}}" class="nav-link">CONNEXION</a>
       {% endif %}
       <div class="cart-container">
-        <button onclick="window.location.href='{{url_for('cart', user=GlobalUser)}}'" class="cart-button">
+        <button onclick="window.location.href='{{url_for('cart')}}'" class="cart-button">
         <svg
           class="cart-icon"
           width="31"

@@ -58,13 +58,13 @@
     </div>
     <nav class="nav-links">
       {% if connected %}
-        <a href="{{url_for('account', user=GlobalUser)}}" class="nav-link">COMPTE</a>
-        <a href="{{url_for('orders', user=GlobalUser)}}" class="nav-link">COMMANDES</a>
+        <a href="{{url_for('account')}}" class="nav-link">COMPTE</a>
+        <a href="{{url_for('orders')}}" class="nav-link">COMMANDES</a>
       {% else %}
         <a href="{{url_for('connect')}}" class="nav-link">CONNEXION</a>
       {% endif %}
       <div class="cart-container">
-        <button onclick="window.location.href='{{url_for('cart', user=GlobalUser)}}'" class="cart-button">
+        <button onclick="window.location.href='{{url_for('cart')}}'" class="cart-button">
         <svg
           class="cart-icon"
           width="31"
@@ -102,12 +102,12 @@
         <p class="product-price">{{item[3]}}$</p>
         <p>Quantité courante: {{ item[5] }}</p>
         <div class="product-cart-quantity">
-          <form action="{{url_for('updateQuantity', user=GlobalUser, product=item[0])}}" method="POST" id="updateQuantity" class="cart-updateQte">
+          <form action="{{url_for('updateQuantity', product=item[0])}}" method="POST" id="updateQuantity" class="cart-updateQte">
             <label for="itemQte">Mettre à jour la quantité: </label>
             <input type="number" id="itemQte" name="itemQte" min="1" max="{{ item[6] }}">
             <button type="submit" form='updateQuantity' class="update-btn" aria-label="Update">MAJ</button>
           </form>
-          <button onclick="window.location.href='{{url_for('deleteItemCart', user=GlobalUser, product=item[0])}}'" class="delete-btn">SUPPRIMER</button>
+          <button onclick="window.location.href='{{url_for('deleteItemCart', product=item[0])}}'" class="delete-btn">SUPPRIMER</button>
         </div>
       </div>
     </article>
@@ -119,7 +119,7 @@
       <p>Prix total: <span class="total-price">{{ price[0] }}$</span></p>
     </div>
     <div class="cart-checkout">
-      <button class="checkout-btn" onclick="window.location.href='{{url_for('checkout', user=GlobalUser)}}'">PAIEMENT</button>
+      <button class="checkout-btn" onclick="window.location.href='{{url_for('checkout')}}'">PAIEMENT</button>
     </div>
   </section>
 <footer class="site-footer">
