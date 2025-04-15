@@ -15,32 +15,7 @@ DROP TRIGGER IF EXISTS VerifierCourriel;
 DROP TRIGGER IF EXISTS VerifierFournisseur;
 
 
-CREATE TABLE IF NOT EXISTS Fournisseurs (fid int PRIMARY KEY, nom_four varchar(30));
-
-DELIMITER // #Nick
-CREATE TRIGGER VerifierFournisseur BEFORE INSERT ON Fournisseurs FOR EACH ROW
-BEGIN
-    DECLARE lect_comp BOOL DEFAULT FALSE;
-    DECLARE nom char(30);
-
-    DECLARE curs CURSOR FOR SELECT F.nom_four FROM Fournisseurs F;
-
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET lect_comp = TRUE;
-
-    OPEN curs;
-    lect: LOOP
-        FETCH curs INTO nom;
-        IF lect_comp THEN
-            LEAVE lect;
-        END IF;
-        IF NEW.nom_four = nom THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Fournisseur existe deja';
-        END IF;
-    END LOOP lect;
-	  CLOSE curs;
-END//
-DELIMITER ;
+CREATE TABLE IF NOT EXISTS Fournisseurs (fid int PRIMARY KEY, nom_four varchar(30) UNIQUE);
 
 INSERT INTO Fournisseurs VALUES (48291, 'HP');
 INSERT INTO Fournisseurs VALUES (17536, 'LG');
@@ -71,7 +46,10 @@ INSERT INTO Entrepots VALUES (2, '64 Broadway', 'Vancouver', 'B2B2B2', 'BC');
 INSERT INTO Entrepots VALUES (3, '78 King St', 'Montreal', 'C3C3C3', 'QC');
 
 
-CREATE TABLE IF NOT EXISTS Utilisateurs (uid int NOT NULL AUTO_INCREMENT PRIMARY KEY, courriel_util varchar(100) NOT NULL UNIQUE, prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30), code_postal_util char(6), province_util enum('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'), telephone_util bigint, eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid), INDEX (courriel_util) );
+CREATE TABLE IF NOT EXISTS Utilisateurs (uid int NOT NULL AUTO_INCREMENT PRIMARY KEY, courriel_util varchar(100) NOT NULL UNIQUE,
+                                         prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30),
+                                         code_postal_util char(6), province_util enum('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'),
+                                         telephone_util bigint, eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid), INDEX (courriel_util));
 
 DELIMITER // #Nick
 CREATE TRIGGER VerifierCourriel BEFORE INSERT ON Utilisateurs FOR EACH ROW
@@ -119,6 +97,7 @@ INSERT INTO Utilisateurs VALUES (18, 'amelia.young@gmail.com', 'amelia', 'young'
 INSERT INTO Utilisateurs VALUES (19, 'alexander.king@yahoo.ca', 'alexander', 'king', '4 Starview Ln', 'Prince George', 'K2L3M4', 'BC', 4036783456, 1);
 INSERT INTO Utilisateurs VALUES (20, 'charlotte.scott@live.com', 'charlotte', 'scott', '27 Northgate Dr', 'Sault Ste. Marie', 'N5P6R7', 'ON', 4169876543, 2);
 
+
 CREATE TABLE IF NOT EXISTS MotHacher(mid int PRIMARY KEY, mdp_util varchar(64) NOT NULL, FOREIGN KEY(mid) REFERENCES Utilisateurs(uid));
 
 INSERT INTO MotHacher VALUES(1, 'bfd0597f58625059e71350c28691ffb623cffe52d4d40284e315e2b8dd71a3f1');
@@ -143,7 +122,10 @@ INSERT INTO MotHacher VALUES(19, 'cb5ebdd6d19c006d99a5a12b8db2369c905d19db68ee65
 INSERT INTO MotHacher VALUES(20, '468b4aa0a99527ff9ccd02231a03629d11cfa3b9f003a5c307c69bfb3045dbd8');
 
 
-CREATE TABLE IF NOT EXISTS Produits (pid int PRIMARY KEY, nom_prod varchar(50), prix_prod decimal(5, 2), categorie_prod enum('Aliment', 'Automobile', 'Cosmétiques', 'Électronique', 'Jouet', 'Maison', 'Vêtements'), description_prod varchar(500), image_prod varchar(200), vedette bool, fid int NOT NULL, FOREIGN KEY (fid) REFERENCES Fournisseurs(fid), INDEX (vedette));
+CREATE TABLE IF NOT EXISTS Produits (pid int PRIMARY KEY, nom_prod varchar(50), prix_prod decimal(5, 2),
+                                     categorie_prod enum('Aliment', 'Automobile', 'Cosmétiques', 'Électronique', 'Jouet', 'Maison', 'Vêtements'),
+                                     description_prod varchar(500), image_prod varchar(200), vedette bool, fid int NOT NULL,
+                                     FOREIGN KEY (fid) REFERENCES Fournisseurs(fid), INDEX (vedette));
 
 INSERT INTO Produits VALUES (123456, 'Smartphone X', 495.99, 'Aliment', 'A high-quality product designed for everyday use.', NULL, False, 63028);
 INSERT INTO Produits VALUES (654321, 'Gaming Laptop Z', 335.99, 'Automobile', 'Experience the next level of innovation and style.', NULL, False, 71483);
@@ -268,7 +250,8 @@ UPDATE produits t SET t.nom_prod = 'Moule à gâteau voûté à bord étroit', t
 UPDATE produits t SET t.nom_prod = 'Poêle en fonte émaillée 12 pouces', t.prix_prod = 69.99, t.categorie_prod = 'Maison', t.description_prod = 'La poêle en fonte émaillée bleu atlantique de PADERNO est un joyau culinaire, faite en fonte épaisse pour distribuer uniformément la chaleur et en assurer la conservation optimale. Sa forme unique permet de verser de façon contrôlée et offre une plus grande capacité, tandis que la poignée auxiliaire permet de la soulever facilement, ce qui la rend pratique et élégante dans n’importe quelle cuisine. ', t.image_prod = 'product345679.webp' WHERE t.pid = 345679;
 
 
-CREATE TABLE IF NOT EXISTS DispoProds (eid int NOT NULL, pid int NOT NULL, quantite int CHECK (quantite >= 0), FOREIGN KEY (pid) REFERENCES Produits(pid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
+CREATE TABLE IF NOT EXISTS DispoProds (eid int NOT NULL, pid int NOT NULL, quantite int CHECK (quantite >= 0),
+                                       FOREIGN KEY (eid) REFERENCES Entrepots(eid), FOREIGN KEY (pid) REFERENCES Produits(pid));
 
 INSERT INTO DispoProds VALUES (3, 543210, 5);
 INSERT INTO DispoProds VALUES (2, 543210, 1);
@@ -425,7 +408,8 @@ INSERT INTO DispoProds VALUES (2, 984396, 5);
 INSERT INTO DispoProds VALUES (3, 984396, 5);
 
 
-CREATE TABLE IF NOT EXISTS Panier (uid int NOT NULL, pid int NOT NULL, qte int NOT NULL CHECK (qte >= 0), FOREIGN KEY (uid) REFERENCES Utilisateurs(uid), FOREIGN KEY (pid) REFERENCES Produits(pid));
+CREATE TABLE IF NOT EXISTS Panier (uid int NOT NULL, pid int NOT NULL, qte int NOT NULL CHECK (qte >= 0),
+                                   FOREIGN KEY (uid) REFERENCES Utilisateurs(uid), FOREIGN KEY (pid) REFERENCES Produits(pid));
 
 INSERT INTO Panier VALUES (1, 567123, 1);
 INSERT INTO Panier VALUES (1, 456234, 1);
@@ -480,9 +464,17 @@ INSERT INTO Panier VALUES (16, 901890, 3);
 INSERT INTO Panier VALUES (16, 901678, 3);
 
 
-CREATE TABLE IF NOT EXISTS Commandes (cid int AUTO_INCREMENT PRIMARY KEY, date_comm date, prix_total_comm decimal(6, 2), rue_comm varchar(60), ville_comm varchar(30), code_postal_comm char(6), province_comm enum('AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'), uid int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid));
-CREATE TABLE IF NOT EXISTS LigneComms (cid int NOT NULL, pid int NOT NULL, quantite int CHECK (quantite >= 0), FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (pid) REFERENCES Produits(pid));
-CREATE TABLE IF NOT EXISTS Livraisons (lid int AUTO_INCREMENT PRIMARY KEY, date_livr date, transporteur_livr enum('Intelcom', 'Poste Canada', 'Purolator'), cid int NOT NULL, eid int NOT NULL, FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (eid) REFERENCES Entrepots(eid));
+CREATE TABLE IF NOT EXISTS Commandes (cid int AUTO_INCREMENT PRIMARY KEY, date_comm date, prix_total_comm decimal(6, 2),
+                                      rue_comm varchar(60), ville_comm varchar(30), code_postal_comm char(6),
+                                      province_comm enum('AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'),
+                                      uid int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid));
+
+CREATE TABLE IF NOT EXISTS LigneComms (cid int NOT NULL, pid int NOT NULL, quantite int CHECK (quantite >= 0),
+                                       FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (pid) REFERENCES Produits(pid));
+
+CREATE TABLE IF NOT EXISTS Livraisons (lid int AUTO_INCREMENT PRIMARY KEY, date_livr date, transporteur_livr enum('Intelcom', 'Poste Canada', 'Purolator'),
+                                       cid int NOT NULL, eid int NOT NULL, FOREIGN KEY (cid) REFERENCES Commandes(cid),
+                                       FOREIGN KEY (eid) REFERENCES Entrepots(eid));
 
 DELIMITER // #Nick
 CREATE TRIGGER CheckCommande BEFORE INSERT ON Commandes FOR EACH ROW
