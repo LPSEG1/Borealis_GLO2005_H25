@@ -1,3 +1,4 @@
+#ATTENTION: Le fichier requests_db.sql doit être exécuté en premier
 DROP TABLE IF EXISTS Panier;
 DROP TABLE IF EXISTS DispoProds;
 DROP TABLE IF EXISTS LigneComms;
