@@ -46,10 +46,6 @@ BEGIN
         END LOOP lect;
 	    CLOSE curs;
     SELECT * FROM Liste;
-
-    /*SELECT P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod
-    FROM Fournisseurs F INNER JOIN Produits P ON F.fid = P.fid WHERE P.nom_prod LIKE "%touch%" AND P.categorie_prod = "Jouet" OR F.nom_four LIKE "Sm%";*/
-
 END//
 DELIMITER ;
 
@@ -84,10 +80,6 @@ BEGIN
         END LOOP lect;
 	    CLOSE curs;
     SELECT * FROM Liste;
-
-    /*SELECT P.nom_prod, F.nom_four, P.description_prod, P.prix_prod, P.image_prod, P.categorie_prod
-    FROM Fournisseurs F INNER JOIN Produits P ON F.fid = P.fid WHERE P.nom_prod LIKE "%touch%" OR F.nom_four LIKE "Sm%";*/
-
 END//
 DELIMITER ;
 
@@ -153,18 +145,6 @@ BEGIN
     RETURN total;
 END//
 DELIMITER ;
-
--- Non utilisé #David
--- DELIMITER // #Melqui
--- CREATE PROCEDURE VerifierConnexion(
---    IN courriel VARCHAR(100),
---    IN mot_de_passe VARCHAR(30))
--- BEGIN
---    SELECT uid
---    FROM Utilisateurs
---    WHERE courriel_util = courriel AND mdp_util = mot_de_passe;
--- END//
--- DELIMITER ;
 
 
 DELIMITER // #Melqui
@@ -423,6 +403,7 @@ BEGIN
 END //
 DELIMITER ;
 
+
 DELIMITER // #melqui
 CREATE PROCEDURE RemplirInfosCommande(
     IN p_uid INT
@@ -477,6 +458,7 @@ BEGIN
 END //
 DELIMITER ;
 
+
 DELIMITER // #Melqui
 CREATE PROCEDURE TrouverUidParEmail(
     IN p_email VARCHAR(100)
@@ -499,4 +481,3 @@ BEGIN
     SELECT uid_result AS uid;
 END //
 DELIMITER ;
-
