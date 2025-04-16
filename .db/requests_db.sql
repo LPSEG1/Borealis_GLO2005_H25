@@ -115,6 +115,7 @@ BEGIN
 END//
 DELIMITER ;
 
+
 DELIMITER //
 CREATE PROCEDURE #L-P
     EnleverPanier(IN util_id int, IN prod_id int)
@@ -122,6 +123,7 @@ BEGIN
       DELETE FROM panier WHERE uid = util_id AND pid = prod_id;
 END//
 DELIMITER ;
+
 
 DELIMITER // #Nick
 CREATE FUNCTION AfficherTotal (util_id int) RETURNS DECIMAL(6, 2) DETERMINISTIC
@@ -266,8 +268,6 @@ BEGIN
   VALUES (
     nouveau_cid, CURRENT_DATE, p_rue_comm, p_ville_comm, p_code_postal_comm, p_province_comm, p_uid
   );
-
-
 END //
 DELIMITER ;
 
@@ -319,7 +319,6 @@ BEGIN
         province_util = COALESCE(p_province, province_util),
         eid_util = COALESCE(p_entrepot_id, eid_util)
     WHERE uid = p_uid;
-
 END //
 DELIMITER ;
 
