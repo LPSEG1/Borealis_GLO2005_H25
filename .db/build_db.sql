@@ -16,7 +16,7 @@ DROP TRIGGER IF EXISTS VerifierCourriel;
 DROP TRIGGER IF EXISTS VerifierFournisseur;
 
 
-CREATE TABLE IF NOT EXISTS Fournisseurs (fid int PRIMARY KEY, nom_four varchar(30) UNIQUE);
+CREATE TABLE IF NOT EXISTS Fournisseurs (fid int PRIMARY KEY, nom_four varchar(30) NOT NULL UNIQUE);
 
 INSERT INTO Fournisseurs VALUES (48291, 'HP');
 INSERT INTO Fournisseurs VALUES (17536, 'LG');
@@ -47,7 +47,7 @@ INSERT INTO Entrepots VALUES (2, '64 Broadway', 'Vancouver', 'B2B2B2', 'BC');
 INSERT INTO Entrepots VALUES (3, '78 King St', 'Montreal', 'C3C3C3', 'QC');
 
 
-CREATE TABLE IF NOT EXISTS Utilisateurs (uid int NOT NULL AUTO_INCREMENT PRIMARY KEY, courriel_util varchar(100) NOT NULL UNIQUE,
+CREATE TABLE IF NOT EXISTS Utilisateurs (uid int AUTO_INCREMENT PRIMARY KEY, courriel_util varchar(100) NOT NULL UNIQUE,
                                          prenom_util varchar(30) NOT NULL, nom_util varchar(30) NOT NULL, rue_util varchar(60), ville_util varchar(30),
                                          code_postal_util char(6), province_util enum('AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'),
                                          telephone_util bigint, eid_util int, FOREIGN KEY (eid_util) REFERENCES Entrepots(eid), INDEX (courriel_util));
@@ -470,7 +470,7 @@ CREATE TABLE IF NOT EXISTS Commandes (cid int AUTO_INCREMENT PRIMARY KEY, date_c
                                       province_comm enum('AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'),
                                       uid int NOT NULL, FOREIGN KEY (uid) REFERENCES Utilisateurs(uid));
 
-CREATE TABLE IF NOT EXISTS LigneComms (cid int NOT NULL, pid int NOT NULL, quantite int CHECK (quantite >= 0),
+CREATE TABLE IF NOT EXISTS LigneComms (cid int NOT NULL, pid int NOT NULL, quantite int NOT NULL CHECK (quantite >= 0),
                                        FOREIGN KEY (cid) REFERENCES Commandes(cid), FOREIGN KEY (pid) REFERENCES Produits(pid));
 
 CREATE TABLE IF NOT EXISTS Livraisons (lid int AUTO_INCREMENT PRIMARY KEY, date_livr date, transporteur_livr enum('Intelcom', 'Poste Canada', 'Purolator'),
